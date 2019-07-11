@@ -145,7 +145,6 @@ class User extends ActiveRecord implements IdentityInterface
             [['filial_id'], 'exist', 'skipOnError' => true, 'targetClass' => Filials::className(), 'targetAttribute' => ['filial_id' => 'id']],
             [['photoOfUser'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg',],
             [['username'], 'unique'],
-            [['username'], 'email'],
         ];
     }
     public function attributeLabels()
@@ -157,6 +156,7 @@ class User extends ActiveRecord implements IdentityInterface
             'auth_key' => 'Пароль',
             'password_hash' => 'Password Hash',
             'type' => 'Тип',
+            'new_password'=>'Новый пароль',
             'birthday'=>'День рождения',
             'phone'=>'Телефон',
             'image'=>'Фото',
@@ -176,7 +176,10 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return $this->hasOne(Companies::className(), ['id' => 'company_id']);
     }
-
+    public function Filials()
+    {
+        return Arrayhelper::map(Filials::find()->where(['company_id'=>$model->company->id])->all(),'id','filial_name');
+    }
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -186,7 +189,7 @@ class User extends ActiveRecord implements IdentityInterface
     }
     public static function getDate($date)
     {
-        return \Yii::$app->formatter->asDate($date, 'php:d.m.Y');
+        return isset($date)?\Yii::$app->formatter->asDate($date, 'php:d.m.Y'):"";
     }
     //Получить описание типов пользователя.
     public function getTypeDescription()

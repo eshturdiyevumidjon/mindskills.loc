@@ -59,7 +59,7 @@ class Courses extends \yii\db\ActiveRecord
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
-    //  public function behaviors()
+    // public function behaviors()
     // {
     //     return [
     //         TimestampBehavior::className(),
@@ -74,44 +74,44 @@ class Courses extends \yii\db\ActiveRecord
     //     ];
     // }
 
-    //  /**
-    //  * @inheritdoc
-    //  */
-    // public static function find()
-    // {
-    //     if(Yii::$app->user->isGuest == false)
-    //     {
-    //         if(Yii::$app->user->identity->company->type === 2)
-    //         {
-    //             $companyId = Yii::$app->user->identity->company_id;
-    //         }
-    //         else $companyId = null;
-    //     } 
-    //     else $companyId = null;
+     /**
+     * @inheritdoc
+     */
+    public static function find()
+    {
+        if(Yii::$app->user->isGuest == false)
+        {
+            if(Yii::$app->user->identity->company->type === 2)
+            {
+                $companyId = Yii::$app->user->identity->company_id;
+            }
+            else $companyId = null;
+        } 
+        else $companyId = null;
 
-    //     return new AppActiveQuery(get_called_class(), [
-    //        'companyId' => $companyId,
-    //     ]);
-    // }
+        return new AppActiveQuery(get_called_class(), [
+           'companyId' => $companyId,
+        ]);
+    }
 
-    // /**
-    //  * @inheritdoc
-    //  */
-    // public static function findOne($condition)
-    // {
-    //     $model = parent::findOne($condition);
-    //     if(Yii::$app->user->isGuest == false) 
-    //     {
-    //         if(Yii::$app->user->identity->company->type === 2)
-    //         {
-    //             $companyId = Yii::$app->user->identity->company_id;
-    //             if($model->company_id != $companyId){
-    //                 throw new ForbiddenHttpException('Доступ запрещен');
-    //             }
-    //         }
-    //     }
-    //     return $model;
-    // }
+    /**
+     * @inheritdoc
+     */
+    public static function findOne($condition)
+    {
+        $model = parent::findOne($condition);
+        if(Yii::$app->user->isGuest == false) 
+        {
+            if(Yii::$app->user->identity->company->type === 2)
+            {
+                $companyId = Yii::$app->user->identity->company_id;
+                if($model->company_id != $companyId){
+                    throw new ForbiddenHttpException('Доступ запрещен');
+                }
+            }
+        }
+        return $model;
+    }
 
     /**
      * {@inheritdoc}

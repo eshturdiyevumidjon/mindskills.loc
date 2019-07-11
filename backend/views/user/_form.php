@@ -2,7 +2,8 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\date\DatePicker; 
-
+use yii\helpers\Arrayhelper;
+use backend\models\Filials;
 /* @var $this yii\web\View */
 /* @var $model common\models\User */
 /* @var $form yii\widgets\ActiveForm */
@@ -34,10 +35,10 @@ use kartik\date\DatePicker;
                 </div>
             </div>
             <div class="row">
-                    <div class="<?= ($model->isNewRecord)?'input-field col s6':'col s6'?>">
-                         <?= $form->field($model, 'auth_key')->textInput(['maxlength' => true]) ?>
+                    <div class="<?= ($model->isNewRecord)?'input-field col s4':'col s4'?>">
+                         <?= $form->field($model, ($model->isNewRecord)?'auth_key':'new_password')->textInput(['maxlength' => true]) ?>
                     </div>
-                <div class="<?= ($model->isNewRecord)?'input-field col s6':'col s6'?>" >
+                <div class="<?= ($model->isNewRecord)?'input-field col s4':'col s4'?>" >
                       <?= $form->field($model, 'birthday')->widget(DatePicker::className(), [
                         'language' => 'ru',
                         'size' => 'sm',
@@ -47,11 +48,13 @@ use kartik\date\DatePicker;
                         ]
                     ]) ?>
                 </div>
-                
+                <div class="<?= ($model->isNewRecord)?'input-field col s4':'col s4'?>">
+                    <?= $form->field($model, 'phone')->widget(\yii\widgets\MaskedInput::className(), [ 'mask' => '+\9\9899-999-99-99']) ?>
+                </div> 
             </div>
                     <div class="row">
                     <div class="col s6">
-                    <?= $form->field($model, 'phone')->widget(\yii\widgets\MaskedInput::className(), [ 'mask' => '+\9\9899-999-99-99']) ?>
+                        <?=$form->field($model, 'filial_id')->dropDownList($model->Filials(), ['prompt' => 'Выберите','style'=>'margin-top:10px;'])?>
                     </div>   
                     <div class="col s6">
                         <?=$form->field($model, 'type')->dropDownList($model->getType(), ['prompt' => 'Выберите должность','style'=>'margin-top:10px;'])?>

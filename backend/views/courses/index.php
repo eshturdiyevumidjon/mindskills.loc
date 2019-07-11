@@ -7,7 +7,7 @@ use johnitvn\ajaxcrud\CrudAsset;
 use johnitvn\ajaxcrud\BulkButtonWidget;
 use backend\models\Courses;
 use yii\widgets\Pjax;
-
+use common\models\User; 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\CoursesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -73,8 +73,8 @@ CrudAsset::register($this);
                                       <td>".$value->name."</td>
                                       <td>".$value->subject->name."</td>
                                       <td>".$value->user->fio."</td>
-                                      <td>".$value->begin_date."</td>
-                                      <td>".$value->end_date."</td>
+                                      <td>".User::getDate($value->begin_date)."</td>
+                                      <td>".User::getDate($value->end_date)."</td>
                                       <td>".$value->cost."</td>
                                       <td>".$value->prosent_for_teacher."</td>
                                       <td class='align-center' style='width: 100px;'>".Html::a('<i class="material-icons view-u">visibility</i>', ['view','id'=>$value->id],['role'=>'modal-remote','title'=>'Просмотр']).Html::a('<i class="material-icons blue-u">mode_edit</i>', ['update','id'=>$value->id],['role'=>'modal-remote','title'=>'Изменить']).Html::a('<i class="material-icons red-u">delete_forever</i>', ['delete','id'=>$value->id],['role'=>'modal-remote','title'=>'Удалить', 

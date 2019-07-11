@@ -10,7 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
-
+use common\models\User;
 /**
  * CoursesController implements the CRUD actions for Courses model.
  */
@@ -86,6 +86,7 @@ class CoursesController extends Controller
         $model->company_id=Yii::$app->user->identity->company_id;
         $model->filial_id=Yii::$app->user->identity->filial_id;
         $model->user_id=Yii::$app->user->identity->id;
+        
         if($request->isAjax){
             /*
             *   Process for ajax request
@@ -140,7 +141,8 @@ class CoursesController extends Controller
     {
         $request = Yii::$app->request;
         $model = $this->findModel($id);       
-
+        $model->begin_date=User::getDAte($model->begin_date);
+        $model->end_date=User::getDAte($model->end_date);
         if($request->isAjax){
             /*
             *   Process for ajax request

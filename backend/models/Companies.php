@@ -19,6 +19,11 @@ use backend\base\AppActiveQuery;
  */
 class Companies extends \yii\db\ActiveRecord
 {
+    public $filial_name;
+    public $user_fio;
+    public $user_phone;
+    public $username;
+    public $password;
     /**
      * {@inheritdoc}
      */
@@ -33,7 +38,7 @@ class Companies extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name'], 'string', 'max' => 255],
+            [['name','filial_name','username','user_phone','password','user_fio'], 'string', 'max' => 255],
             [['type'], 'integer'],
         ];
     }
@@ -46,7 +51,12 @@ class Companies extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Наименование',
-            'type'=>'Тип'
+            'type'=>'Тип',
+            'filial_name' => 'Наименование',
+            'user_fio' => 'ФИО',
+            'username' => 'Логин',
+            'password' => 'Пароль',
+            'user_phone'=>'Телефон',
         ];
     }
     public function beforeSave($insert) 

@@ -31,7 +31,6 @@ class DashboardAsset extends AssetBundle
         'vendors/jquery.nestable/nestable.css',
         'vendors/flag-icon/css/flag-icon.min.css',
         'vendors/data-tables/css/jquery.dataTables.min.css',
-        'css/layouts/page-center.csss',
         'vendors/fullcalendar/css/fullcalendar.min.css',
         'css/plugins/media-hover-effects.css',
         'vendors/magnific-popup/magnific-popup.css',
@@ -45,8 +44,8 @@ class DashboardAsset extends AssetBundle
     public $js = [
         'js/materialize.js',
         'vendors/prism/prism.js',
-        'vendors/angular.min.js',
         'vendors/angular-materialize.js',
+        'vendors/angular.min.js',
         'vendors/perfect-scrollbar/perfect-scrollbar.min.js',
         'vendors/chartjs/chart.min.js',
         'js/plugins.js',

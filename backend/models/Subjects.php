@@ -3,7 +3,16 @@
 namespace backend\models;
 
 use Yii;
-
+use yii\base\NotSupportedException;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
+use yii\web\IdentityInterface;
+use backend\base\AppActiveQuery;
+use backend\models\Companies;
+use yii\behaviors\BlameableBehavior;
+use backend\models\Filials;
+use yii\web\ForbiddenHttpException;
+use yii\helpers\ArrayHelper;
 /**
  * This is the model class for table "subjects".
  *
@@ -39,7 +48,59 @@ class Subjects extends \yii\db\ActiveRecord
             [['filial_id'], 'exist', 'skipOnError' => true, 'targetClass' => Filials::className(), 'targetAttribute' => ['filial_id' => 'id']],
         ];
     }
+    // public function behaviors()
+    // {
+    //     return [
+    //         TimestampBehavior::className(),
+    //         [
+    //                 'class' => BlameableBehavior::class,
+    //                 'createdByAttribute' => 'company_id',
+    //                 'updatedByAttribute' => null,
+    //                 'value' => function($event) {
+    //                     return Yii::$app->user->identity->company_id;
+    //                 },
+    //         ],
+    //     ];
+    // }
 
+     /**
+     * @inheritdoc
+     */
+    public static function find()
+    {
+        if(Yii::$app->user->isGuest == false)
+        {
+            if(Yii::$app->user->identity->company->type === 2)
+            {
+                $companyId = Yii::$app->user->identity->company_id;
+            }
+            else $companyId = null;
+        } 
+        else $companyId = null;
+
+        return new AppActiveQuery(get_called_class(), [
+           'companyId' => $companyId,
+        ]);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public static function findOne($condition)
+    {
+        $model = parent::findOne($condition);
+        if(Yii::$app->user->isGuest == false) 
+        {
+            if(Yii::$app->user->identity->company->type === 2)
+            {
+                $companyId = Yii::$app->user->identity->company_id;
+                if($model->company_id != $companyId){
+                    throw new ForbiddenHttpException('Доступ запрещен');
+                }
+            }
+        }
+        return $model;
+    }
     /**
      * {@inheritdoc}
      */

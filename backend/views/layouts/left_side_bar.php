@@ -2,6 +2,8 @@
 use yii\helpers\Url;
 use yii\helpers\Html;
 use common\widgets\Menu;
+use common\models\User;
+$pathInfo = Yii::$app->request->pathInfo;
 ?>
 <aside id="left-sidebar-nav" class="nav-expanded nav-lock nav-collapsible">
           <div class="brand-sidebar">
@@ -19,21 +21,24 @@ use common\widgets\Menu;
             <li class="no-padding">
                     <?= Menu::widget(
                 [
-                    'options' => [ 'class' => 'collapsible', 'data-collapsible' => 'accordion'],
+                    'options' => [
+                     'class' => 'collapsible',
+                     'data-collapsible' => 'accordion'
+                   ],
                     'items' => [
-                        // ['label' => 'Меню', 'options' => ['class' => 'li-hover']],
-                        
-                        ['label' => 'Домашняя страница', 'icon' => 'dashboard', 'url' => ['/site/index']],
+                        ['label' => 'Домашняя страница', 'icon' => 'dashboard', 'url' => ['/site/index'],],
                         ['label' => 'Пользователи', 'icon' => 'account_circle', 'url' => ['/user/index']],
                          ['label' => 'Курсы', 'icon' => 'school', 'url' => ['/courses/index']],
                         ['label' => 'Предметы', 'icon' => 'book', 'url' => ['/subjects/index']],
-                        ['label' => 'Super Company', 'icon' => '', 'url' => [''],
+                        (User::find()->where(['id'=>Yii::$app->user->identity])->one()->company->type==1)?
+                        ['label' => 'Super Company', 'icon' => '','url' => [''],
                             'items' => [                            
                                 ['label' => 'Компания', 'icon' => 'store', 'url' => ['/companies/index']],
                                 ['label' => 'Филиалы', 'icon' => 'portrait', 'url' => ['/filials/index']],
                                             
                             ],
-                        ],
+                        ]
+                      :[],
                         
                     ],
                 ]

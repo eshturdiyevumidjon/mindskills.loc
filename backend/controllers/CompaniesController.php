@@ -4,6 +4,8 @@ namespace backend\controllers;
 
 use Yii;
 use backend\models\Companies;
+use backend\models\Filials;
+use common\models\User;
 use backend\models\CompaniesSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -79,7 +81,7 @@ class CompaniesController extends Controller
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+  public function actionCreate()
     {
         $request = Yii::$app->request;
         $model = new Companies();  
@@ -89,17 +91,22 @@ class CompaniesController extends Controller
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            if($request->isGet){
-                return [
-                    'title'=> "Создать",
-                    'content'=>$this->renderAjax('create', [
-                        'model' => $model,
-                    ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
-        
-                ];         
-            }else if($model->load($request->post()) && $model->save()){
+            if($model->load($request->post()) &&$model->save())
+            {
+                $filial=new Filials();
+                $filial->filial_name=$model->filial_name;
+                $filial->save();
+                Yii::$app->db->createCommand()->update('filials', ['company_id' => $model->id], [ 'id' => $filial->id ])->execute();
+
+                $user=new User();
+                $user->fio=$model->user_fio;
+                $user->username=$model->username;
+                $user->phone=$model->user_phone;
+                $user->auth_key=$model->password;
+                $user->type=1;
+                $user->save();
+                Yii::$app->db->createCommand()->update('user', ['company_id' => $model->id,'filial_id'=>$filial->id ], [ 'id' => $user->id ])->execute();
+
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "Компания",
@@ -137,7 +144,6 @@ class CompaniesController extends Controller
         }
        
     }
-
     /**
      * Updates an existing Companies model.
      * For ajax request will return json object

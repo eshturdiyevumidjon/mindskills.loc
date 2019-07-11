@@ -14,11 +14,11 @@ use yii\helpers\Url;
               <input type="text" name="Search" class="header-search-input z-depth-2" placeholder="Explore Materialize" />
             </div> -->
             <ul class="right hide-on-med-and-down">
-              <li>
+              <!-- <li>
                 <a href="javascript:void(0);" class="waves-effect waves-block waves-light translation-button" data-activates="translation-dropdown">
                   <span class="flag-icon flag-icon-gb"></span>
                 </a>
-              </li>
+              </li> -->
               <li>
                 <a href="javascript:void(0);" class="waves-effect waves-block waves-light toggle-fullscreen">
                   <i class="material-icons">settings_overscan</i>
@@ -46,7 +46,7 @@ use yii\helpers\Url;
               </li>
             </ul>
             <!-- translation-button -->
-            <ul id="translation-dropdown" class="dropdown-content">
+            <!-- <ul id="translation-dropdown" class="dropdown-content">
               <li>
                 <a href="#!" class="grey-text text-darken-1">
                   <i class="flag-icon flag-icon-gb"></i> English</a>
@@ -63,7 +63,7 @@ use yii\helpers\Url;
                 <a href="#!" class="grey-text text-darken-1">
                   <i class="flag-icon flag-icon-de"></i> German</a>
               </li>
-            </ul>
+            </ul> -->
             <!-- notifications-dropdown -->
             <ul id="notifications-dropdown" class="dropdown-content">
               <li>
