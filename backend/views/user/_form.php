@@ -54,7 +54,7 @@ use backend\models\Filials;
             </div>
                     <div class="row">
                     <div class="col s6">
-                        <?=$form->field($model, 'filial_id')->dropDownList($model->Filials(), ['prompt' => 'Выберите','style'=>'margin-top:10px;'])?>
+                        <?=$form->field($model, 'filial_id')->dropDownList($model->getAvailableFilials(), ['prompt' => 'Выберите','style'=>'margin-top:10px;'])?>
                     </div>   
                     <div class="col s6">
                         <?=$form->field($model, 'type')->dropDownList($model->getType(), ['prompt' => 'Выберите должность','style'=>'margin-top:10px;'])?>

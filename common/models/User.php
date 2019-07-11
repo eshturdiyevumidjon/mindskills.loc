@@ -176,9 +176,9 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return $this->hasOne(Companies::className(), ['id' => 'company_id']);
     }
-    public function Filials()
+    public function getAvailableFilials()
     {
-        return Arrayhelper::map(Filials::find()->where(['company_id'=>$model->company->id])->all(),'id','filial_name');
+        return Arrayhelper::map(Filials::find()->where(['company_id'=>Yii::$app->user->identity->company->id])->all(),'id','filial_name');
     }
     /**
      * @return \yii\db\ActiveQuery

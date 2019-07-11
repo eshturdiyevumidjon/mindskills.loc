@@ -52,7 +52,7 @@ class Companies extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name' => 'Наименование',
             'type'=>'Тип',
-            'filial_name' => 'Наименование',
+            'filial_name' => 'Наименование филиала',
             'user_fio' => 'ФИО',
             'username' => 'Логин',
             'password' => 'Пароль',

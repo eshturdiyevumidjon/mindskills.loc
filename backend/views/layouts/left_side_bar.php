@@ -28,17 +28,18 @@ $pathInfo = Yii::$app->request->pathInfo;
                     'items' => [
                         ['label' => 'Домашняя страница', 'icon' => 'dashboard', 'url' => ['/site/index'],],
                         ['label' => 'Пользователи', 'icon' => 'account_circle', 'url' => ['/user/index']],
-                         ['label' => 'Курсы', 'icon' => 'school', 'url' => ['/courses/index']],
+                        ['label' => 'Курсы', 'icon' => 'school', 'url' => ['/courses/index']],
                         ['label' => 'Предметы', 'icon' => 'book', 'url' => ['/subjects/index']],
-                        (User::find()->where(['id'=>Yii::$app->user->identity])->one()->company->type==1)?
-                        ['label' => 'Super Company', 'icon' => '','url' => [''],
+                        (Yii::$app->user->identity->company->type==1)?
+                        ['label' => 'Super Company','options'=>['class'=>($pathInfo=='company/index'||$pathInfo=='filials/index')?'active':''], 'icon' => '','url' => [''],
                             'items' => [                            
                                 ['label' => 'Компания', 'icon' => 'store', 'url' => ['/companies/index']],
                                 ['label' => 'Филиалы', 'icon' => 'portrait', 'url' => ['/filials/index']],
                                             
                             ],
                         ]
-                      :[],
+                      :
+                        ['label' => 'Филиалы', 'icon' => 'school', 'url' => ['/filials/index']],
                         
                     ],
                 ]
