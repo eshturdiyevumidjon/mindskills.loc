@@ -1,0 +1,40 @@
+.red-u{
+	font-size: 20px;
+	color: #cc0033;
+}
+.blue-u{
+	font-size: 20px;
+	color: #2f90b2;
+}
+.view-u{
+	font-size: 20px;
+}
+[id^="myTable"] td{
+	padding-top: 7px;
+	padding-bottom: 7px;
+}
+[class*="-form"] {
+  padding:5px 25px 0px 25px;
+}
+.modal-header h4{
+	font-size: 22px;
+}
+.modal-footer button[class*='left']{
+	background-color: #009688 ;
+}
+a:hover{
+	text-decoration: none !important;
+	color: inherit;
+}
+a:visited{
+	text-decoration: none !important;
+	color: inherit;
+}
+a:active{
+	text-decoration: none !important;
+	color: inherit;
+}
+a:link{
+	text-decoration: none !important;
+	color: inherit;
+}
