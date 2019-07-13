@@ -177,5 +177,35 @@ class Filials extends \yii\db\ActiveRecord
     {
        return ArrayHelper::map(Districts::find()->all(),'id', 'name');  
     }
+    public function ColumnsFilials($post)
+    {
+        $session = Yii::$app->session;
+
+        $session['Filials[filial_name]'] = 0;
+        $session['Filials[logo]'] = 0;
+        $session['Filials[admin]'] = 0;
+
+        $session['Filials[phone]'] = 0;
+        $session['Filials[region_id]'] = 0;
+        $session['Filials[district_id]'] = 0;
+
+        $session['Filials[address]'] = 0;
+        $session['Filials[site]'] = 0;
+        $session['Filials[email]'] = 0;
+        $session['Filials[company_id]'] = 0;
+            
+        if( isset($post['Filials']['filial_name']) ) $session['Filials[filial_name]'] = 1;
+        if( isset($post['Filials']['logo']) ) $session['Filials[logo]'] = 1;
+        if( isset($post['Filials']['admin']) ) $session['Filials[admin]'] = 1;
+        
+        if( isset($post['Filials']['phone']) ) $session['Filials[phone]'] = 1;
+        if( isset($post['Filials']['region_id']) ) $session['Filials[region_id]'] = 1;
+        if( isset($post['Filials']['district_id']) ) $session['Filials[district_id]'] = 1;
+
+        if( isset($post['Filials']['address']) ) $session['Filials[address]'] = 1;
+        if( isset($post['Filials']['site']) ) $session['Filials[site]'] = 1;
+        if( isset($post['Filials']['email']) ) $session['Filials[email]'] = 1;
+        if( isset($post['Filials']['company_id']) ) $session['Filials[company_id]'] = 1;
+    }
 
 }

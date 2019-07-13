@@ -52,7 +52,7 @@ class UserController extends Controller
     {
         $request = Yii::$app->request;
         $model = $this->findModel($id);       
-
+        $model->birthday=\Yii::$app->formatter->asDate($model->birthday,'php:d.m.Y');
         if($request->isAjax){
             /*
             *   Process for ajax request
@@ -180,6 +180,33 @@ class UserController extends Controller
             }
         }
        
+    }
+    public function actionColumns()
+    {
+        $request = Yii::$app->request;
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $session = Yii::$app->session;
+   
+        if($request->post()){
+            $post = $request->post();
+            User::ColumnsUser($post);
+            return [
+                'forceReload'=>'#crud-datatable-pjax',
+                'forceClose'=>true,
+            ];          
+        }
+        else
+        {           
+            return [
+                'title'=> "Сортировка с колонок",
+                'size' => 'large',
+                'content'=>$this->renderAjax('columns', [
+                    'session' => $session,
+                ]),
+                'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                           Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
+            ];         
+        }       
     }
 
     /**

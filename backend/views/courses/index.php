@@ -7,7 +7,7 @@ use johnitvn\ajaxcrud\CrudAsset;
 use johnitvn\ajaxcrud\BulkButtonWidget;
 use backend\models\Courses;
 use yii\widgets\Pjax;
-use common\models\User; 
+use backend\models\User; 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\CoursesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -16,7 +16,7 @@ $this->title = 'Курсы';
 $models = $dataProvider->getModels();
 $model=new Courses();
 $this->params['breadcrumbs'][] = $this->title;
-
+$session = Yii::$app->session;
 CrudAsset::register($this);
 
 ?>
@@ -32,6 +32,8 @@ CrudAsset::register($this);
             </a>
             </a>
             <ul class="right hide-on-med-and-down">
+              <li>
+                 <?=Html::a('Сортировка', ['columns'],['role'=>'modal-remote','title'=> 'Сортировка с колонок'])?></li>
               <li><?= Html::a('<i class="material-icons">add</i>', ['create'],['role'=>'modal-remote','title'=>'Создать'])?></li>
               <li><?=Html::a('<i class="material-icons">refresh</i>',[''],
                           ['title'=>'Обновить'])?></li>
@@ -46,51 +48,88 @@ CrudAsset::register($this);
           </div>
         </nav>
         <?php Pjax::begin(['enablePushState' => false,'id'=>'crud-datatable-pjax'])?>
-        <div class="section" >
-               <div id="row-grouping" class="section">
-                    <div class="row">
-                        <div class="col s11" style="margin:  20px 40px 20px 40px">
-                          <table class="bordered highlight centered" cellspacing="0"  width="100%">
-                            <thead>
-                                  <tr>
-                                      <th>ID</th>
-                                      <th><?=$model->getAttributeLabel('name')?></th>
-                                      <th><?=$model->getAttributeLabel('subject_id')?></th>
-                                      <th><?=$model->getAttributeLabel('user_id')?></th>                
-                                      <th><?=$model->getAttributeLabel('begin_date')?></th>
-                                      <th><?=$model->getAttributeLabel('end_date')?></th>
-                                      <th><?=$model->getAttributeLabel('cost')?></th>
-                                      <th><?=$model->getAttributeLabel('prosent_for_teacher')?></th>
-                                      <th>Действия</th>
-                                  </tr>
-                                </thead>
-                                <tbody id="myTablecourses">
-                                    <?php
-                                    
-                                        foreach ($models as $value) {
-                                            echo "<tr>
-                                      <td>".$value->id."</td>
-                                      <td>".$value->name."</td>
-                                      <td>".$value->subject->name."</td>
-                                      <td>".$value->user->fio."</td>
-                                      <td>".User::getDate($value->begin_date)."</td>
-                                      <td>".User::getDate($value->end_date)."</td>
-                                      <td>".$value->cost."</td>
-                                      <td>".$value->prosent_for_teacher."</td>
-                                      <td class='align-center' style='width: 100px;'>".Html::a('<i class="material-icons view-u">visibility</i>', ['view','id'=>$value->id],['role'=>'modal-remote','title'=>'Просмотр']).Html::a('<i class="material-icons blue-u">mode_edit</i>', ['update','id'=>$value->id],['role'=>'modal-remote','title'=>'Изменить']).Html::a('<i class="material-icons red-u">delete_forever</i>', ['delete','id'=>$value->id],['role'=>'modal-remote','title'=>'Удалить', 
-                                            'data-confirm'=>false, 'data-method'=>false,
-                                                'data-request-method'=>'post',
-                                                'data-toggle'=>'tooltip',
-                                                 'data-confirm-title'=>'Подтвердите действие',
-                                                  'data-confirm-message'=>'Вы уверены что хотите удалить этого элемента?']).        "</td>
-                                    </tr>";  
-                                        }
-                                    ?>  
-                                </tbody>
-                            </table>
-                          </div>
-                        </div>
-                    </div>
+<div class="section" >
+<div id="row-grouping" class="section">
+    <div class="row">
+        <div class="col s11" style="margin:  20px 40px 20px 40px">
+          <table class="bordered highlight centered" cellspacing="0"  width="100%">
+            <thead>
+          <tr style="font-size: 14px;">
+              <th>ID</th>
+              <?php if($session['Courses[name]']===null || $session['Courses[name]'] == 1){ ?>
+              <th><?=$model->getAttributeLabel('name')?></th>
+              <?php }?>
+              <?php if($session['Courses[subject_id]']===null || $session['Courses[subject_id]'] == 1){ ?>
+              <th><?=$model->getAttributeLabel('subject_id')?></th>
+              <?php }?>
+              <?php if($session['Courses[user_id]']===null || $session['Courses[user_id]'] == 1){ ?>
+              <th><?=$model->getAttributeLabel('user_id')?></th>
+              <?php }?>
+              <?php if($session['Courses[begin_date]']===null || $session['Courses[begin_date]'] == 1){ ?>
+              <th><?=$model->getAttributeLabel('begin_date')?></th>
+              <?php }?>
+              <?php if($session['Courses[end_date]']===null || $session['Courses[end_date]'] == 1){ ?>
+              <th><?=$model->getAttributeLabel('end_date')?></th>
+              <?php }?>
+              <?php if($session['Courses[cost]']===null || $session['Courses[cost]'] == 1){ ?>
+              <th><?=$model->getAttributeLabel('cost')?></th>
+              <?php }?>
+              <?php if($session['Courses[prosent_for_teacher]']===null || $session['Courses[prosent_for_teacher]'] == 1){ ?>
+              <th><?=$model->getAttributeLabel('prosent_for_teacher')?></th>
+              <?php }?>
+              <?php if(Yii::$app->user->identity->company->type == 1){ ?>
+              <?php if($session['Courses[company_id]']===null || $session['Courses[company_id]'] == 1){ ?>
+              <th><?=$model->getAttributeLabel('company_id')?></th>
+              <?php }?>
+              <?php }?>
+              <?php if(Yii::$app->user->identity->company->type == 1){ ?>
+              <?php if($session['Courses[filial_id]']===null || $session['Courses[filial_id]'] == 1){ ?>
+              <th><?=$model->getAttributeLabel('filial_id')?></th>
+              <?php }?>
+              <?php }?>
+              <th>Действия</th>
+          </tr>
+                </thead>
+                <tbody id="myTablecourses">
+                    <?php
+                    
+                        foreach ($models as $value) {
+                            echo "<tr>
+                      <td>".$value->id."</td>";
+                      if($session['Courses[name]']===null || $session['Courses[name]'] == 1)
+                      echo "<td>".$value->name."</td>";
+                      if($session['Courses[subject_id]']===null || $session['Courses[subject_id]'] == 1)
+                      echo "<td>".$value->subject->name."</td>";
+                      if($session['Courses[user_id]']===null || $session['Courses[user_id]'] == 1)
+                      echo "<td>".$value->user->fio."</td>";
+                      if($session['Courses[begin_date]']===null || $session['Courses[begin_date]'] == 1)
+                      echo "<td>".Courses::getDate($value->begin_date)."</td>";
+                      if($session['Courses[end_date]']===null || $session['Courses[end_date]'] == 1)
+                      echo "<td>".Courses::getDate($value->end_date)."</td>";
+                      if($session['Courses[cost]']===null || $session['Courses[cost]'] == 1)
+                      echo"<td>".$value->cost."</td>";
+                      if($session['Courses[prosent_for_teacher]']===null || $session['Courses[prosent_for_teacher]'] == 1)
+                      echo "<td>".$value->prosent_for_teacher."</td>";
+                      if(Yii::$app->user->identity->company->type == 1){
+                      if($session['Courses[company_id]']===null || $session['Courses[company_id]'] == 1)
+                      echo "<td>".$value->company_id."</td>";}
+                      if(Yii::$app->user->identity->company->type == 1){
+                      if($session['Courses[filial_id]']===null || $session['Courses[filial_id]'] == 1)
+                      echo "<td>".$value->filial_id."</td>";}
+                      echo "<td class='align-center' style='width: 100px;'>".Html::a('<i class="material-icons view-u">visibility</i>', ['view','id'=>$value->id],['role'=>'modal-remote','title'=>'Просмотр']).Html::a('<i class="material-icons blue-u">mode_edit</i>', ['update','id'=>$value->id],['role'=>'modal-remote','title'=>'Изменить']).Html::a('<i class="material-icons red-u">delete_forever</i>', ['delete','id'=>$value->id],['role'=>'modal-remote','title'=>'Удалить', 
+                            'data-confirm'=>false, 'data-method'=>false,
+                                'data-request-method'=>'post',
+                                'data-toggle'=>'tooltip',
+                                 'data-confirm-title'=>'Подтвердите действие',
+                                  'data-confirm-message'=>'Вы уверены что хотите удалить этого элемента?']).        "</td>
+                    </tr>";  
+                        }
+                    ?>  
+                </tbody>
+            </table>
+          </div>
+        </div>
+    </div>
         </div>
         <?php Pjax::end()?>
     </div>

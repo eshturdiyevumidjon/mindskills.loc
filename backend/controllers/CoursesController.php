@@ -73,6 +73,34 @@ class CoursesController extends Controller
         }
     }
 
+     public function actionColumns()
+    {
+        $request = Yii::$app->request;
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $session = Yii::$app->session;
+   
+        if($request->post()){
+            $post = $request->post();
+            Courses::ColumnsCourses($post);
+            return [
+                'forceReload'=>'#crud-datatable-pjax',
+                'forceClose'=>true,
+            ];          
+        }
+        else
+        {           
+            return [
+                'title'=> "Сортировка с колонок",
+                'size' => 'large',
+                'content'=>$this->renderAjax('columns', [
+                    'session' => $session,
+                ]),
+                'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                           Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
+            ];         
+        }       
+    }
+
     /**
      * Creates a new Courses model.
      * For ajax request will return json object

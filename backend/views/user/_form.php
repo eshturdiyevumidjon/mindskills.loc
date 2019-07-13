@@ -41,10 +41,12 @@ use backend\models\Filials;
                 <div class="<?= ($model->isNewRecord)?'input-field col s4':'col s4'?>" >
                       <?= $form->field($model, 'birthday')->widget(DatePicker::className(), [
                         'language' => 'ru',
+                        
                         'size' => 'sm',
                         'type'=>DatePicker::TYPE_INPUT,
                         'pluginOptions' => [
-                            'todayHighlight' => true
+                            'todayHighlight' => true,
+                            'format'=>'dd.mm.yyyy'
                         ]
                     ]) ?>
                 </div>

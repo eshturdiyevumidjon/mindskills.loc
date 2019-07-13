@@ -15,14 +15,14 @@ use backend\base\AppActiveQuery;
  * @property int $type
  *
  * @property Filials[] $filials
- * @property User[] $users
+ * @property Companies[] $Companiess
  */
 class Companies extends \yii\db\ActiveRecord
 {
     public $filial_name;
-    public $user_fio;
-    public $user_phone;
-    public $username;
+    public $Companies_fio;
+    public $Companies_phone;
+    public $Companiesname;
     public $password;
     /**
      * {@inheritdoc}
@@ -38,7 +38,8 @@ class Companies extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name','filial_name','username','user_phone','password','user_fio'], 'string', 'max' => 255],
+            [['name','filial_name','Companiesname','Companies_phone','password','Companies_fio'], 'string', 'max' => 255],
+            [['name','filial_name','Companiesname','Companies_phone','password','Companies_fio'],'required'],
             [['type'], 'integer'],
         ];
     }
@@ -53,10 +54,10 @@ class Companies extends \yii\db\ActiveRecord
             'name' => 'Наименование',
             'type'=>'Тип',
             'filial_name' => 'Наименование филиала',
-            'user_fio' => 'ФИО',
-            'username' => 'Логин',
+            'Companies_fio' => 'ФИО',
+            'Companiesname' => 'Логин',
             'password' => 'Пароль',
-            'user_phone'=>'Телефон',
+            'Companiesphone'=>'Телефон',
         ];
     }
     public function beforeSave($insert) 
@@ -79,8 +80,26 @@ class Companies extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUsers()
+    public function getCompaniess()
     {
-        return $this->hasMany(User::className(), ['company_id' => 'id']);
+        return $this->hasMany(Companies::className(), ['company_id' => 'id']);
+    }
+    public function ColumnsCompanies($post)
+    {
+        $session = Yii::$app->session;
+
+        $session['Companies[name]'] = 0;
+        $session['Companies[filial_name]'] = 0;
+        $session['Companies[Companies_fio]'] = 0;
+
+        $session['Companies[Companiesname]'] = 0;
+        $session['Companies[Companiesphone]'] = 0;
+            
+        if( isset($post['Companies']['name']) ) $session['Companies[name]'] = 1;
+        if( isset($post['Companies']['filial_name']) ) $session['Companies[filial_name]'] = 1;
+        if( isset($post['Companies']['Companies_fio']) ) $session['Companies[Companies_fio]'] = 1;
+
+        if( isset($post['Companies']['Companiesname']) ) $session['Companies[Companiesname]'] = 1;
+        if( isset($post['Companies']['Companiesphone']) ) $session['Companies[Companiesphone]'] = 1;
     }
 }

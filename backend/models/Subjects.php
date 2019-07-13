@@ -137,4 +137,16 @@ class Subjects extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Filials::className(), ['id' => 'filial_id']);
     }
+    public function ColumnsSubjects($post)
+    {
+        $session = Yii::$app->session;
+
+        $session['Subjects[name]'] = 0;
+        $session['Subjects[company_id]'] = 0;
+        $session['Subjects[filial_id]'] = 0;
+            
+        if( isset($post['Subjects']['name']) ) $session['Subjects[name]'] = 1;
+        if( isset($post['Subjects']['company_id']) ) $session['Subjects[company_id]'] = 1;
+        if( isset($post['Subjects']['filial_id']) ) $session['Subjects[filial_id]'] = 1;
+    }
 }

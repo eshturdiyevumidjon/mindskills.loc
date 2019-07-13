@@ -187,9 +187,9 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return $this->hasOne(Filials::className(), ['id' => 'filial_id']);
     }
-    public static function getDate($date)
+    public static function getDate($date=null)
     {
-        return isset($date)?\Yii::$app->formatter->asDate($date, 'php:d.m.Y'):"";
+        return ($date!=null)?\Yii::$app->formatter->asDate($date, 'php:d.m.Y'):null;
     }
     //Получить описание типов пользователя.
     public function getTypeDescription()
@@ -327,5 +327,30 @@ class User extends ActiveRecord implements IdentityInterface
     public function generateAuthKey()
     {
         $this->auth_key = Yii::$app->security->generateRandomString();
+    }
+    public function ColumnsUser($post)
+    {
+        $session = Yii::$app->session;
+
+        $session['User[image]'] = 0;
+        $session['User[fio]'] = 0;
+        $session['User[username]'] = 0;
+        $session['User[birthday]'] = 0;
+
+        $session['User[phone]'] = 0;
+        $session['User[type]'] = 0;
+        $session['User[company_id]'] = 0;
+        $session['User[filial_id]'] = 0;
+        $session['User[status]'] = 0;
+            
+        if( isset($post['User']['image']) ) $session['User[image]'] = 1;
+        if( isset($post['User']['fio']) ) $session['User[fio]'] = 1;
+        if( isset($post['User']['username']) ) $session['User[username]'] = 1;
+        if( isset($post['User']['birthday']) ) $session['User[birthday]'] = 1;
+        if( isset($post['User']['phone']) ) $session['User[phone]'] = 1;
+        if( isset($post['User']['type']) ) $session['User[type]'] = 1;
+        if( isset($post['User']['company_id']) ) $session['User[company_id]'] = 1;
+        if( isset($post['User']['filial_id']) ) $session['User[filial_id]'] = 1;
+        if( isset($post['User']['status']) ) $session['User[status]'] = 1;
     }
 }

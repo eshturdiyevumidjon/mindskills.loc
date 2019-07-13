@@ -163,11 +163,41 @@ class Courses extends \yii\db\ActiveRecord
         
         return parent::beforeSave($insert);
     }
+    public static function getDate($date=null)
+    {
+        return ($date!=null)?\Yii::$app->formatter->asDate($date, 'php:d.m.Y'):null;
+    }
     /**
      * @return \yii\db\ActiveQuery
      */
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+    public function ColumnsCourses($post)
+    {
+        $session = Yii::$app->session;
+
+        $session['Courses[name]'] = 0;
+        $session['Courses[subject_id]'] = 0;
+        $session['Courses[user_id]'] = 0;
+        $session['Courses[begin_date]'] = 0;
+
+        $session['Courses[end_date]'] = 0;
+        $session['Courses[cost]'] = 0;
+        $session['Courses[prosent_for_teacher]'] = 0;
+        $session['Courses[company_id]'] = 0;
+        $session['Courses[filial_id]'] = 0;
+            
+        if( isset($post['Courses']['name']) ) $session['Courses[name]'] = 1;
+        if( isset($post['Courses']['subject_id']) ) $session['Courses[subject_id]'] = 1;
+        if( isset($post['Courses']['user_id']) ) $session['Courses[user_id]'] = 1;
+        if( isset($post['Courses']['begin_date']) ) $session['Courses[begin_date]'] = 1;
+
+        if( isset($post['Courses']['end_date']) ) $session['Courses[end_date]'] = 1;
+        if( isset($post['Courses']['cost']) ) $session['Courses[cost]'] = 1;
+        if( isset($post['Courses']['prosent_for_teacher']) ) $session['Courses[prosent_for_teacher]'] = 1;
+        if( isset($post['Courses']['company_id']) ) $session['Courses[company_id]'] = 1;
+        if( isset($post['Courses']['filial_id']) ) $session['Courses[filial_id]'] = 1;
     }
 }
