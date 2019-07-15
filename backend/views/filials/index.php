@@ -103,9 +103,9 @@ CrudAsset::register($this);
           if($session['Filials[phone]']===null || $session['Filials[phone]'] == 1)
           echo "<td>".$value->phone."</td>";
           if($session['Filials[region_id]']===null || $session['Filials[region_id]'] == 1)
-          echo "<td>".$value->region_id."</td>";
+          echo "<td>".$value->region->name."</td>";
           if($session['Filials[district_id]']===null || $session['Filials[district_id]'] == 1)
-          echo "<td>".$value->district_id."</td>";
+          echo "<td>".$value->district->name."</td>";
           if($session['Filials[address]']===null || $session['Filials[address]'] == 1)
           echo "<td>".$value->address."</td>";
           if($session['Filials[site]']===null || $session['Filials[site]'] == 1)
@@ -113,7 +113,7 @@ CrudAsset::register($this);
           if($session['Filials[email]']===null || $session['Filials[email]'] == 1)
           echo  "<td>".$value->email."</td>";
           if($session['Filials[company_id]']===null || $session['Filials[company_id]'] == 1)
-          echo  "<td>".$value->company_id."</td>";
+          echo  "<td>".$value->company->name."</td>";
           echo          
           "<td class='align-center' style='width: 100px;'>".Html::a('<i class="material-icons view-u">visibility</i>', ['view','id'=>$value->id],['role'=>'modal-remote','title'=>'Просмотр']).Html::a('<i class="material-icons blue-u">mode_edit</i>', ['update','id'=>$value->id],['role'=>'modal-remote','title'=>'Изменить']).Html::a('<i class="material-icons red-u">delete_forever</i>', ['delete','id'=>$value->id],['role'=>'modal-remote','title'=>'Удалить', 
                                     'data-confirm'=>false, 'data-method'=>false,

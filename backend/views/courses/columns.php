@@ -85,15 +85,9 @@ $model=new Courses();
 </div>     
 <?php 
 $this->registerJs(<<<JS
-    $('#markAll').change(function(){
-    $.post("/user/columns?all="+$(this).val());
+$("#markAll").click(function(){
+        $("input[type=checkbox]").prop('checked', $(this).prop('checked'));
 
-     if($(this).is(":checked")){
-       $(':checkbox').attr('checked',true);
-           }else{
-       
-       $(':checkbox').attr('checked',false);
-    }
 });
 JS
 );

@@ -43,15 +43,9 @@ $model=new Subjects();
 </div>     
 <?php 
 $this->registerJs(<<<JS
-    $('#markAll').change(function(){
-    
-     if($(this).is(":checked")){
-     		 $.post("/user/columns?all=1");
-       $(':checkbox').attr('checked',true);
-			}else{
-        $.post("/user/columns?all=0");
-       $(':checkbox').attr('checked',false);
-    }
+ $("#markAll").click(function(){
+        $("input[type=checkbox]").prop('checked', $(this).prop('checked'));
+
 });
 JS
 );

@@ -50,9 +50,9 @@ class Tarifs extends \yii\db\ActiveRecord
     {
         $session = Yii::$app->session;
 
-        $session['Tarifs[name]'] = $post['all'];
-        $session['Tarifs[days]'] = $post['all'];
-        $session['Tarifs[price]'] = $post['all'];
+        $session['Tarifs[name]'] =0;
+        $session['Tarifs[days]'] = 0;
+        $session['Tarifs[price]'] = 0;
             
         if( isset($post['Tarifs']['name']) ) $session['Tarifs[name]'] = 1;
         if( isset($post['Tarifs']['days']) ) $session['Tarifs[days]'] = 1;

@@ -141,9 +141,9 @@ class Subjects extends \yii\db\ActiveRecord
     {
         $session = Yii::$app->session;
 
-        $session['Subjects[name]'] = $post['all'];
-        $session['Subjects[company_id]'] = $post['all'];
-        $session['Subjects[filial_id]'] = $post['all'];
+        $session['Subjects[name]'] = 0;
+        $session['Subjects[company_id]'] = 0;
+        $session['Subjects[filial_id]'] = 0;
             
         if( isset($post['Subjects']['name']) ) $session['Subjects[name]'] = 1;
         if( isset($post['Subjects']['company_id']) ) $session['Subjects[company_id]'] = 1;

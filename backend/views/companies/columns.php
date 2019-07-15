@@ -56,16 +56,9 @@ $model=new Companies();
 </div>     
 <?php 
 $this->registerJs(<<<JS
-    $('#markAll').change(function(){
-     $.post("/user/columns?all="+$(this).val());
-     if($(this).is(":checked")){
-     	
-       $(':checkbox').attr('checked',true);
+$("#markAll").click(function(){
+        $("input[type=checkbox]").prop('checked', $(this).prop('checked'));
 
-           }else{
-       
-       $(':checkbox').attr('checked',false);
-    }
 });
 JS
 );

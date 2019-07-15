@@ -85,13 +85,9 @@ $model=new User();
 </div>     
 <?php 
 $this->registerJs(<<<JS
-    $('#markAll').change(function(){
-     
-     if($(this).is(":checked")){
-     		$(':checkbox').attr('checked',true);
-		}else{
-			$(':checkbox').attr('checked',false);
-        }
+$("#markAll").click(function(){
+        $("input[type=checkbox]").prop('checked', $(this).prop('checked'));
+
 });
 JS
 );

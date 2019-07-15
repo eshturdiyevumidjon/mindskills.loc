@@ -102,7 +102,7 @@ CrudAsset::register($this);
                             echo "<td><img src='$path' width=80></td>";
                             if($session['User[fio]']===null || $session['User[fio]'] == 1)
                             echo "<td>".$value->fio."</td>";
-                            if($session['User[type]']===null || $session['User[type]'] == 1)
+                            if($session['User[username]']===null || $session['User[username]'] == 1)
                             echo "<td>".$value->username."</td>";
                             if($session['User[type]']===null || $session['User[type]'] == 1)
                             echo "<td>".$value->getTypeDescription()."</td>";

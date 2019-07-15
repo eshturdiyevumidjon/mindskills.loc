@@ -194,18 +194,18 @@ class Filials extends \yii\db\ActiveRecord
     {
         $session = Yii::$app->session;
 
-        $session['Filials[filial_name]'] = $post['all'];
-        $session['Filials[logo]'] = $post['all'];
-        $session['Filials[admin]'] = $post['all'];
+        $session['Filials[filial_name]'] =0;
+        $session['Filials[logo]'] = 0;
+        $session['Filials[admin]'] = 0;
 
-        $session['Filials[phone]'] = $post['all'];
-        $session['Filials[region_id]'] = $post['all'];
-        $session['Filials[district_id]'] = $post['all'];
+        $session['Filials[phone]'] = 0;
+        $session['Filials[region_id]'] = 0;
+        $session['Filials[district_id]'] =0;
 
-        $session['Filials[address]'] = $post['all'];
-        $session['Filials[site]'] = $post['all'];
-        $session['Filials[email]'] = $post['all'];
-        $session['Filials[company_id]'] = $post['all'];
+        $session['Filials[address]'] = 0;
+        $session['Filials[site]'] = 0;
+        $session['Filials[email]'] =0;
+        $session['Filials[company_id]'] = 0;
             
         if( isset($post['Filials']['filial_name']) ) $session['Filials[filial_name]'] = 1;
         if( isset($post['Filials']['logo']) ) $session['Filials[logo]'] = 1;
