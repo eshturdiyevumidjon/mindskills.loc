@@ -20,17 +20,17 @@ use yii\widgets\ActiveForm;
     </div>
     <div class="row">
           <div class="<?= ($model->isNewRecord)?'input-field col s6':'col s6'?>" >
-            <?= $form->field($model, 'user_fio')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'Companies_fio')->textInput(['maxlength' => true]) ?>
           </div>
           <div class="<?= ($model->isNewRecord)?'input-field col s6':'col s6'?>" >
-              <?= $form->field($model, 'user_phone')->widget(\yii\widgets\MaskedInput::className(), [ 'mask' => '+\9\9899-999-99-99']) ?>
+              <?= $form->field($model, 'Companies_phone')->widget(\yii\widgets\MaskedInput::className(), [ 'mask' => '+\9\9899-999-99-99']) ?>
           </div>
           
 
     </div>
     <div class="row">
           <div class="<?= ($model->isNewRecord)?'input-field col s6':'col s6'?>" >
-            <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'Companiesname')->textInput(['maxlength' => true]) ?>
           </div>
           <div class="<?= ($model->isNewRecord)?'input-field col s6':'col s6'?>" >
             <?= $form->field($model, 'password')->textInput(['maxlength' => true]) ?>

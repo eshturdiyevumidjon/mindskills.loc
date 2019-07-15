@@ -181,16 +181,19 @@ class UserController extends Controller
         }
        
     }
+  
     public function actionColumns()
     {
         $request = Yii::$app->request;
+        
         Yii::$app->response->format = Response::FORMAT_JSON;
         $session = Yii::$app->session;
-   
+        
         if($request->post()){
             $post = $request->post();
             User::ColumnsUser($post);
             return [
+             
                 'forceReload'=>'#crud-datatable-pjax',
                 'forceClose'=>true,
             ];          

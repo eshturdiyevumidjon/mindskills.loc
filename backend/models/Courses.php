@@ -178,16 +178,16 @@ class Courses extends \yii\db\ActiveRecord
     {
         $session = Yii::$app->session;
 
-        $session['Courses[name]'] = 0;
-        $session['Courses[subject_id]'] = 0;
-        $session['Courses[user_id]'] = 0;
-        $session['Courses[begin_date]'] = 0;
+        $session['Courses[name]'] = $post['all'];
+        $session['Courses[subject_id]'] = $post['all'];
+        $session['Courses[user_id]'] = $post['all'];
+        $session['Courses[begin_date]'] = $post['all'];
 
-        $session['Courses[end_date]'] = 0;
-        $session['Courses[cost]'] = 0;
-        $session['Courses[prosent_for_teacher]'] = 0;
-        $session['Courses[company_id]'] = 0;
-        $session['Courses[filial_id]'] = 0;
+        $session['Courses[end_date]'] = $post['all'];
+        $session['Courses[cost]'] = $post['all'];
+        $session['Courses[prosent_for_teacher]'] = $post['all'];
+        $session['Courses[company_id]'] = $post['all'];
+        $session['Courses[filial_id]'] = $post['all'];
             
         if( isset($post['Courses']['name']) ) $session['Courses[name]'] = 1;
         if( isset($post['Courses']['subject_id']) ) $session['Courses[subject_id]'] = 1;

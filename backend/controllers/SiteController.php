@@ -1,12 +1,12 @@
 <?php
 namespace backend\controllers;
-
 use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\LoginForm;
-
+use backend\models\Register;
+use backend\models\Companies;
 /**
  * Site controller
  */
@@ -70,7 +70,7 @@ class SiteController extends Controller
      * Displays homepage.
      *
      * @return string
-     */
+     */ 
     public function actionIndex()
     {
          if (Yii::$app->user->isGuest) {
@@ -78,6 +78,17 @@ class SiteController extends Controller
         }
             return $this->render('index');
     }
+    public function actionRegister()
+    {
+        $model = new Register();
+      
+        if($model->load(Yii::$app->request->post())&&$model->register())
+        {
+            return $this->goHome();
+        }
+        return $this->render('register', ['model' => $model,]);        
+    }
+
 
     /**
      * Login action.

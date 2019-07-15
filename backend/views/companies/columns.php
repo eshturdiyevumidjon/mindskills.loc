@@ -13,7 +13,6 @@ $model=new Companies();
 	        <label for="1"><?=$model->getAttributeLabel('name')?></label>
 	        </label>
 	    </div>
-	    <?php if(Yii::$app->user->identity->company->type == 1) { ?>
 	    <div class="col-md-4">
 	        <label>
 	            <input type="checkbox" name="Companies[filial_name]" id="2" value="1" <?= ($session['Companies[filial_name]']===null || $session['Companies[filial_name]'] == 1) ? 'checked=""': '' ?> > 
@@ -26,7 +25,6 @@ $model=new Companies();
 	        <label for="3"><?=$model->getAttributeLabel('Companies_fio')?></label>
 	        </label>
 	    </div>
-	<?php }?>
 	</div>
 	<hr/>
 	<div class="row">
@@ -59,9 +57,13 @@ $model=new Companies();
 <?php 
 $this->registerJs(<<<JS
     $('#markAll').change(function(){
+     $.post("/user/columns?all="+$(this).val());
      if($(this).is(":checked")){
+     	
        $(':checkbox').attr('checked',true);
+
            }else{
+       
        $(':checkbox').attr('checked',false);
     }
 });

@@ -88,8 +88,8 @@ use yii\helpers\ArrayHelper;
 
      <div class="row">
             <div class="col s6">
-                <div id="image">
-                         <?= $model->logo != null ? '<img style="width:100%; height:250px;" src="http://' . $_SERVER["SERVER_NAME"] . "/uploads/filial_logos/" . $model->logo .' ">' : '' ?>
+                <div id="logo">
+                         <?= $model->logo != null ? '<img style="width:100%; height:250px;" src="http://' . $_SERVER["SERVER_NAME"] . "/uploads/filial_logos/" . $model->logo .' ">' : '<img src="http://' . $_SERVER["SERVER_NAME"].'/uploads/no-user.jpg">' ?>
                 </div>
             <br>
                 <?= $form->field($model, 'image')->fileInput(['class'=>"image_input"]); ?>

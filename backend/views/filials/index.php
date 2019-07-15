@@ -61,10 +61,8 @@ CrudAsset::register($this);
                 <?php if($session['Filials[filial_name]']===null || $session['Filials[filial_name]'] == 1){ ?>
                 <th>Наименование</th>
                 <?php }?>
-                <?php if(Yii::$app->user->identity->company->type == 1){ ?>
                 <?php if($session['Filials[admin]']===null || $session['Filials[admin]'] == 1){ ?>
                 <th>ФИО</th>
-                <?php }?>
                 <?php }?>
                 <?php if($session['Filials[phone]']===null || $session['Filials[phone]'] == 1){ ?>
                 <th>Телефон</th>
@@ -84,10 +82,8 @@ CrudAsset::register($this);
                 <?php if($session['Filials[email]']===null || $session['Filials[email]'] == 1){ ?>
                 <th>Эмаил</th>
                 <?php }?>
-                <?php if(Yii::$app->user->identity->company->type == 1){ ?>
                 <?php if($session['Filials[company_id]']===null || $session['Filials[company_id]'] == 1){ ?>
                 <th>Компания</th>
-                <?php }?>
                 <?php }?>
                 <th>Действия</th>
               </tr>
@@ -102,9 +98,8 @@ CrudAsset::register($this);
           echo "<td>".(($value->logo)?"<img src='/uploads/filial_logos/".$value->logo."' width=100>":"")."</td>";
           if($session['Filials[filial_name]']===null || $session['Filials[filial_name]'] == 1)
           echo "<td>".$value->filial_name."</td>";
-          if(Yii::$app->user->identity->company->type == 1){
           if($session['Filials[admin]']===null || $session['Filials[admin]'] == 1)
-          echo "<td>".$value->getAdmin()."</td>";}
+          echo "<td>".$value->getAdmin()."</td>";
           if($session['Filials[phone]']===null || $session['Filials[phone]'] == 1)
           echo "<td>".$value->phone."</td>";
           if($session['Filials[region_id]']===null || $session['Filials[region_id]'] == 1)
@@ -117,9 +112,8 @@ CrudAsset::register($this);
           echo "<td>".$value->site."</td>";
           if($session['Filials[email]']===null || $session['Filials[email]'] == 1)
           echo  "<td>".$value->email."</td>";
-          if(Yii::$app->user->identity->company->type == 1){
           if($session['Filials[company_id]']===null || $session['Filials[company_id]'] == 1)
-          echo  "<td>".$value->company_id."</td>";}
+          echo  "<td>".$value->company_id."</td>";
           echo          
           "<td class='align-center' style='width: 100px;'>".Html::a('<i class="material-icons view-u">visibility</i>', ['view','id'=>$value->id],['role'=>'modal-remote','title'=>'Просмотр']).Html::a('<i class="material-icons blue-u">mode_edit</i>', ['update','id'=>$value->id],['role'=>'modal-remote','title'=>'Изменить']).Html::a('<i class="material-icons red-u">delete_forever</i>', ['delete','id'=>$value->id],['role'=>'modal-remote','title'=>'Удалить', 
                                     'data-confirm'=>false, 'data-method'=>false,

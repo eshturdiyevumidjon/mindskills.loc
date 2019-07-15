@@ -43,7 +43,7 @@ class Companies extends \yii\db\ActiveRecord
             [['type'], 'integer'],
         ];
     }
-
+    
     /**
      * {@inheritdoc}
      */
@@ -88,18 +88,18 @@ class Companies extends \yii\db\ActiveRecord
     {
         $session = Yii::$app->session;
 
-        $session['Companies[name]'] = 0;
-        $session['Companies[filial_name]'] = 0;
-        $session['Companies[Companies_fio]'] = 0;
+        $session['Companies[name]'] = $post['all'];
+        $session['Companies[filial_name]'] = $post['all'];
+        $session['Companies[Companies_fio]'] = $post['all'];
 
-        $session['Companies[Companiesname]'] = 0;
-        $session['Companies[Companiesphone]'] = 0;
+        $session['Companies[Companiesname]'] = $post['all'];
+        $session['Companies[Companies_phone]'] = $post['all'];
             
         if( isset($post['Companies']['name']) ) $session['Companies[name]'] = 1;
         if( isset($post['Companies']['filial_name']) ) $session['Companies[filial_name]'] = 1;
         if( isset($post['Companies']['Companies_fio']) ) $session['Companies[Companies_fio]'] = 1;
 
         if( isset($post['Companies']['Companiesname']) ) $session['Companies[Companiesname]'] = 1;
-        if( isset($post['Companies']['Companiesphone']) ) $session['Companies[Companiesphone]'] = 1;
+        if( isset($post['Companies']['Companies_phone']) ) $session['Companies[Companies_phone]'] = 1;
     }
 }

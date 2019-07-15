@@ -112,10 +112,10 @@ CrudAsset::register($this);
                       echo "<td>".$value->prosent_for_teacher."</td>";
                       if(Yii::$app->user->identity->company->type == 1){
                       if($session['Courses[company_id]']===null || $session['Courses[company_id]'] == 1)
-                      echo "<td>".$value->company_id."</td>";}
+                      echo "<td>".$value->company->name."</td>";}
                       if(Yii::$app->user->identity->company->type == 1){
                       if($session['Courses[filial_id]']===null || $session['Courses[filial_id]'] == 1)
-                      echo "<td>".$value->filial_id."</td>";}
+                      echo "<td>".$value->filial->filial_name."</td>";}
                       echo "<td class='align-center' style='width: 100px;'>".Html::a('<i class="material-icons view-u">visibility</i>', ['view','id'=>$value->id],['role'=>'modal-remote','title'=>'Просмотр']).Html::a('<i class="material-icons blue-u">mode_edit</i>', ['update','id'=>$value->id],['role'=>'modal-remote','title'=>'Изменить']).Html::a('<i class="material-icons red-u">delete_forever</i>', ['delete','id'=>$value->id],['role'=>'modal-remote','title'=>'Удалить', 
                             'data-confirm'=>false, 'data-method'=>false,
                                 'data-request-method'=>'post',

@@ -7,7 +7,7 @@ use common\widgets\Alert;
 use yii\helpers\Html;
 use backend\assets\DashboardAsset;
 
- if (Yii::$app->controller->action->id === 'login') { 
+ if (Yii::$app->controller->action->id === 'login' ||Yii::$app->controller->action->id === 'register' ) { 
 
     echo $this->render(
         'main-login',

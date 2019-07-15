@@ -15,8 +15,8 @@ $model=new User();
 	    </div>
 	    <div class="col-md-4">
 	        <label>
-	            <input type="checkbox" name="User[fio]" id="user_fio" value="1" <?= ($session['User[fio]']===null || $session['User[fio]'] == 1) ? 'checked=""': '' ?> > 
-	        <label for="user_fio" ><?=$model->getAttributeLabel('fio')?></label>
+	            <input type="checkbox" name="User[fio]" id="2" value="1" <?= ($session['User[fio]']===null || $session['User[fio]'] == 1) ? 'checked=""': '' ?> > 
+	        <label for="2" ><?=$model->getAttributeLabel('fio')?></label>
 	        </label>
 	    </div>
 	    <div class="col-md-4">
@@ -51,21 +51,21 @@ $model=new User();
 	<div class="row">
 		<div class="col-md-4">
 	        <label>
-	            <input type="checkbox" name="User[status]" id="status" value="1" <?= ($session['User[status]']===null || $session['User[status]'] == 1) ? 'checked=""': '' ?> > 
-	        <label for="status"><?=$model->getAttributeLabel('status')?></label>
+	            <input type="checkbox" name="User[status]" id="7" value="1" <?= ($session['User[status]']===null || $session['User[status]'] == 1) ? 'checked=""': '' ?> > 
+	        <label for="7"><?=$model->getAttributeLabel('status')?></label>
 	        </label>
 	    </div>
 		<?php if(Yii::$app->user->identity->company->type == 1) { ?>
 	    <div class="col-md-4">
 	        <label>
-	            <input type="checkbox" name="User[company_id]" id="7" value="1" <?= ($session['User[company_id]']===null || $session['User[company_id]'] == 1) ? 'checked=""': '' ?> > 
-	        <label for="7"><?=$model->getAttributeLabel('company_id')?></label>'
+	            <input type="checkbox" name="User[company_id]" id="8" value="1" <?= ($session['User[company_id]']===null || $session['User[company_id]'] == 1) ? 'checked=""': '' ?> > 
+	        <label for="8"><?=$model->getAttributeLabel('company_id')?></label>'
 	        </label>
 	    </div>
 	    <div class="col-md-4">
 	        <label>
-	            <input type="checkbox" name="User[filial_id]" id="8" value="1" <?= ($session['User[filial_id]']===null || $session['User[filial_id]'] == 1) ? 'checked=""': '' ?> > 
-	        <label for="8"><?=$model->getAttributeLabel('filial_id')?></label>
+	            <input type="checkbox" name="User[filial_id]" id="9" value="1" <?= ($session['User[filial_id]']===null || $session['User[filial_id]'] == 1) ? 'checked=""': '' ?> > 
+	        <label for="9"><?=$model->getAttributeLabel('filial_id')?></label>
 	        </label>
 	    </div>
 		<?php }?>
@@ -86,12 +86,14 @@ $model=new User();
 <?php 
 $this->registerJs(<<<JS
     $('#markAll').change(function(){
+     
      if($(this).is(":checked")){
-       $(':checkbox').attr('checked',true);
-           }else{
-       $(':checkbox').attr('checked',false);
-    }
+     		$(':checkbox').attr('checked',true);
+		}else{
+			$(':checkbox').attr('checked',false);
+        }
 });
 JS
 );
 ?>
+

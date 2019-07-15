@@ -1,32 +1,30 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use backend\models\Subjects;
-$model=new Subjects();
+use backend\models\Tarifs;
+$model=new Tarifs();
 ?>
 <div class="users-form" style="padding: 20px;">
     <?php $form = ActiveForm::begin(); ?>
 	<div class="row">
 	    <div class="col-md-4">
 	        <label>
-	            <input type="checkbox" name="Subjects[name]" id="1" value="1" <?= ($session['Subjects[name]']===null || $session['Subjects[name]'] == 1) ? 'checked=""': '' ?> > 
+	            <input type="checkbox" name="Tarifs[name]" id="1" value="1" <?= ($session['Tarifs[name]']===null || $session['Tarifs[name]'] == 1) ? 'checked=""': '' ?> > 
 	        <label for="1"><?=$model->getAttributeLabel('name')?></label>
 	        </label>
 	    </div>
-	    <?php if(Yii::$app->user->identity->company->type == 1) { ?>
 	    <div class="col-md-4">
 	        <label>
-	            <input type="checkbox" name="Subjects[company_id]" id="2" value="1" <?= ($session['Subjects[company_id]']===null || $session['Subjects[company_id]'] == 1) ? 'checked=""': '' ?> > 
-	        <label for="2" ><?=$model->getAttributeLabel('company_id')?></label>
+	            <input type="checkbox" name="Tarifs[days]" id="2" value="1" <?= ($session['Tarifs[days]']===null || $session['Tarifs[days]'] == 1) ? 'checked=""': '' ?> > 
+	        <label for="2" ><?=$model->getAttributeLabel('days')?></label>
 	        </label>
 	    </div>
 	    <div class="col-md-4">
 	        <label>
-	            <input type="checkbox" name="Subjects[filial_id]" id="3" value="1" <?= ($session['Subjects[filial_id]']===null || $session['Subjects[filial_id]'] == 1) ? 'checked=""': '' ?> > 
-	        <label for="3"><?=$model->getAttributeLabel('filial_id')?></label>
+	            <input type="checkbox" name="Tarifs[price]" id="3" value="1" <?= ($session['Tarifs[price]']===null || $session['Tarifs[price]'] == 1) ? 'checked=""': '' ?> > 
+	        <label for="3"><?=$model->getAttributeLabel('price')?></label>
 	        </label>
 	    </div>
-	<?php }?>
 	</div>
 	<hr/>
     <div class="row">

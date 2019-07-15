@@ -55,13 +55,11 @@ CrudAsset::register($this);
                   <?php if($session['Companies[name]']===null || $session['Companies[name]'] == 1){ ?>
                   <th>Наименование</th>
                   <?php }?>
-                  <?php if(Yii::$app->user->identity->company->type == 1){ ?>
                   <?php if($session['Companies[filial_name]']===null || $session['Companies[filial_name]'] == 1){ ?>
                   <th>Наименование филиала</th>
                   <?php }?>
                   <?php if($session['Companies[Companies_fio]']===null || $session['Companies[Companies_fio]'] == 1){ ?>
                   <th>ФИО</th>
-                  <?php }?>
                   <?php }?>
                   <?php if($session['Companies[Companiesname]']===null || $session['Companies[Companiesname]'] == 1){ ?>
                   <th>Логин</th>
@@ -79,11 +77,10 @@ CrudAsset::register($this);
                           <td>".$value->id."</td>";
                           if($session['Companies[name]']===null || $session['Companies[name]'] == 1)
                           echo "<td>".$value->name."</td>";
-                          if(Yii::$app->user->identity->company->type == 1){
                           if($session['Companies[filial_name]']===null || $session['Companies[filial_name]'] == 1)
                           echo "<td>".$value->filial_name."</td>";
                           if($session['Companies[Companies_fio]']===null || $session['Companies[Companies_fio]'] == 1)
-                          echo "<td>".$value->Companies_fio."</td>";}
+                          echo "<td>".$value->Companies_fio."</td>";
                           if($session['Companies[Companiesname]']===null || $session['Companies[Companiesname]'] == 1)
                           echo "<td>".$value->Companiesname."</td>";
                           if($session['Companies[Companies_phone]']===null || $session['Companies[Companies_phone]'] == 1)

@@ -67,12 +67,15 @@ $fieldOptions2 = [
             </div>
           </div>
           <div class="row">
-            <div class="col s12 m12 l12 ml-2 mt-3">
+            <div class="col  mt-3">
               <?= $form
               ->field($model, 'rememberMe')
               ->checkbox([
-            'template' => "{input}{label}<div class=\"col-lg-8\">{error}</div>",
+            'template' => "{input}{label}<div class=\"col-lg-8s\">{error}</div>",
         ]) ?>
+            </div>
+            <div class="col mt-3">
+           <?=Html::a('Зарегистрируйтесь!', ['register'],['role'=>'modal-remote'])?>
             </div>
           </div>
           <div class="row">

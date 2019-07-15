@@ -3,18 +3,18 @@
 namespace backend\controllers;
 
 use Yii;
-use backend\models\Courses;
-use backend\models\CoursesSearch;
+use backend\models\Tarifs;
+use backend\models\TarifsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
-use common\models\User;
+
 /**
- * CoursesController implements the CRUD actions for Courses model.
+ * TarifsController implements the CRUD actions for Tarifs model.
  */
-class CoursesController extends Controller
+class TarifsController extends Controller
 {
     /**
      * @inheritdoc
@@ -33,12 +33,12 @@ class CoursesController extends Controller
     }
 
     /**
-     * Lists all Courses models.
+     * Lists all Tarifs models.
      * @return mixed
      */
     public function actionIndex()
     {    
-        $searchModel = new CoursesSearch();
+        $searchModel = new TarifsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -49,7 +49,7 @@ class CoursesController extends Controller
 
 
     /**
-     * Displays a single Courses model.
+     * Displays a single Tarifs model.
      * @param integer $id
      * @return mixed
      */
@@ -59,12 +59,12 @@ class CoursesController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "Курсы #".$id,
+                    'title'=> "Тарифы #".$id,
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
                     'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Зарегистрируйтесь!',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                            Html::a('Изменить',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
         }else{
             return $this->render('view', [
@@ -73,6 +73,54 @@ class CoursesController extends Controller
         }
     }
 
+    /**
+     * Creates a new Tarifs model.
+     * For ajax request will return json object
+     * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    public function actionCreate()
+    {
+        $request = Yii::$app->request;
+        $model = new Tarifs();  
+
+        if($request->isAjax){
+            /*
+            *   Process for ajax request
+            */
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            if($model->load($request->post()) && $model->save()){
+                return [
+                    'forceReload'=>'#crud-datatable-pjax',
+                    'title'=> "Тарифы",
+                    'content'=>'<span class="text-success">Успешно выполнено</span>',
+                    'footer'=> Html::button('Ок',['class'=>'btn btn-primary pull-left','data-dismiss'=>"modal"]).
+                            Html::a('Создать ещё',['create'],['class'=>'btn btn-info','role'=>'modal-remote'])
+        
+                ];         
+            }else{           
+                return [
+                    'title'=> "Создать",
+                    'content'=>$this->renderAjax('create', [
+                        'model' => $model,
+                    ]),
+                     'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
+                ];         
+            }
+        }else{
+            /*
+            *   Process for non-ajax request
+            */
+            if ($model->load($request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                return $this->render('create', [
+                    'model' => $model,
+                ]);
+            }
+        }
+       
+    }
      public function actionColumns()
     {
         $request = Yii::$app->request;
@@ -81,7 +129,7 @@ class CoursesController extends Controller
    
         if($request->post()){
             $post = $request->post();
-            Courses::ColumnsCourses($post);
+            Tarifs::ColumnsTarifs($post);
             return [
                 'forceReload'=>'#crud-datatable-pjax',
                 'forceClose'=>true,
@@ -102,62 +150,7 @@ class CoursesController extends Controller
     }
 
     /**
-     * Creates a new Courses model.
-     * For ajax request will return json object
-     * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $request = Yii::$app->request;
-        $model = new Courses();  
-        $model->company_id=Yii::$app->user->identity->company_id;
-        $model->filial_id=Yii::$app->user->identity->filial_id;
-        $model->user_id=Yii::$app->user->identity->id;
-        
-        if($request->isAjax){
-            /*
-            *   Process for ajax request
-            */
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            if($model->load($request->post()) && $model->save()){
-                return [
-                    'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Курсы",
-                    'content'=>'<span class="text-success">Успешно выполнено</span>',
-                    'footer'=> Html::button('Ок',['class'=>'btn btn-primary pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Создать ещё',['create'],['class'=>'btn btn-info','role'=>'modal-remote'])
-                ];
-                // return [
-                //     'forceReload'=>'#crud-datatable-pjax',
-                //     'forceClose'=>true
-                // ];         
-            }else{           
-                return [
-                    'title'=> "Создать",
-                    'content'=>$this->renderAjax('create', [
-                        'model' => $model,
-                    ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
-        ];         
-            }
-        }else{
-            /*
-            *   Process for non-ajax request
-            */
-            if ($model->load($request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            } else {
-                return $this->render('create', [
-                    'model' => $model,
-                ]);
-            }
-        }
-       
-    }
-
-    /**
-     * Updates an existing Courses model.
+     * Updates an existing Tarifs model.
      * For ajax request will return json object
      * and for non-ajax request if update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
@@ -167,8 +160,7 @@ class CoursesController extends Controller
     {
         $request = Yii::$app->request;
         $model = $this->findModel($id);       
-        $model->begin_date=User::getDAte($model->begin_date);
-        $model->end_date=User::getDAte($model->end_date);
+
         if($request->isAjax){
             /*
             *   Process for ajax request
@@ -185,7 +177,7 @@ class CoursesController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Курсы #".$id,
+                    'title'=> "Тарифы",
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
@@ -215,7 +207,7 @@ class CoursesController extends Controller
     }
 
     /**
-     * Delete an existing Courses model.
+     * Delete an existing Tarifs model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
@@ -243,7 +235,7 @@ class CoursesController extends Controller
     }
 
      /**
-     * Delete multiple existing Courses model.
+     * Delete multiple existing Tarifs model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
@@ -274,15 +266,15 @@ class CoursesController extends Controller
     }
 
     /**
-     * Finds the Courses model based on its primary key value.
+     * Finds the Tarifs model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Courses the loaded model
+     * @return Tarifs the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Courses::findOne($id)) !== null) {
+        if (($model = Tarifs::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

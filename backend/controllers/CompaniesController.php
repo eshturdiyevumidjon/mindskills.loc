@@ -94,7 +94,7 @@ class CompaniesController extends Controller
                 'title'=> "Сортировка с колонок",
                 'size' => 'large',
                 'content'=>$this->renderAjax('columns', [
-                    'session' => $session,
+                'session' => $session,
                 ]),
                 'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                            Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
@@ -126,9 +126,9 @@ class CompaniesController extends Controller
                 Yii::$app->db->createCommand()->update('filials', ['company_id' => $model->id], [ 'id' => $filial->id ])->execute();
 
                 $user=new User();
-                $user->fio=$model->user_fio;
-                $user->username=$model->username;
-                $user->phone=$model->user_phone;
+                $user->fio=$model->Companies_fio;
+                $user->username=$model->Companiesname;
+                $user->phone=$model->Companies_phone;
                 $user->auth_key=$model->password;
                 $user->type=1;
                 $user->save();

@@ -40,6 +40,14 @@ $pathInfo = $this->context->id;
                     <span>Курсы</span>
                   </a>
               </li>
+               <?php if(Yii::$app->user->identity->company->type==1){ ?>
+              <li class="<?= ($pathInfo=='tarifs')?'active':''?>">
+                      <a href="/tarifs/index">
+                        <i class="material-icons">view_list</i>
+                        <span>Тарифы</span>
+                      </a>
+                </li>
+                <?php }?>
                 <?php if(Yii::$app->user->identity->company->type==1): ?>
               <li class="bold <?= ($pathInfo=='companies'||$pathInfo=='filials')?'active':''?>">
                   <a class="collapsible-header waves-effect waves-cyan <?= ($pathInfo=='companies'||$pathInfo=='filials')?'active':''?>">
