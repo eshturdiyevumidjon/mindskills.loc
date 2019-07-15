@@ -27,46 +27,45 @@ $this->params['breadcrumbs'][] = $this->title;
     ];
     $fieldOptions6 = [
         'options' => [],
-        'inputTemplate' => "<i class='material-icons prefix pt-4'>lock_outline</i>{input}"
+        'inputTemplate' => "<i class='material-icons prefix pt-4'>email</i>{input}"
     ];
 ?>
-<div class="row margin">
-    <div class="col  s12">
-      <div class="card" style="width: 425px;">
+<div class="row">
+    <div class="col s12">
+      <div class="card" style="width: 26%;margin-top: 30px;margin-left:38%; ;">
               <div class="input-field col s12 center">
-               <h5>Добро пожаловать!</h5>
+               <p class="center register-form-text"><h5><?= Html::encode($this->title) ?></h5></p>
               <img src="/images/logo/login-logo.png" alt="" class="circle responsive-img valign profile-image-login" style="width: 100px;">
-              <p class="center login-form-text"><?= Html::encode($this->title) ?></p>
               </div>
-          <div class="row margin">
+          <div class="row">
               <p><?php $form = ActiveForm::begin([
-                'id' => 'login-form',
+                'id' => 'register-form',
                 'layout' => 'horizontal',
                 'fieldConfig' => [
                 'template' => "{input}{error}",
                 ],
                   ]);?>
-              <div class="input-field col s12" >
+              <div class="input-field col s10" style="margin: 2px 15px 0px 30px;">
                   <?= $form->field($model, 'name', $fieldOptions1)->textInput(['placeholder' => $model->getAttributeLabel('Компания')])?>
               </div>
-              <div class="input-field col  s12">
-                  <?= $form->field($model, 'Companies_fio', $fieldOptions2)->textInput(['placeholder' => $model->getAttributeLabel('Пользователь')])?>
+              <div class="input-field col s10" style="margin: 0px 15px 0px 30px;">
+                  <?= $form->field($model, 'Companies_fio', $fieldOptions2)->textInput(['placeholder' => $model->getAttributeLabel('ФИО')])?>
               </div>  
-              <div class="input-field col  s12">
+              <div class="input-field col s10" style="margin: 0px 15px 0px 30px;">
                   <?= $form->field($model, 'Companies_phone', $fieldOptions3)->textInput(['placeholder' => $model->getAttributeLabel('Телефон')])?>
               </div> 
-              <div class="input-field col  s12">
-                  <?= $form->field($model, 'filial_name', $fieldOptions4)->textInput(['placeholder' => $model->getAttributeLabel('Филиал')])?>
+              <div class="input-field col s10" style="margin: 0px 15px 0px 30px;">
+                  <?= $form->field($model, 'filial_name', $fieldOptions4)->textInput(['placeholder' => $model->getAttributeLabel('Название филиала')])?>
+              </div>
+              <div class="input-field col s10" style="margin: 0px 15px 0px 30px;">
+                  <?= $form->field($model, 'Companiesname', $fieldOptions6)->textInput(['placeholder' => $model->getAttributeLabel('Логин')])?>
               </div> 
-              <div class="input-field col  s12">
+              <div class="input-field col s10" style="margin: 0px 15px 0px 30px;">
                   <?= $form->field($model, 'password', $fieldOptions5)->passwordInput(['placeholder' => $model->getAttributeLabel('Парол')])?>
-              </div> 
-              <div class="input-field col  s12">
-                  <?= $form->field($model, 'Companiesname', $fieldOptions6)->textInput(['placeholder' => $model->getAttributeLabel('Имя пользователя')])?>
               </div>
           <div class="row margin">
-              <div class="input-field col s12">
-                  <?= Html::submitButton('Регистрация', ['class' => 'btn waves-effect waves-light col s12', 'name' => 'login-button']) ?>
+              <div class="input-field col s10" style="margin: 0px 15px 0px 35px;">
+                  <?= Html::submitButton('Регистрация', ['class' => 'btn waves-effect waves-light col s12']) ?>
               </div>
           </div>
               <?php ActiveForm::end(); ?></p>

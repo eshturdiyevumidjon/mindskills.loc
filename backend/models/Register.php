@@ -23,6 +23,7 @@ class Register extends Model
         return [
             [['name','filial_name','Companiesname','Companies_phone','password','Companies_fio'],'required'],
             [['name','filial_name','Companiesname','Companies_phone','password','Companies_fio'],'string', 'max' => 255],
+            [['Companiesname'],'email'],
         ];
     }
     public function register()

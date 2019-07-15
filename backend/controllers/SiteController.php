@@ -82,11 +82,24 @@ class SiteController extends Controller
     {
         $model = new Register();
       
-        if($model->load(Yii::$app->request->post())&&$model->register())
+        if($model->load(Yii::$app->request->post()) && $model->register())
         {
-            return $this->goHome();
+                // Yii::$app->response->format=Response::FORMAT_JSON;
+
+                // return ActiveForm::validate($model);
+
+                $modelForm=new LoginForm();
+                $modelForm->username=$model->Companiesname;
+                $modelForm->password=$model->password;
+                $modelForm->login();
+            return $this->redirect(['/site/index']);
+
         }
-        return $this->render('register', ['model' => $model,]);        
+        else
+        {
+              return $this->render('register', ['model' => $model]); 
+        }
+          
     }
 
 
@@ -100,7 +113,6 @@ class SiteController extends Controller
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
-
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {

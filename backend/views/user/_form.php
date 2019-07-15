@@ -41,12 +41,13 @@ use backend\models\Filials;
                 <div class="<?= ($model->isNewRecord)?'input-field col s4':'col s4'?>" >
                       <?= $form->field($model, 'birthday')->widget(DatePicker::className(), [
                         'language' => 'ru',
-                        
-                        'size' => 'sm',
+                        'size' => 'sm', 
                         'type'=>DatePicker::TYPE_INPUT,
+                            ],
                         'pluginOptions' => [
                             'todayHighlight' => true,
-                            'format'=>'dd.mm.yyyy'
+                            'format'=>'dd.mm.yyyy',
+
                         ]
                     ]) ?>
                 </div>
@@ -77,7 +78,6 @@ use backend\models\Filials;
 </div>
 <?php 
 $this->registerJs(<<<JS
-    
 $(document).ready(function(){
     var fileCollection = new Array();
 
