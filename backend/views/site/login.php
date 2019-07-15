@@ -43,7 +43,7 @@ $fieldOptions2 = [
             ],
           ]); ?>
           <div class="row">
-            <div class="input-field col s12 center">
+            <div class="input-field col s12 center"style="margin-left: 5%;">
               <p class="center login-form-text"><?= Html::encode($this->title) ?></p>
               <img src="/images/logo/login-logo.png" alt="" class="circle responsive-img valign profile-image-login">
             </div>
@@ -71,7 +71,7 @@ $fieldOptions2 = [
                    <?=Html::a('Зарегистрируйтесь!', ['register'],['role'=>'modal-remote'])?>
                     </div>
           </div>
-          <div class="row" >
+          <div class="row"style="margin-left: 15%;margin-bottom: 20%;">
             <div class="input-field col s12">
               <?= Html::submitButton('Вход', ['class' => 'btn waves-effect waves-light col s12', 'name' => 'login-button']) ?>
             </div>
