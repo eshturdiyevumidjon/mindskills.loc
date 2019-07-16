@@ -36,6 +36,11 @@ use yii\widgets\ActiveForm;
             <?= $form->field($model, 'password')->textInput(['maxlength' => true]) ?>
           </div>
     </div>
+    <div class="row">
+          <div class="<?= ($model->isNewRecord)?'input-field col s6':'col s6'?>" >
+            <?= $form->field($model, 'tarif_id')->textInput(['maxlength' => true]) ?>
+          </div>
+    </div>
     <?php if (!Yii::$app->request->isAjax){ ?>
         <div class="form-group">
             <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Редактировать', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

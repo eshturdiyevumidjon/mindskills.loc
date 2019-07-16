@@ -30,6 +30,7 @@ class m190702_153922_add_foreign_keys extends Migration
         $this->createIndex('idx-subjects-filial_id', 'subjects', 'filial_id', false);
         $this->addForeignKey("fk-subjects-filial_id", "subjects", "filial_id", "filials", "id");
 
+      
     }
 
     /**
@@ -54,5 +55,7 @@ class m190702_153922_add_foreign_keys extends Migration
 
         $this->dropForeignKey('fk-subjects-filial_id','subjects');
         $this->dropIndex('idx-subjects-filial_id','subjects');
+
+        
     }
 }

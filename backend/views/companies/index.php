@@ -7,6 +7,7 @@ use yii\widgets\Pjax;
 use johnitvn\ajaxcrud\CrudAsset; 
 use johnitvn\ajaxcrud\BulkButtonWidget;
 use backend\models\Companies;
+use backend\models\Tarifs;
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\CompaniesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -67,13 +68,16 @@ CrudAsset::register($this);
                   <?php if($session['Companies[Companies_phone]']===null || $session['Companies[Companies_phone]'] == 1){ ?>
                   <th>Телефон</th>
                   <?php }?>
+                  <?php if($session['Companies[Companiesname]']===null || $session['Companies[tarif_id]'] == 1){ ?>
+                  <th>Тариф</th>
+                  <?php }?>
                   <th>Действия</th>
                 </tr>
-                      </thead>
-                      <tbody id="myTablecompany">
+                </thead>
+                <tbody id="myTablecompany">
                         <?php
                             foreach ($models as $value) {
-                                echo "<tr>
+                          echo "<tr>
                           <td>".$value->id."</td>";
                           if($session['Companies[name]']===null || $session['Companies[name]'] == 1)
                           echo "<td>".$value->name."</td>";
@@ -85,6 +89,8 @@ CrudAsset::register($this);
                           echo "<td>".$value->Companiesname."</td>";
                           if($session['Companies[Companies_phone]']===null || $session['Companies[Companies_phone]'] == 1)
                           echo "<td>".$value->Companies_phone."</td>";
+                          if($session['Companies[tarif_id]']===null || $session['Companies[tarif_id]'] == 1)
+                          echo "<td>".$value->tarifs->name."</td>";
                           echo "<td class='align-center' style='width: 100px;'>".Html::a('<i class="material-icons view-u">visibility</i>', ['view','id'=>$value->id],['role'=>'modal-remote','title'=>'Просмотр']).Html::a('<i class="material-icons blue-u">mode_edit</i>', ['update','id'=>$value->id],['role'=>'modal-remote','title'=>'Изменить']).Html::a('<i class="material-icons red-u">delete_forever</i>', ['delete','id'=>$value->id],['role'=>'modal-remote','title'=>'Удалить', 
                                             'data-confirm'=>false, 'data-method'=>false,
                                                 'data-request-method'=>'post',
@@ -92,15 +98,15 @@ CrudAsset::register($this);
                                                  'data-confirm-title'=>'Подтвердите действие',
                           'data-confirm-message'=>'Вы уверены что хотите удалить этого элемента?'])."
                           </td>
-                        </tr>";  
+                          </tr>";  
                             }
                         ?>  
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-            </div>
+                </tbody>
+          </table>
         </div>
+      </div>
+  </div>
+</div>
         <?php Pjax::end()?>
     </div>
   </div>

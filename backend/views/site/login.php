@@ -23,14 +23,14 @@ $fieldOptions2 = [
 
 
 <!-- Start Page Loading -->
-    <div id="loader-wrapper">
+    <div id="loader-wrapper" >
       <div id="loader"></div>
       <div class="loader-section section-left"></div>
       <div class="loader-section section-right"></div>
     </div>
     <!-- End Page Loading -->
     <div id="login-page" class="row">
-      <div class="col s12 z-depth-4 card-panel" style="width: 26%;margin-left: 38%;margin-top: 5%;">
+      <div class="col s12 z-depth-4 card-panel" style="width: 24%;margin-left: 38%;margin-top: 5%;">
           <?php $form = ActiveForm::begin([
             'id' => 'login-form',
             'layout' => 'horizontal',
@@ -43,41 +43,39 @@ $fieldOptions2 = [
             ],
           ]); ?>
           <div class="row">
-            <div class="input-field col s12 center"style="margin-left: 5%;">
-              <p class="center login-form-text"><?= Html::encode($this->title) ?></p>
+            <div class="input-field col s12 center" style="margin-right: 2%;">
               <img src="/images/logo/login-logo.png" alt="" class="circle responsive-img valign profile-image-login">
+              <p class="center login-form-text"><?= Html::encode($this->title) ?></p>
             </div>
           </div>
           <div class="row">
-            <div class="input-field col s12"style="margin: 0px 0px 0px 0px;">
+            <div class="input-field col s11"style="margin: 0px 0px 0px 0px;">
               <?= $form->field($model, 'username', $fieldOptions1)->textInput(['placeholder' => $model->getAttributeLabel('Имя пользователя')])
                ?>
             </div>
           </div>
           <div class="row">
-            <div class="input-field col s12"style="margin: 0px 0px 0px 0px;">
+            <div class="input-field col s11"style="margin: 0px 0px 0px 0px;">
               <?= $form->field($model, 'password', $fieldOptions2)->passwordInput(['placeholder' => $model->getAttributeLabel('Пароль')]) ?>
             </div>
           </div>
-          <div class="row" style="margin-left: 2%;">
-                    <div class="col s6" >
+          <div class="row">
+                    <div class="col s5"style="margin: 0px 0px 0px 0px;" >
                             <?= $form
                             ->field($model, 'rememberMe')
                             ->checkbox([
                               'template' => "{input}{label}<div class=\"col-lg-8s\">{error}</div>",
                             ]) ?>
                     </div>
-                    <div class="col s6">
+                    <div class="col s6"style="margin: 0px 0px 0px 0px;">
                    <?=Html::a('Зарегистрируйтесь!', ['register'],['role'=>'modal-remote'])?>
                     </div>
           </div>
-          <div class="row"style="margin-left: 15%;margin-bottom: 20%;">
-            <div class="input-field col s12">
+          <div class="row">
+            <div class="input-field col s12"style="margin: 0px 0px 2% 0px;">
               <?= Html::submitButton('Вход', ['class' => 'btn waves-effect waves-light col s12', 'name' => 'login-button']) ?>
             </div>
           </div>
-          
           <?php ActiveForm::end(); ?>
-        
       </div>
     </div>

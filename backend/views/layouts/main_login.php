@@ -22,7 +22,7 @@ DashboardAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
     </head>
-  <body>
+  <body style="background-color:#00A5FF;">
     <?php $this->beginBody() ?>
      <?=$content?>
     <?php $this->endBody() ?>

@@ -16,10 +16,12 @@ class m190520_091119_create_companies_table extends Migration
             'id' => $this->primaryKey(),
             'name' => $this->string(255)->comment("Наименование"),
             'type'=>$this->integer(),
+            'tarif_id'=>$this->integer(),
         ]);
         $this->insert('{{%companies}}',array(
             'name' => 'Super Company',
             'type' => 1,
+            'tarif_id'=>3,
         ));
     }
 

@@ -26,6 +26,17 @@ class Register extends Model
             [['Companiesname'],'email'],
         ];
     }
+    public function attributeLabels()
+    {
+        return [
+            'name' => 'Наименование',
+            'filial_name' => 'Наименование филиала',
+            'Companies_fio' => 'ФИО',
+            'Companiesname' => 'Логин',
+            'password' => 'Пароль',
+            'Companiesphone'=>'Телефон',
+        ];
+    }
     public function register()
     {
     	$company=new Companies();
@@ -35,6 +46,7 @@ class Register extends Model
         $company->Companies_phone=$this->Companies_phone;
         $company->password=$this->password;
         $company->Companies_fio=$this->Companies_fio;
+        $company->tarif_id=1;
 
         $t=$company->save();
 

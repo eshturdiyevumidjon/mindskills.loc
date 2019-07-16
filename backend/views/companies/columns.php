@@ -40,6 +40,13 @@ $model=new Companies();
 	        <label for="5"><?=$model->getAttributeLabel('Companiesphone')?></label>
 	        </label>
 	    </div>
+
+	    <div class="col-md-4">
+	        <label>
+	            <input type="checkbox" name="Companies[tarif_id]" id="6" value="1" <?= ($session['Companies[tarif_id]']===null || $session['Companies[tarif_id]'] == 1) ? 'checked=""': '' ?> > 
+	        <label for="6"><?=$model->getAttributeLabel('tarif_id')?></label>
+	        </label>
+	    </div>
 	</div>
 	<hr/>
     <div class="row">
