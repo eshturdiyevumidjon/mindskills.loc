@@ -51,7 +51,7 @@ class Companies extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Наименование',
+            'name' => 'Наименование Компания',
             'type'=>'Тип',
             'filial_name' => 'Наименование филиала',
             'Companies_fio' => 'ФИО',
@@ -93,19 +93,13 @@ class Companies extends \yii\db\ActiveRecord
     $session = Yii::$app->session;
 
     $session['Companies[name]'] = 0;
-    $session['Companies[filial_name]'] = 0;
-    $session['Companies[Companies_fio]'] =0;
-
-    $session['Companies[Companiesname]'] = 0;
-    $session['Companies[Companies_phone]'] =0;
+    // $session['Companies[filial_name]'] = 0;
+    // $session['Companies[Companies_fio]'] =0;
+    // $session['Companies[Companiesname]'] = 0;
+    // $session['Companies[Companies_phone]'] =0;
     $session['Companies[tarif_id]'] =0;
         
     if( isset($post['Companies']['name']) ) $session['Companies[name]'] = 1;
-    if( isset($post['Companies']['filial_name']) ) $session['Companies[filial_name]'] = 1;
-    if( isset($post['Companies']['Companies_fio']) ) $session['Companies[Companies_fio]'] = 1;
-
-    if( isset($post['Companies']['Companiesname']) ) $session['Companies[Companiesname]'] = 1;
-    if( isset($post['Companies']['Companies_phone']) ) $session['Companies[Companies_phone]'] = 1;
     if( isset($post['Companies']['tarif_id']) ) $session['Companies[tarif_id]'] = 1;
     }
 }

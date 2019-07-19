@@ -43,11 +43,9 @@ use backend\models\Filials;
                         'language' => 'ru',
                         'size' => 'sm', 
                         'type'=>DatePicker::TYPE_INPUT,
-                            ],
                         'pluginOptions' => [
-                            'todayHighlight' => true,
-                            'format'=>'dd.mm.yyyy',
-
+                        'todayHighlight' => true,
+                        'format'=>'dd.mm.yyyy',
                         ]
                     ]) ?>
                 </div>
@@ -55,14 +53,16 @@ use backend\models\Filials;
                     <?= $form->field($model, 'phone')->widget(\yii\widgets\MaskedInput::className(), [ 'mask' => '+\9\9899-999-99-99']) ?>
                 </div> 
             </div>
-                    <div class="row">
-                    <div class="col s6">
+            <div class="row">
+                    <div class="col s4">
                         <?=$form->field($model, 'filial_id')->dropDownList($model->getAvailableFilials(), ['prompt' => 'Выберите','style'=>'margin-top:10px;'])?>
                     </div>   
-                    <div class="col s6">
+                    <div class="col s4">
                         <?=$form->field($model, 'type')->dropDownList($model->getType(), ['prompt' => 'Выберите должность','style'=>'margin-top:10px;'])?>
                     </div>
-               
+                    <div class="<?= ($model->isNewRecord)?'input-field col s4':'col s4'?>" >
+                    <?= $form->field($model, 'balanc')->textInput(['maxlength' => true]) ?>
+                    </div>                    
             </div>
     </div>
        </div>

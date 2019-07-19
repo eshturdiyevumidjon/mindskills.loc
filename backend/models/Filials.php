@@ -132,7 +132,7 @@ class Filials extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'filial_name' => 'Наименование',
+            'filial_name' => 'Наименование филиала',
             'logo' => 'Логотип',
             'surname' => 'Фамилия',
             'name' => 'Имя',

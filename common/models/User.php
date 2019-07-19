@@ -138,6 +138,7 @@ class User extends ActiveRecord implements IdentityInterface
         return [
             [['username', 'auth_key','type'], 'required'],
             [['type', 'status','created_at', 'updated_at','filial_id', 'company_id'], 'integer'],
+            [['balanc'], 'number'],
             [['birthday'],'safe'],
             [['fio', 'username', 'auth_key','new_password', 'password_hash','phone','image'], 'string', 'max' => 255],
             [['username'], 'unique'],
@@ -166,6 +167,7 @@ class User extends ActiveRecord implements IdentityInterface
             'updated_at' => 'Изменить время',
             'filial_id' => 'Филиал',
             'company_id' => 'Компания',
+            'balanc'=>'Баланс',
         ];
     }
 

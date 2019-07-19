@@ -24,6 +24,7 @@ class m130524_201442_init extends Migration
             'status' => $this->smallInteger()->notNull()->defaultValue(10),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
+            'balanc'=>$this->float()->notNull(),
         ], $tableOptions);
 
         $this->insert('user',array(
@@ -38,6 +39,7 @@ class m130524_201442_init extends Migration
             'birthday'=>'1995-05-25',
             'created_at' => time(),
             'updated_at' => time(),
+            'balanc'=>12,
         ));
     }
 

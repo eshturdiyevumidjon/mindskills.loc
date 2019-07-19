@@ -160,7 +160,7 @@ class UserController extends Controller
                     'title'=> "Создать",
                     'size'=>'large',
                     'content'=>$this->renderAjax('create', [
-                        'model' => $model,
+                    'model' => $model,
                     ]),
                     'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])

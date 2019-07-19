@@ -7,41 +7,13 @@ $model=new Companies();
 <div class="Companiess-form" style="padding: 20px;">
     <?php $form = ActiveForm::begin(); ?>
 	<div class="row">
-	    <div class="col-md-4">
+	    <div class="col-md-6">
 	        <label>
 	            <input type="checkbox" name="Companies[name]" id="1" value="1" <?= ($session['Companies[name]']===null || $session['Companies[name]'] == 1) ? 'checked=""': '' ?> > 
 	        <label for="1"><?=$model->getAttributeLabel('name')?></label>
 	        </label>
 	    </div>
-	    <div class="col-md-4">
-	        <label>
-	            <input type="checkbox" name="Companies[filial_name]" id="2" value="1" <?= ($session['Companies[filial_name]']===null || $session['Companies[filial_name]'] == 1) ? 'checked=""': '' ?> > 
-	        <label for="2" ><?=$model->getAttributeLabel('filial_name')?></label>
-	        </label>
-	    </div>
-	    <div class="col-md-4">
-	        <label>
-	            <input type="checkbox" name="Companies[Companies_fio]" id="3" value="1" <?= ($session['Companies[Companies_fio]']===null || $session['Companies[Companies_fio]'] == 1) ? 'checked=""': '' ?> > 
-	        <label for="3"><?=$model->getAttributeLabel('Companies_fio')?></label>
-	        </label>
-	    </div>
-	</div>
-	<hr/>
-	<div class="row">
-	    <div class="col-md-4">
-	        <label>
-	            <input type="checkbox" name="Companies[Companiesname]" id="4" value="1" <?= ($session['Companies[Companiesname]']===null || $session['Companies[Companiesname]'] == 1) ? 'checked=""': '' ?> > 
-	        <label for="4"><?=$model->getAttributeLabel('Companiesname')?></label>
-	        </label>
-	    </div>
-	    <div class="col-md-4">
-	        <label>
-	            <input type="checkbox" name="Companies[Companies_phone]" id="5" value="1" <?= ($session['Companies[Companies_phone]']===null || $session['Companies[Companies_phone]'] == 1) ? 'checked=""': '' ?> > 
-	        <label for="5"><?=$model->getAttributeLabel('Companiesphone')?></label>
-	        </label>
-	    </div>
-
-	    <div class="col-md-4">
+	    <div class="col-md-6">
 	        <label>
 	            <input type="checkbox" name="Companies[tarif_id]" id="6" value="1" <?= ($session['Companies[tarif_id]']===null || $session['Companies[tarif_id]'] == 1) ? 'checked=""': '' ?> > 
 	        <label for="6"><?=$model->getAttributeLabel('tarif_id')?></label>

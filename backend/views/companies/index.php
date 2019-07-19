@@ -45,33 +45,21 @@ CrudAsset::register($this);
           </div>
         </nav>
         <?php Pjax::begin(['enablePushState' => false,'id'=>'crud-datatable-pjax'])?>
-        <div class="section">
-            <div id="row-grouping" class="section">
-                    <div class="row">
-                        <div class="col s11" style="margin:  20px 40px 20px 40px">
-                          <table class="bordered highlight centered" cellspacing="0" width="100%">
-                            <thead>
+  <div class="section">
+      <div id="row-grouping" class="section">
+          <div class="row">
+              <div class="col s11" style="margin:  20px 40px 20px 40px">
+          <table class="bordered highlight centered" cellspacing="0" width="100%">
+                <thead>
                 <tr style="font-size: 14px;">
-                  <th>ID</th>
-                  <?php if($session['Companies[name]']===null || $session['Companies[name]'] == 1){ ?>
-                  <th>Наименование</th>
-                  <?php }?>
-                  <?php if($session['Companies[filial_name]']===null || $session['Companies[filial_name]'] == 1){ ?>
-                  <th>Наименование филиала</th>
-                  <?php }?>
-                  <?php if($session['Companies[Companies_fio]']===null || $session['Companies[Companies_fio]'] == 1){ ?>
-                  <th>ФИО</th>
-                  <?php }?>
-                  <?php if($session['Companies[Companiesname]']===null || $session['Companies[Companiesname]'] == 1){ ?>
-                  <th>Логин</th>
-                  <?php }?>
-                  <?php if($session['Companies[Companies_phone]']===null || $session['Companies[Companies_phone]'] == 1){ ?>
-                  <th>Телефон</th>
-                  <?php }?>
-                  <?php if($session['Companies[Companiesname]']===null || $session['Companies[tarif_id]'] == 1){ ?>
-                  <th>Тариф</th>
-                  <?php }?>
-                  <th>Действия</th>
+                          <th>ID</th>
+                          <?php if($session['Companies[name]']===null || $session['Companies[name]'] == 1){ ?>
+                          <th>Наименование</th>
+                          <?php }?>
+                          <?php if($session['Companies[Companiesname]']===null || $session['Companies[tarif_id]'] == 1){ ?>
+                          <th>Тариф</th>
+                          <?php }?>
+                          <th>Действия</th>
                 </tr>
                 </thead>
                 <tbody id="myTablecompany">
@@ -81,14 +69,6 @@ CrudAsset::register($this);
                           <td>".$value->id."</td>";
                           if($session['Companies[name]']===null || $session['Companies[name]'] == 1)
                           echo "<td>".$value->name."</td>";
-                          if($session['Companies[filial_name]']===null || $session['Companies[filial_name]'] == 1)
-                          echo "<td>".$value->filial_name."</td>";
-                          if($session['Companies[Companies_fio]']===null || $session['Companies[Companies_fio]'] == 1)
-                          echo "<td>".$value->Companies_fio."</td>";
-                          if($session['Companies[Companiesname]']===null || $session['Companies[Companiesname]'] == 1)
-                          echo "<td>".$value->Companiesname."</td>";
-                          if($session['Companies[Companies_phone]']===null || $session['Companies[Companies_phone]'] == 1)
-                          echo "<td>".$value->Companies_phone."</td>";
                           if($session['Companies[tarif_id]']===null || $session['Companies[tarif_id]'] == 1)
                           echo "<td>".$value->tarifs->name."</td>";
                           echo "<td class='align-center' style='width: 100px;'>".Html::a('<i class="material-icons view-u">visibility</i>', ['view','id'=>$value->id],['role'=>'modal-remote','title'=>'Просмотр']).Html::a('<i class="material-icons blue-u">mode_edit</i>', ['update','id'=>$value->id],['role'=>'modal-remote','title'=>'Изменить']).Html::a('<i class="material-icons red-u">delete_forever</i>', ['delete','id'=>$value->id],['role'=>'modal-remote','title'=>'Удалить', 
@@ -108,14 +88,17 @@ CrudAsset::register($this);
   </div>
 </div>
         <?php Pjax::end()?>
+        </div>
+      </div>
     </div>
   </div>
-</div>
-</div>
 </div>
 <?php Modal::begin([
     "id"=>"ajaxCrudModal",
     "footer"=>"",// always need it for jquery plugin
+    "options"=>[
+      "tabindex"=>false,
+    ],
 ])?>
 <?php Modal::end(); ?>
 <?php

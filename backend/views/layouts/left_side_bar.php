@@ -24,26 +24,26 @@ $pathInfo = $this->context->id;
               </li>
               <li class="bold <?= ($pathInfo=='user')?'active':''?>">
                   <a href="/user/index" class="<?= ($pathInfo=='user')?'active':''?>">
-                    <i class="material-icons">account_circle</i>
+                    <i class="material-icons">people</i>
                     <span>Пользователи</span>
                   </a>
               </li>
               <li class="<bold <?= ($pathInfo=='subjects')?'active':''?>">
                   <a href="/subjects/index" class="<?= ($pathInfo=='subjects')?'active':''?>">
-                    <i class="material-icons">book</i>
+                    <i class="material-icons">collections_bookmark</i>
                     <span>Предметы</span>
                   </a>
               </li>
               <li class="<bold <?= ($pathInfo=='courses')?'active':''?>">
                   <a href="/courses/index" class="<?= ($pathInfo=='courses')?'active':''?>">
-                    <i class="material-icons">school</i>
+                    <i class="material-icons">import_contacts</i>
                     <span>Курсы</span>
                   </a>
               </li>
                <?php if(Yii::$app->user->identity->company->type==1){ ?>
               <li class="<?= ($pathInfo=='tarifs')?'active':''?>">
                       <a href="/tarifs/index">
-                        <i class="material-icons">view_list</i>
+                        <i class="material-icons">view_headline</i>
                         <span>Тарифы</span>
                       </a>
                 </li>
@@ -58,20 +58,51 @@ $pathInfo = $this->context->id;
               <ul>
                   <li class="<?= ($pathInfo=='companies')?'active':''?>">
                       <a href="/companies/index">
-                        <i class="material-icons">school</i>
+                        <i class="material-icons">store</i>
                         <span>Компания</span>
                       </a>
                   </li> 
                   <li class="<?= ($pathInfo=='filials')?'active':''?>">
                       <a href="/filials/index">
-                        <i class="material-icons">portrait</i>
+                        <i class="material-icons">home</i>
                         <span>Филиалы</span>
                       </a>
                   </li>
               </ul>
                   </div>
-              </li> <?php else: ?>
+                  <?php else: ?>
                    <?php endif; ?>
+              </li>
+              <li class="<bold <?= ($pathInfo=='classroom')?'active':''?>">
+                  <a href="/classroom/index" class="<?= ($pathInfo=='classroom')?'active':''?>">
+                    <i class="material-icons">class</i>
+                    <span>Аудитория</span>
+                  </a>
+              </li>
+              <li class="<bold <?= ($pathInfo=='feadback')?'active':''?>">
+                  <a href="/feadback/index" class="<?= ($pathInfo=='feadback')?'active':''?>">
+                    <i class="material-icons">undo</i>
+                    <span>Обратная связь</span>
+                  </a>
+              </li>
+              <li class="<bold <?= ($pathInfo=='schedule')?'active':''?>">
+                  <a href="/schedule/index" class="<?= ($pathInfo=='schedule')?'active':''?>">
+                    <i class="material-icons">chrome_reader_mode</i>
+                    <span>Расписание</span>
+                  </a>
+              </li>
+              <li class="<bold <?= ($pathInfo=='schedule-graph')?'active':''?>">
+                  <a href="/schedule-graph/index" class="<?= ($pathInfo=='schedule-graph')?'active':''?>">
+                    <i class="material-icons">grid_on</i>
+                    <span>График занятий</span>
+                  </a>
+              </li>
+              <li class="<bold <?= ($pathInfo=='schedule-users')?'active':''?>">
+                  <a href="/schedule-users/index" class="<?= ($pathInfo=='schedule-users')?'active':''?>">
+                    <i class="material-icons">assignment_turned_in</i>
+                    <span>Посещаемость</span>
+                  </a>
+              </li> 
           </ul>
     </li>
   <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px;">

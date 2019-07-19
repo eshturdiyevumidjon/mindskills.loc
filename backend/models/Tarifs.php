@@ -41,7 +41,7 @@ class Tarifs extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Наименование',
+            'name' => 'Наименование тарифа',
             'days' => 'Дней',
             'price' => 'Цена',
         ];
