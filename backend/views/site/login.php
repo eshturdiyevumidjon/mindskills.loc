@@ -38,7 +38,7 @@ $fieldOptions2 = [
             ],
           ]); ?>
           <div class="row">
-            <div class="input-field col s12 center" style="margin-left: 5%;">
+            <div class="input-field col s12 center" style="margin-left: 4%;">
               <p class="center login-form-text"><h5><?= Html::encode($this->title) ?></h5></p>
               <img src="/images/logo/login-logo.png" alt="" class="circle responsive-img valign profile-image-login">
             </div>
@@ -55,19 +55,18 @@ $fieldOptions2 = [
             </div>
           </div>
           <div class="row margin">
-                    <div class="col s5"style="margin: 0px 0px 0px 4%;" >
-                            <?= $form
-                            ->field($model, 'rememberMe')
-                            ->checkbox([
-                              'template' => "{input}{label}<div class=\"col-lg-8s\">{error}</div>",
-                            ]) ?>
+                    <div class="col s7"style="margin: 0px 0px 0px 0px;" >
+                      <lable>
+                        <input type="checkbox" name="Schedule[name]" id="1" value="1"> 
+                        <label for="1"><h6>RememberMe</h6></label>
+                      </lable>
                     </div>
-                    <div class="col s6"style="margin: 0px 0px 0px 0px;">
-                   <?=Html::a('Зарегистрируйтесь!', ['register'],['role'=>'modal-remote'])?>
+                    <div class="col s5"style="margin: 0px 0px 0px 0px;">
+                   <?=Html::a('<h6>Регистрация</h6>', ['register'],['role'=>'modal-remote'])?>
                     </div>
           </div>
           <div class="row margin">
-            <div class="input-field col s12"style="margin: 0px 0px 10% 5%;">
+            <div class="input-field col s12"style="margin: 10% 0px 11% 2%;">
               <?= Html::submitButton('Вход', ['class' => 'btn waves-effect waves-light col s12', 'name' => 'login-button']) ?>
             </div>
           </div>

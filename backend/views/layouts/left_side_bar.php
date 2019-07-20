@@ -1,5 +1,5 @@
 <?php 
-$pathInfo = $this->context->id;
+$pathInfo = Yii::$app->request->pathInfo;
 ?>
 <aside id="left-sidebar-nav" class="nav-expanded nav-lock nav-collapsible">
       <div class="brand-sidebar">
@@ -16,87 +16,123 @@ $pathInfo = $this->context->id;
   <ul id="slide-out" class="side-nav fixed leftside-navigation ps-container ps-active-y" style="transform: translateX(0%);">
       <li class="no-padding">
         <ul class="collapsible" data-collapsible="accordion" >
-              <li class="bold <?= ($pathInfo=='site')?'active':''?>">
-                  <a href="/site/index" class="<?= ($pathInfo=='site')?'active':''?>">
+              <li class="bold <?= ($pathInfo=='site/index')?'active':''?>">
+                  <a href="/site/index" class="<?= ($pathInfo=='site/index')?'active':''?>">
                     <i class="material-icons">dashboard</i>
                     <span>Домашняя страница</span>
                   </a>
               </li>
-              <li class="bold <?= ($pathInfo=='user')?'active':''?>">
-                  <a href="/user/index" class="<?= ($pathInfo=='user')?'active':''?>">
-                    <i class="material-icons">people</i>
-                    <span>Пользователи</span>
+              <li class="bold <?= ($pathInfo=='user/teacher'||$pathInfo=='user/admin'||$pathInfo=='user/pupil')?'active':''?>">
+                  <a class="collapsible-header waves-effect waves-cyan <?= ($pathInfo=='user/teacher'||$pathInfo=='user/admin'||$pathInfo=='user/pupil')?'active':''?>">
+                    <i class="material-icons">web</i>
+                    <span class="nav-text">Пользователи</span>
                   </a>
+                  <div class="collapsible-body" style="display:<?= ($pathInfo=='user/teacher'||$pathInfo=='user/admin'||$pathInfo=='user/pupil')?'block':'none'?>;">
+                      <ul>
+                        <li class="<?= ($pathInfo=='user/admin')?'active':''?>">
+                            <a href="/user/admin">
+                              <i class="material-icons">store</i>
+                              <span>Администраторы</span>
+                            </a>
+                        </li> 
+                        <li class="<?= ($pathInfo=='user/teacher')?'active':''?>">
+                            <a href="/user/teacher">
+                              <i class="material-icons">home</i>
+                              <span>Предподователи</span>
+                            </a>
+                        </li>
+                        <li class="<?= ($pathInfo=='user/pupil')?'active':''?>">
+                                <a href="/user/pupil">
+                                  <i class="material-icons">view_headline</i>
+                                  <span>Ученики</span>
+                                </a>
+                        </li>
+                      </ul>
+                  </div>
               </li>
-              <li class="<bold <?= ($pathInfo=='subjects')?'active':''?>">
-                  <a href="/subjects/index" class="<?= ($pathInfo=='subjects')?'active':''?>">
-                    <i class="material-icons">collections_bookmark</i>
-                    <span>Предметы</span>
-                  </a>
-              </li>
-              <li class="<bold <?= ($pathInfo=='courses')?'active':''?>">
-                  <a href="/courses/index" class="<?= ($pathInfo=='courses')?'active':''?>">
+              <li class="<bold <?= ($pathInfo=='courses/index')?'active':''?>">
+                  <a href="/courses/index" class="<?= ($pathInfo=='courses/index')?'active':''?>">
                     <i class="material-icons">import_contacts</i>
                     <span>Курсы</span>
                   </a>
               </li>
-                <?php if(Yii::$app->user->identity->company->type==1): ?>
-              <li class="bold <?= ($pathInfo=='companies'||$pathInfo=='filials'||$pathInfo=='tarifs')?'active':''?>">
-                  <a class="collapsible-header waves-effect waves-cyan <?= ($pathInfo=='companies'||$pathInfo=='filials'||$pathInfo=='tarifs')?'active':''?>">
+            <?php if(Yii::$app->user->identity->company->type==1): ?>
+              <li class="bold <?= ($pathInfo=='subjects/index'||$pathInfo=='classroom/index')?'active':''?>">
+                  <a class="collapsible-header waves-effect waves-cyan <?= ($pathInfo=='subjects/index'||$pathInfo=='classroom/index')?'active':''?>">
+                    <i class="material-icons">donut_large</i>
+                    <span class="nav-text">Справочники</span>
+                  </a>
+                  <div class="collapsible-body" style="display:<?= ($pathInfo=='subjects/index'||$pathInfo=='classroom/index')?'block':'none'?>;">
+                      <ul>
+                        <li class="<?= ($pathInfo=='subjects/index')?'active':''?>">
+                            <a href="/subjects/index">
+                              <i class="material-icons">collections_bookmark</i>
+                              <span>Предметы</span>
+                            </a>
+                        </li>
+                        <li class="<?= ($pathInfo=='classroom/index')?'active':''?>">
+                            <a href="/classroom/index">
+                              <i class="material-icons">class</i>
+                              <span>Аудитория</span>
+                            </a>
+                        </li>
+                      </ul>
+                  </div>
+              </li>
+            <?php else: ?>
+            <?php endif; ?>
+            <?php if(Yii::$app->user->identity->company->type==1): ?>
+              <li class="bold <?= ($pathInfo=='companies/index'||$pathInfo=='filials/index'||
+                  $pathInfo=='tarifs/index')?'active':''?>">
+                  <a class="collapsible-header waves-effect waves-cyan <?= ($pathInfo=='companies/index'||$pathInfo=='filials/index'||$pathInfo=='tarifs/index')?'active':''?>">
                     <i class="material-icons">web</i>
                     <span class="nav-text">Супер Компания</span>
                   </a>
-                  <div class="collapsible-body" style="display:<?= ($pathInfo=='companies'||$pathInfo=='filials')?'block':'none'?>;">
-              <ul>
-                  <li class="<?= ($pathInfo=='companies')?'active':''?>">
-                      <a href="/companies/index">
-                        <i class="material-icons">store</i>
-                        <span>Компания</span>
-                      </a>
-                  </li> 
-                  <li class="<?= ($pathInfo=='filials')?'active':''?>">
-                      <a href="/filials/index">
-                        <i class="material-icons">home</i>
-                        <span>Филиалы</span>
-                      </a>
-                  </li>
-                  <li class="<?= ($pathInfo=='tarifs')?'active':''?>">
-                          <a href="/tarifs/index">
-                            <i class="material-icons">view_headline</i>
-                            <span>Тарифы</span>
-                          </a>
-                  </li>
-              </ul>
+                  <div class="collapsible-body" style="display:<?= ($pathInfo=='companies/index'||$pathInfo=='filials/index'||$pathInfo=='tarifs/index')?'block':'none'?>;">
+                      <ul>
+                        <li class="<?= ($pathInfo=='companies/index')?'active':''?>">
+                            <a href="/companies/index">
+                              <i class="material-icons">store</i>
+                              <span>Компания</span>
+                            </a>
+                        </li> 
+                        <li class="<?= ($pathInfo=='filials/index')?'active':''?>">
+                            <a href="/filials/index">
+                              <i class="material-icons">home</i>
+                              <span>Филиалы</span>
+                            </a>
+                        </li>
+                        <li class="<?= ($pathInfo=='tarifs/index')?'active':''?>">
+                                <a href="/tarifs/index">
+                                  <i class="material-icons">view_headline</i>
+                                  <span>Тарифы</span>
+                                </a>
+                        </li>
+                      </ul>
                   </div>
-                  <?php else: ?>
-                   <?php endif; ?>
               </li>
-              <li class="<bold <?= ($pathInfo=='classroom')?'active':''?>">
-                  <a href="/classroom/index" class="<?= ($pathInfo=='classroom')?'active':''?>">
-                    <i class="material-icons">class</i>
-                    <span>Аудитория</span>
-                  </a>
-              </li>
-              <li class="<bold <?= ($pathInfo=='feadback')?'active':''?>">
-                  <a href="/feadback/index" class="<?= ($pathInfo=='feadback')?'active':''?>">
+            <?php else: ?>
+            <?php endif; ?>
+              <li class="<bold <?= ($pathInfo=='feadback/index')?'active':''?>">
+                  <a href="/feadback/index" class="<?= ($pathInfo=='feadback/index')?'active':''?>">
                     <i class="material-icons">undo</i>
                     <span>Обратная связь</span>
                   </a>
               </li>
-              <li class="<bold <?= ($pathInfo=='schedule')?'active':''?>">
-                  <a href="/schedule/index" class="<?= ($pathInfo=='schedule')?'active':''?>">
+              <li class="<bold <?= ($pathInfo=='schedule/index')?'active':''?>">
+                  <a href="/schedule/index" class="<?= ($pathInfo=='schedule/index')?'active':''?>">
                     <i class="material-icons">chrome_reader_mode</i>
                     <span>Расписание</span>
                   </a>
               </li>
-              <li class="<bold <?= ($pathInfo=='schedule-graph')?'active':''?>">
-                  <a href="/schedule-graph/index" class="<?= ($pathInfo=='schedule-graph')?'active':''?>">
+              <li class="<bold <?= ($pathInfo=='schedule-graph/index')?'active':''?>">
+                  <a href="/schedule-graph/index" class="<?= ($pathInfo=='schedule-graph/index')?'active':''?>">
                     <i class="material-icons">grid_on</i>
                     <span>График занятий</span>
                   </a>
               </li>
-              <li class="<bold <?= ($pathInfo=='schedule-users')?'active':''?>">
-                  <a href="/schedule-users/index" class="<?= ($pathInfo=='schedule-users')?'active':''?>">
+              <li class="<bold <?= ($pathInfo=='schedule-users/index')?'active':''?>">
+                  <a href="/schedule-users/index" class="<?= ($pathInfo=='schedule-users/index')?'active':''?>">
                     <i class="material-icons">assignment_turned_in</i>
                     <span>Посещаемость</span>
                   </a>

@@ -54,10 +54,6 @@ class Feadback extends \yii\db\ActiveRecord
     {
         return ($date!=null)?\Yii::$app->formatter->asDate($date, 'php:dd-mm-yyyy H:i:s'):null;
     }
-    public function getFormattedCreateTime()
-    {
-        return DateTime::createFromFormat('Y-m-d H:i:s.u', $this->create_time)->format('d-m-Y H:i:s');
-    }
     public function ColumnsFeadback($post)
     {
         $session = Yii::$app->session;

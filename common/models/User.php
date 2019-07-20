@@ -119,7 +119,6 @@ class User extends ActiveRecord implements IdentityInterface
             }
 
         }
-
         if($this->birthday != null)
             $this->birthday = \Yii::$app->formatter->asDate($this->birthday, 'php:Y-m-d');
         
@@ -333,19 +332,18 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function ColumnsUser($post)
     {
-            $session = Yii::$app->session;
-            $session['User[image]'] = 0;
-            $session['User[fio]'] = 0;
-            $session['User[username]'] = 0;
-            $session['User[birthday]'] = 0;
-            $session['User[phone]'] = 0;
-            $session['User[type]'] = 0;
-            $session['User[company_id]'] = 0;
-            $session['User[filial_id]'] = 0;
-            $session['User[status]'] = 0;
+        $session = Yii::$app->session;
+        $session['User[image]'] = 0;
+        $session['User[fio]'] = 0;
+        $session['User[username]'] = 0;
+        $session['User[birthday]'] = 0;
+        $session['User[phone]'] = 0;
+        $session['User[type]'] = 0;
+        $session['User[company_id]'] = 0;
+        $session['User[filial_id]'] = 0;
+        $session['User[status]'] = 0;
+        $session['User[balanc]'] = 0;
         
-        
-            
         if( isset($post['User']['image']) ) $session['User[image]'] = 1;
         if( isset($post['User']['fio']) ) $session['User[fio]'] = 1;
         if( isset($post['User']['username']) ) $session['User[username]'] = 1;
@@ -355,5 +353,6 @@ class User extends ActiveRecord implements IdentityInterface
         if( isset($post['User']['company_id']) ) $session['User[company_id]'] = 1;
         if( isset($post['User']['filial_id']) ) $session['User[filial_id]'] = 1;
         if( isset($post['User']['status']) ) $session['User[status]'] = 1;
+        if( isset($post['User']['balanc']) ) $session['User[balanc]'] = 1;
     }
 }

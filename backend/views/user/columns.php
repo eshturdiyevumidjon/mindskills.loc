@@ -62,14 +62,24 @@ $model=new User();
 	        <label for="8"><?=$model->getAttributeLabel('company_id')?></label>'
 	        </label>
 	    </div>
-	    <div class="col-md-4">
-	        <label>
-	            <input type="checkbox" name="User[filial_id]" id="9" value="1" <?= ($session['User[filial_id]']===null || $session['User[filial_id]'] == 1) ? 'checked=""': '' ?> > 
-	        <label for="9"><?=$model->getAttributeLabel('filial_id')?></label>
+	    <?php }?>
+	    <label>
+	            <input type="checkbox" name="User[balanc]" id="9" value="1" <?= ($session['User[balanc]']===null || $session['User[balanc]'] == 1) ? 'checked=""': '' ?> > 
+	        <label for="9"><?=$model->getAttributeLabel('balanc')?></label>
 	        </label>
 	    </div>
-		<?php }?>
 	</div>
+		<?php if(Yii::$app->user->identity->company->type == 1) { ?>
+	<hr/>
+	<div class="row">
+	    <div class="col-md-4">
+	        <label>
+	            <input type="checkbox" name="User[filial_id]" id="10" value="1" <?= ($session['User[filial_id]']===null || $session['User[filial_id]'] == 1) ? 'checked=""': '' ?> > 
+	        <label for="10"><?=$model->getAttributeLabel('filial_id')?></label>
+	        </label>
+	    </div>
+	</div>
+		<?php }?>
 	<hr/>
     <div class="row">
         <div class="col-md-12">

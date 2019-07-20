@@ -11,6 +11,8 @@ use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
 use \yii\web\Response;
 use yii\helpers\Html;
+use yii\data\ActiveDataProvider;
+
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -37,17 +39,58 @@ class UserController extends Controller
      * Lists all User models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($id)
     {    
         $searchModel = new UserSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+        $query = User::find()->where(['type'=>$id]);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
         return $this->render('index', [
-            'searchModel' => $searchModel,
+             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
+    public function actionTeacher()
+    {    
+        $query = User::find()->where(['type'=>2]);
 
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+        return $this->render('index', [
+            'type'=>2,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+    public function actionAdmin()
+    {    
+         $query = User::find()->where(['type'=>1]);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+        return $this->render('index', [
+            'type'=>1,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+    public function actionPupil()
+    {    
+        $query = User::find()->where(['type'=>3]);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+        return $this->render('index', [
+            'type'=>3,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
     public function actionChange($id)
     {
         $request = Yii::$app->request;
@@ -127,11 +170,11 @@ class UserController extends Controller
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($type)
     {
         $request = Yii::$app->request;
         $model = new User();  
-
+        $model->type=$type;
         if($request->isAjax){
             /*
             *   Process for ajax request
