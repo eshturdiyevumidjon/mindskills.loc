@@ -3,7 +3,7 @@
 namespace backend\models;
 
 use Yii;
-
+use kartik\datetime\DateTimePicker;
 /**
  * This is the model class for table "feadback".
  *
@@ -53,6 +53,10 @@ class Feadback extends \yii\db\ActiveRecord
     public static function getDate($date=null)
     {
         return ($date!=null)?\Yii::$app->formatter->asDate($date, 'php:dd-mm-yyyy H:i:s'):null;
+    }
+    public function getFormattedCreateTime()
+    {
+        return DateTime::createFromFormat('Y-m-d H:i:s.u', $this->create_time)->format('d-m-Y H:i:s');
     }
     public function ColumnsFeadback($post)
     {

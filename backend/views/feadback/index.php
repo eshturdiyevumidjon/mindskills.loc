@@ -85,7 +85,7 @@ $session = Yii::$app->session;
                             if($session['Feadback[message]']===null || $session['Feadback[message]'] == 1)
                             echo "<td>".$value->message."</td>";
                             if($session['Feadback[date_cr]']===null || $session['Feadback[date_cr]'] == 1)
-                            echo "<td>".$value->date_cr."</td>";
+                            echo "<td>".Feadback::getFormattedCreateTime($value->date_cr)."</td>";
                             echo 
                             "<td class='align-center' style='width: 100px;'>".Html::a('<i class="material-icons view-u">visibility</i>', ['view','id'=>$value->id],['role'=>'modal-remote','title'=>'Просмотр']).Html::a('<i class="material-icons blue-u">mode_edit</i>', ['update','id'=>$value->id],['role'=>'modal-remote','title'=>'Изменить']).Html::a('<i class="material-icons red-u">delete_forever</i>', ['delete','id'=>$value->id],['role'=>'modal-remote','title'=>'Удалить', 
                                       'data-confirm'=>false, 'data-method'=>false,

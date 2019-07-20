@@ -78,7 +78,7 @@ CrudAsset::register($this);
                             <td><input type='checkbox' name='check".$value->id."'></td>     
                             <td>".$value->id."</td>";
                             if($session['ScheduleGraph[schedule_id]']===null || $session['ScheduleGraph[schedule_id]'] == 1)
-                            echo "<td>".$value->schedule_id."</td>";
+                            echo "<td>".$value->schedule->name."</td>";
                             if($session['ScheduleGraph[classroom_id]']===null || $session['ScheduleGraph[classroom_id]'] == 1)
                             echo "<td>".$value->classroom->name."</td>";
                             if($session['ScheduleGraph[begin_date]']===null || $session['ScheduleGraph[begin_date]'] == 1)

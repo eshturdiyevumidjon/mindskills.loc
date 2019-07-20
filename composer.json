@@ -22,7 +22,8 @@
         "loveorigami/yii2-modal-ajax": "@dev",
         "kartik-v/yii2-widget-datepicker": "@dev",
         "johnitvn/yii2-ajaxcrud": "*",
-        "kartik-v/yii2-widget-datetimepicker": "*"
+        "kartik-v/yii2-widget-datetimepicker": "*",
+        "trntv/yii2-datetime-widget": "*"
 
     },
     "require-dev": {

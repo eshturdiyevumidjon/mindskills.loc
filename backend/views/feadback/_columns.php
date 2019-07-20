@@ -27,8 +27,10 @@ return [
         'attribute'=>'message',
     ],
     [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'date_cr',
+    'class'=>'\kartik\grid\DataColumn',
+    'attribute' => 'date_cr',
+    'format' =>  ['date', 'HH:mm:ss dd.MM.YYYY'],
+    'options' => ['width' => '200']
     ],
     [
         'class' => 'kartik\grid\ActionColumn',

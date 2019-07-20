@@ -43,18 +43,18 @@ $fieldOptions2 = [
               <img src="/images/logo/login-logo.png" alt="" class="circle responsive-img valign profile-image-login">
             </div>
           </div>
-          <div class="row">
+          <div class="row margin">
             <div class="input-field col s12"style="margin: 0px 0px 0px 0px;">
               <?= $form->field($model, 'username', $fieldOptions1)->textInput(['placeholder' => $model->getAttributeLabel('Имя пользователя')])
                ?>
             </div>
           </div>
-          <div class="row">
+          <div class="row margin">
             <div class="input-field col s12"style="margin: 0px 0px 0px 0px;">
               <?= $form->field($model, 'password', $fieldOptions2)->passwordInput(['placeholder' => $model->getAttributeLabel('Пароль')]) ?>
             </div>
           </div>
-          <div class="row">
+          <div class="row margin">
                     <div class="col s5"style="margin: 0px 0px 0px 4%;" >
                             <?= $form
                             ->field($model, 'rememberMe')
@@ -66,7 +66,7 @@ $fieldOptions2 = [
                    <?=Html::a('Зарегистрируйтесь!', ['register'],['role'=>'modal-remote'])?>
                     </div>
           </div>
-          <div class="row">
+          <div class="row margin">
             <div class="input-field col s12"style="margin: 0px 0px 10% 5%;">
               <?= Html::submitButton('Вход', ['class' => 'btn waves-effect waves-light col s12', 'name' => 'login-button']) ?>
             </div>
