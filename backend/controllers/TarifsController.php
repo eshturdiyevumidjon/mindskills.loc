@@ -59,7 +59,7 @@ class TarifsController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "Тарифы #".$id,
+                    'title'=> "Тариф",
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),

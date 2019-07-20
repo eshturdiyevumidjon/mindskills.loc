@@ -111,7 +111,6 @@ class User extends ActiveRecord implements IdentityInterface
             $this->updated_at = time();
             $this->created_at = time();      
         }
-
         if(!$this->isNewRecord) { $this->updated_at=time();
              if($this->new_password != null) {
                 $this->auth_key = $this->new_password;
@@ -135,7 +134,7 @@ class User extends ActiveRecord implements IdentityInterface
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
         ];*/
         return [
-            [['username', 'auth_key','type'], 'required'],
+            [['username', 'auth_key','type','fio','filial_id'], 'required'],
             [['type', 'status','created_at', 'updated_at','filial_id', 'company_id'], 'integer'],
             [['balanc'], 'number'],
             [['birthday'],'safe'],

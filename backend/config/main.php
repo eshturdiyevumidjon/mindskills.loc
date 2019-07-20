@@ -12,7 +12,7 @@ return [
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
     'language'=>'RU-ru',
-    'timeZone' =>'Europe/Moscow',
+    'timeZone' =>'Asia/Tashkent',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',

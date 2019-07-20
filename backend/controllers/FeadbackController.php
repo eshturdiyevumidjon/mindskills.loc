@@ -59,7 +59,7 @@ class FeadbackController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "Обратная связь".$id,
+                    'title'=> "Обратная связь",
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),

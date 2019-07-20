@@ -59,7 +59,7 @@ class CoursesController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "Курсы #".$id,
+                    'title'=> "Курсы ",
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),

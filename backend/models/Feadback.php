@@ -30,7 +30,7 @@ class Feadback extends \yii\db\ActiveRecord
     {
         return [
             [['message'], 'string'],
-            [['date_cr'], 'safe'],
+            [['date_cr'], 'integer'],
             [['name', 'email'], 'string', 'max' => 255],
             [['email'], 'email'],
             [['email'], 'unique'],
@@ -50,9 +50,16 @@ class Feadback extends \yii\db\ActiveRecord
             'date_cr' => 'Дата создание',
         ];
     }
+    public function beforeSave($insert)
+    {
+        if ($this->isNewRecord) {
+            $this->date_cr = time();   
+        }       
+        return parent::beforeSave($insert);
+    }
     public static function getDate($date=null)
     {
-        return ($date!=null)?\Yii::$app->formatter->asDate($date, 'php:dd-mm-yyyy H:i:s'):null;
+        return ($date!=null)?\Yii::$app->formatter->asDate($date, 'php:d.m.Y H:i:s'):null;
     }
     public function ColumnsFeadback($post)
     {
@@ -67,6 +74,5 @@ class Feadback extends \yii\db\ActiveRecord
         if( isset($post['Feadback']['email']) ) $session['Feadback[email]'] = 1;
         if( isset($post['Feadback']['message']) ) $session['Feadback[message]'] = 1;
         if( isset($post['Feadback']['date_cr']) ) $session['Feadback[date_cr]'] = 1;
-
     }
 }

@@ -61,7 +61,7 @@ class FilialsController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "Филиал #".$id,
+                    'title'=> "Филиал",
                     'size'=>'large',
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),

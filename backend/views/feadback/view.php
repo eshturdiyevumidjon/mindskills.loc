@@ -1,7 +1,7 @@
 <?php
 
 use yii\widgets\DetailView;
-
+use backend\models\Feadback;
 /* @var $this yii\web\View */
 /* @var $model backend\models\Feadback */
 ?>
@@ -10,7 +10,7 @@ use yii\widgets\DetailView;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
+            //'id',
             'name',
             'email:email',
             'message:ntext',
@@ -18,7 +18,7 @@ use yii\widgets\DetailView;
                 'attribute'=>'date_cr',
                 'value'=>function($data)
                 {
-                    return Schedule::getDate($data->date_cr);
+                    return Feadback::getDate($data->date_cr);
                 }
             ],
         ],

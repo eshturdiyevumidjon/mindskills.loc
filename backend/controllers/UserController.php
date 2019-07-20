@@ -146,7 +146,7 @@ class UserController extends Controller
             
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "Ползаватель",
+                    'title'=> "Ползователь",
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
@@ -189,10 +189,10 @@ class UserController extends Controller
                 }
                  return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Ползавателы",
+                    'title'=> "Ползователи",
                     'content'=>'<span class="text-success">Успешно выполнено</span>',
                     'footer'=> Html::button('Ок',['class'=>'btn btn-primary pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Создать ещё',['create'],['class'=>'btn btn-info','role'=>'modal-remote'])
+                            Html::a('Создать ещё',['create','type'=>$type],['class'=>'btn btn-info','role'=>'modal-remote'])
                 ]; 
                 // return [
                 //     'forceReload'=>'#crud-datatable-pjax',
@@ -286,7 +286,7 @@ class UserController extends Controller
                 }
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Ползаватель",
+                    'title'=> "Ползователь",
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),

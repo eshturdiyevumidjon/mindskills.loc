@@ -55,7 +55,7 @@ use backend\models\Filials;
             </div>
             <div class="row">
                     <div class="<?= ($model->isNewRecord)?'input-field col s4':'col s4'?>" >
-                    <?= $form->field($model, 'balanc')->textInput(['maxlength' => true]) ?>
+                    <?= $form->field($model, 'balanc')->textInput(['maxlength' => true],['type' => 'number']) ?>
                     </div>   
                     <div class="col s4">
                         <?=$form->field($model, 'filial_id')->dropDownList($model->getAvailableFilials(), ['prompt' => 'Выберите','style'=>'margin-top:10px;'])?>

@@ -23,27 +23,27 @@ $pathInfo = Yii::$app->request->pathInfo;
                   </a>
               </li>
               <li class="bold <?= ($pathInfo=='user/teacher'||$pathInfo=='user/admin'||$pathInfo=='user/pupil')?'active':''?>">
-                  <a class="collapsible-header waves-effect waves-cyan <?= ($pathInfo=='user/teacher'||$pathInfo=='user/admin'||$pathInfo=='user/pupil')?'active':''?>">
-                    <i class="material-icons">web</i>
-                    <span class="nav-text">Пользователи</span>
-                  </a>
+                    <a class="collapsible-header waves-effect waves-cyan <?= ($pathInfo=='user/teacher'||$pathInfo=='user/admin'||$pathInfo=='user/pupil')?'active':''?>">
+                      <i class="material-icons">supervisor_account</i>
+                      <span class="nav-text">Пользователи</span>
+                    </a>
                   <div class="collapsible-body" style="display:<?= ($pathInfo=='user/teacher'||$pathInfo=='user/admin'||$pathInfo=='user/pupil')?'block':'none'?>;">
                       <ul>
                         <li class="<?= ($pathInfo=='user/admin')?'active':''?>">
                             <a href="/user/admin">
-                              <i class="material-icons">store</i>
+                              <i class="material-icons">person</i>
                               <span>Администраторы</span>
                             </a>
                         </li> 
                         <li class="<?= ($pathInfo=='user/teacher')?'active':''?>">
                             <a href="/user/teacher">
-                              <i class="material-icons">home</i>
+                              <i class="material-icons">recent_actors</i>
                               <span>Предподователи</span>
                             </a>
                         </li>
                         <li class="<?= ($pathInfo=='user/pupil')?'active':''?>">
                                 <a href="/user/pupil">
-                                  <i class="material-icons">view_headline</i>
+                                  <i class="material-icons">record_voice_over</i>
                                   <span>Ученики</span>
                                 </a>
                         </li>
@@ -59,7 +59,7 @@ $pathInfo = Yii::$app->request->pathInfo;
             <?php if(Yii::$app->user->identity->company->type==1): ?>
               <li class="bold <?= ($pathInfo=='subjects/index'||$pathInfo=='classroom/index')?'active':''?>">
                   <a class="collapsible-header waves-effect waves-cyan <?= ($pathInfo=='subjects/index'||$pathInfo=='classroom/index')?'active':''?>">
-                    <i class="material-icons">donut_large</i>
+                    <i class="material-icons">inbox</i>
                     <span class="nav-text">Справочники</span>
                   </a>
                   <div class="collapsible-body" style="display:<?= ($pathInfo=='subjects/index'||$pathInfo=='classroom/index')?'block':'none'?>;">
@@ -83,36 +83,36 @@ $pathInfo = Yii::$app->request->pathInfo;
             <?php endif; ?>
             <?php if(Yii::$app->user->identity->company->type==1): ?>
               <li class="bold <?= ($pathInfo=='companies/index'||$pathInfo=='filials/index'||
-                  $pathInfo=='tarifs/index')?'active':''?>">
-                  <a class="collapsible-header waves-effect waves-cyan <?= ($pathInfo=='companies/index'||$pathInfo=='filials/index'||$pathInfo=='tarifs/index')?'active':''?>">
-                    <i class="material-icons">web</i>
-                    <span class="nav-text">Супер Компания</span>
+              $pathInfo=='tarifs/index')?'active':''?>">
+              <a class="collapsible-header waves-effect waves-cyan <?= ($pathInfo=='companies/index'||$pathInfo=='filials/index'||$pathInfo=='tarifs/index')?'active':''?>">
+                <i class="material-icons">web</i>
+                <span class="nav-text">Супер Компания</span>
+              </a>
+              <div class="collapsible-body" style="display:<?= ($pathInfo=='companies/index'||$pathInfo=='filials/index'||$pathInfo=='tarifs/index')?'block':'none'?>;">
+                <ul>
+              <li class="<?= ($pathInfo=='companies/index')?'active':''?>">
+                  <a href="/companies/index">
+                    <i class="material-icons">store</i>
+                    <span>Компания</span>
                   </a>
-                  <div class="collapsible-body" style="display:<?= ($pathInfo=='companies/index'||$pathInfo=='filials/index'||$pathInfo=='tarifs/index')?'block':'none'?>;">
-                      <ul>
-                        <li class="<?= ($pathInfo=='companies/index')?'active':''?>">
-                            <a href="/companies/index">
-                              <i class="material-icons">store</i>
-                              <span>Компания</span>
-                            </a>
-                        </li> 
-                        <li class="<?= ($pathInfo=='filials/index')?'active':''?>">
-                            <a href="/filials/index">
-                              <i class="material-icons">home</i>
-                              <span>Филиалы</span>
-                            </a>
-                        </li>
-                        <li class="<?= ($pathInfo=='tarifs/index')?'active':''?>">
-                                <a href="/tarifs/index">
-                                  <i class="material-icons">view_headline</i>
-                                  <span>Тарифы</span>
-                                </a>
-                        </li>
-                      </ul>
-                  </div>
+              </li> 
+              <li class="<?= ($pathInfo=='filials/index')?'active':''?>">
+                  <a href="/filials/index">
+                    <i class="material-icons">home</i>
+                    <span>Филиалы</span>
+                  </a>
               </li>
-            <?php else: ?>
-            <?php endif; ?>
+              <li class="<?= ($pathInfo=='tarifs/index')?'active':''?>">
+                      <a href="/tarifs/index">
+                        <i class="material-icons">view_headline</i>
+                        <span>Тарифы</span>
+                      </a>
+              </li>
+                </ul>
+              </div>
+              </li>
+              <?php else: ?>
+              <?php endif; ?>
               <li class="<bold <?= ($pathInfo=='feadback/index')?'active':''?>">
                   <a href="/feadback/index" class="<?= ($pathInfo=='feadback/index')?'active':''?>">
                     <i class="material-icons">undo</i>
@@ -139,13 +139,13 @@ $pathInfo = Yii::$app->request->pathInfo;
               </li> 
           </ul>
     </li>
-  <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px;">
-       <div class="ps-scrollbar-x" style="left: 0px; width: 0px;"></div>
-  </div>
-  <div class="ps-scrollbar-y-rail" style="top: 0px; height: 385px; right: 3px;">
-       <div class="ps-scrollbar-y" style="top: 0px; height: 126px;"></div>
-  </div>
-  </ul>
+              <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px;">
+                   <div class="ps-scrollbar-x" style="left: 0px; width: 0px;"></div>
+              </div>
+              <div class="ps-scrollbar-y-rail" style="top: 0px; height: 385px; right: 3px;">
+                   <div class="ps-scrollbar-y" style="top: 0px; height: 126px;"></div>
+              </div>
+</ul>
        <a href="#" data-activates="slide-out" class="sidebar-collapse btn-floating btn-medium   waves-effect waves-light hide-on-large-only gradient-45deg-light-blue-cyan gradient-shadow">
         <i class="material-icons">menu</i>
        </a>

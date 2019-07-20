@@ -17,7 +17,7 @@ class m190718_072126_create_feadback_table extends Migration
             'name' => $this->string()->comment('Наименование'),
             'email' => $this->string()->comment('Email'),
             'message' => $this->text()->comment('Текст'),
-            'date_cr' => $this->datetime()->comment('Дата создание'),
+            'date_cr' => $this->integer()->comment('Дата создание'),
         ]);
     }
 

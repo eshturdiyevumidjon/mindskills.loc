@@ -58,7 +58,7 @@ class SubjectsController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "Предметы #".$id,
+                    'title'=> "Предмет",
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),

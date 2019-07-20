@@ -11,23 +11,11 @@ use kartik\datetime\DateTimePicker;
 
     <?php $form = ActiveForm::begin(); ?>
      <div class="row">
-        <div class="<?= ($model->isNewRecord)?'input-field col s4':'col s4'?>" > 
+        <div class="<?= ($model->isNewRecord)?'input-field col s6':'col s6'?>" > 
             <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
         </div>
-        <div class="<?= ($model->isNewRecord)?'input-field col s4':'col s4'?>" > 
+        <div class="<?= ($model->isNewRecord)?'input-field col s6':'col s6'?>" > 
             <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
-        </div>
-        <div class="<?= ($model->isNewRecord)?'input-field col s4':'col s4'?>" > 
-            <?= $form->field($model, 'date_cr')->widget(DateTimePicker::className(),[
-                'language' => 'ru',
-                'size' => 'sm', 
-                'type' => DateTimePicker::TYPE_INPUT,
-                'value' => '23-Feb-1982 10:10',
-                'pluginOptions' => [
-                    'autoclose'=>true,
-                    'format' => 'dd-M-yyyy hh:ii'
-                ]
-                ]);?>
         </div>
     </div>
     <div class="row">
