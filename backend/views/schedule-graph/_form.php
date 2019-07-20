@@ -15,28 +15,6 @@ use backend\models\Classroom;
 
     <?php $form = ActiveForm::begin(); ?>
     <div class="row">
-        <div class="<?= ($model->isNewRecord)?'input-field col s6':'col s6'?>" >
-            <?= $form->field($model, 'schedule_id')->widget(Select2::classname(), [
-                    'data' =>  ArrayHelper::map(Schedule::find()->all(),'id','name'),
-                    'language' => 'en',
-                    'options' => ['placeholder' => 'Select a state ...'],
-                    'pluginOptions' => [
-                        'allowClear' => true
-                    ],
-                ]); ?>
-        </div>
-        <div class="<?= ($model->isNewRecord)?'input-field col s6':'col s6'?>" >
-            <?= $form->field($model, 'classroom_id')->widget(Select2::classname(), [
-                    'data' =>  ArrayHelper::map(Classroom::find()->all(),'id','name'),
-                    'language' => 'en',
-                    'options' => ['placeholder' => 'Select a state ...'],
-                    'pluginOptions' => [
-                        'allowClear' => true
-                    ],
-                ]); ?>
-        </div>
-    </div>
-    <div class="row">
         <div class="col s6" >
             <?= $form->field($model, 'begin_date')->widget(DatePicker::className(), [
                 'language' => 'ru',
@@ -58,6 +36,28 @@ use backend\models\Classroom;
                 'format'=>'dd.mm.yyyy',
                 ]
             ]) ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="<?= ($model->isNewRecord)?'input-field col s6':'col s6'?>" >
+            <?= $form->field($model, 'schedule_id')->widget(Select2::classname(), [
+                    'data' =>  ArrayHelper::map(Schedule::find()->all(),'id','name'),
+                    'language' => 'en',
+                    'options' => ['placeholder' => 'Выберите...'],
+                    'pluginOptions' => [
+                        'allowClear' => true
+                    ],
+                ]); ?>
+        </div>
+        <div class="<?= ($model->isNewRecord)?'input-field col s6':'col s6'?>" >
+            <?= $form->field($model, 'classroom_id')->widget(Select2::classname(), [
+                    'data' =>  ArrayHelper::map(Classroom::find()->all(),'id','name'),
+                    'language' => 'en',
+                    'options' => ['placeholder' => 'Выберите...'],
+                    'pluginOptions' => [
+                        'allowClear' => true
+                    ],
+                ]); ?>
         </div>
     </div>
 	<?php if (!Yii::$app->request->isAjax){ ?>

@@ -77,7 +77,7 @@ CrudAsset::register($this);
                             <?php if($session['Schedule[price]']===null || $session['Schedule[price]'] == 1){ ?>
                             <th>Стоимость занятий курса</th>
                             <?php }?>
-                            <?php if($session['Schedule[sum_for_teacher]']===null || $session['Schedule[sum_for_teacher]'] == 1){ ?>
+                            <?php if($session['Schedule[sum_of_teacher]']===null || $session['Schedule[sum_of_teacher]'] == 1){ ?>
                             <th>Зарплата преподавателю</th>
                             <?php }?>
                             <?php if($session['Schedule[begin_date]']===null || $session['Schedule[begin_date]'] == 1){ ?>
@@ -115,8 +115,8 @@ CrudAsset::register($this);
                             echo "<td>".$value->teacher->fio."</td>";
                             if($session['Schedule[price]']===null || $session['Schedule[price]'] == 1)
                             echo "<td>".$value->price."</td>";
-                            if($session['Schedule[sum_for_teacher]']===null || $session['Schedule[sum_for_teacher]'] == 1)
-                            echo "<td>".$value->sum_for_teacher."</td>";
+                            if($session['Schedule[sum_of_teacher]']===null || $session['Schedule[sum_of_teacher]'] == 1)
+                            echo "<td>".$value->sum_of_teacher."</td>";
                             if($session['Schedule[begin_date]']===null || $session['Schedule[begin_date]'] == 1)
                             echo "<td>".Schedule::getDate($value->begin_date)."</td>";
                             if($session['Schedule[end_date]']===null || $session['Schedule[end_date]'] == 1)

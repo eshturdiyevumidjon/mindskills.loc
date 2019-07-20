@@ -21,11 +21,12 @@ use kartik\datetime\DateTimePicker;
             <?= $form->field($model, 'date_cr')->widget(DateTimePicker::className(),[
                 'language' => 'ru',
                 'size' => 'sm', 
-                'type'=>DateTimePicker::TYPE_INPUT,
+                'type' => DateTimePicker::TYPE_INPUT,
+                'value' => '23-Feb-1982 10:10',
                 'pluginOptions' => [
-                'todayHighlight' => true,
-                'datetimeFormat' => 'd-M-Y H:i:s',
-                    ]
+                    'autoclose'=>true,
+                    'format' => 'dd-M-yyyy hh:ii'
+                ]
                 ]);?>
         </div>
     </div>

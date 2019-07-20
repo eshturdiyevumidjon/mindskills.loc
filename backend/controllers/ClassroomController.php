@@ -61,7 +61,7 @@ class ClassroomController extends Controller
             return [
                     'title'=> "Аудитория".$id,
                     'content'=>$this->renderAjax('view', [
-                        'model' => $this->findModel($id),
+                    'model' => $this->findModel($id),
                     ]),
                     'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Изменить',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])

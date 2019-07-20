@@ -52,7 +52,7 @@ class Feadback extends \yii\db\ActiveRecord
     }
     public static function getDate($date=null)
     {
-        return ($date!=null)?\Yii::$app->formatter->asDate($date, 'dd.mm.yyyy H:i:s'):null;
+        return ($date!=null)?\Yii::$app->formatter->asDate($date, 'php:dd-mm-yyyy H:i:s'):null;
     }
     public function ColumnsFeadback($post)
     {
