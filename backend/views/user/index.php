@@ -111,7 +111,7 @@ CrudAsset::register($this);
                   }
                   echo "<tr><td>".$value->id."</td>";
                   if($session['User[image]']===null || $session['User[image]'] == 1)
-                  echo "<td><img src='$path' width=80></td>";
+                  echo "<td><img src='$path' style='width: 60px;border-radius: 1em;border: solid 1px #cecece;'></td>";
                   if($session['User[fio]']===null || $session['User[fio]'] == 1)
                   echo "<td>".$value->fio."</td>";
                   if($session['User[username]']===null || $session['User[username]'] == 1)

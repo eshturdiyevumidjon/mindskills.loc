@@ -43,7 +43,7 @@ class Classroom extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Тип занятия',
+            'name' => 'Наименование',
             'company_id' => 'Компания',
             'filial_id' => 'Филиал',
         ];

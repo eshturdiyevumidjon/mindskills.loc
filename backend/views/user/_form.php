@@ -17,13 +17,13 @@ use backend\models\Filials;
         <div class="row">
                 <div class="col s12">
                     <div id="image" style="float: left;">
-                     <?= $model->image != null ? '<img style="width:100%; height:250px;" src="http://' . $_SERVER["SERVER_NAME"] . "/uploads/avatar/" . $model->image .' ">' : '<img src="http://' . $_SERVER["SERVER_NAME"].'/uploads/no-user.jpg">' ?>
+                     <?= $model->image != null ? '<img style="width:100px; height:180px;" src="http://' . $_SERVER["SERVER_NAME"] . "/uploads/avatar/" . $model->image .' ">' : '<img style="width:225px; max-height:225px;"class="img-circle" src="http://' . $_SERVER["SERVER_NAME"].'/uploads/no-user.jpg">' ?>
                     </div>
                 </div>
                 <div class="col s12">
                  <?= $form->field($model, 'photoOfUser')->fileInput(['class'=>"image_input"]); ?>
                 </div>
-            </div>        
+            </div>       
         </div>
        <div class="col s8">
          <div class="row">
@@ -59,6 +59,9 @@ use backend\models\Filials;
                                 'mask' => '9',
                                 'clientOptions' => ['repeat' => 10, 'greedy' => false]
                             ]) ?>
+                    </div>
+                    <div class="col s4" >  
+                            <?=$form->field($model, 'status')->dropDownList($model->getStatus(), ['prompt' => 'Выберите...','style'=>'margin-top:12px;'])?>
                     </div>   
                     <div class="col s4">
                         <?=$form->field($model, 'filial_id')->dropDownList($model->getAvailableFilials(), ['prompt' => 'Выберите','style'=>'margin-top:12px;'])?>
@@ -88,7 +91,7 @@ $(document).ready(function(){
             var reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onload = function(e){
-                var template = '<img style="width:100%; max-height:180px;" src="'+e.target.result+'"> ';
+                var template = '<img style="width:225px; max-height:225px;"class="img-circle" src="'+e.target.result+'"> ';
                 $('#image').html('');
                 $('#image').append(template);
             };

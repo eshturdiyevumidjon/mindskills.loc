@@ -20,8 +20,10 @@ use yii\widgets\DetailView;
             $path = 'http://' . $_SERVER['SERVER_NAME'] . '/uploads/filial_logos/' . $data->logo;
             return '<img style="width: 55px;height:55px; border-radius: 1em;border: solid 1px #cecece;" src="' . $path . '" >';
                 }
-            else 
-                return "";
+            else {
+                $path = 'http://' . $_SERVER['SERVER_NAME'] . '/uploads/filial_logos/logo.png';
+                return '<img style="width: 55px;height:55px; border-radius: 1em;border: solid 1px #cecece;" src="' . $path . '" >';
+            }
             }
              ],
             [

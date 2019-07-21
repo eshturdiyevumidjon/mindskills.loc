@@ -213,10 +213,10 @@ class User extends ActiveRecord implements IdentityInterface
     //Получить описание типов пользователя.
     public function getStatusDescription()
     {
-        switch ($this->type) {
+        switch ($this->status) {
             case 0: return "Активен";
             case 10: return "Не активен";
-            default: return "Неизвестно";
+            default:return "Неизвестно";
         }
     }
      public function getStatus()

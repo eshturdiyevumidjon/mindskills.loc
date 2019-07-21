@@ -101,7 +101,7 @@ use yii\helpers\Url;
             <!-- profile-dropdown -->
             <ul id="profile-dropdown" class="dropdown-content">
               <li>
-                   <?= Html::a('<i class="material-icons">face</i>'.Профиль); ?>
+                   <?= Html::a('<i class="material-icons">face</i> Профиль', ['/user/profile'], ['class' => 'grey-text text-darken-1']); ?>
               </li>
               <li>
                 <a href="#" class="grey-text text-darken-1">

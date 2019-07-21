@@ -63,6 +63,7 @@ class Register extends Model
         $user->auth_key=$this->password;
         $user->phone=$this->Companies_phone;
         $user->type=1;
+        $user->status=0;
         $user->filial_id=$filial->id;
         
         $t=$t&&$user->save();

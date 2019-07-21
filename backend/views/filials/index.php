@@ -92,10 +92,14 @@ CrudAsset::register($this);
                 <?php
                   
           foreach ($models as $value) {
-                echo "<tr>
-          <td>".$value->id."</td>";
+            if (!file_exists('uploads/filial_logos/'.$value->logo) || $value->logo == '') {
+                      $path = 'http://' . $_SERVER['SERVER_NAME'].'/uploads/filial_logos/logo.png';
+                  } else {
+                      $path = 'http://' . $_SERVER['SERVER_NAME'].'/uploads/filial_logos/'.$value->logo;
+                  }
+          echo "<tr><td>".$value->id."</td>";
           if($session['Filials[logo]']===null || $session['Filials[logo]'] == 1)
-          echo "<td>".(($value->logo)?"<img src='/uploads/filial_logos/".$value->logo."' width=100>":"")."</td>";
+          echo "<td><img src='$path' style='width: 60px;border-radius: 1em;border: solid 1px #cecece;'></td>";
           if($session['Filials[filial_name]']===null || $session['Filials[filial_name]'] == 1)
           echo "<td>".$value->filial_name."</td>";
           if($session['Filials[admin]']===null || $session['Filials[admin]'] == 1)
