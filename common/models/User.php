@@ -107,6 +107,8 @@ class User extends ActiveRecord implements IdentityInterface
     {
         if ($this->isNewRecord) {
             $this->password_hash = Yii::$app->security->generatePasswordHash($this->auth_key);
+            if($this->balanc == null)
+            $this->balanc=0;
             $this->status = 10;
             $this->updated_at = time();
             $this->created_at = time();      
@@ -135,8 +137,7 @@ class User extends ActiveRecord implements IdentityInterface
         ];*/
         return [
             [['username', 'auth_key','type','fio','filial_id'], 'required'],
-            [['type', 'status','created_at', 'updated_at','filial_id', 'company_id'], 'integer'],
-            [['balanc'], 'number'],
+            [['type', 'status','created_at', 'updated_at','filial_id', 'company_id','balanc'], 'integer'],
             [['birthday'],'safe'],
             [['fio', 'username', 'auth_key','new_password', 'password_hash','phone','image'], 'string', 'max' => 255],
             [['username'], 'unique'],
@@ -209,7 +210,6 @@ class User extends ActiveRecord implements IdentityInterface
             3 => 'Ученик',
         ];
     }
-
     //Получить описание типов пользователя.
     public function getStatusDescription()
     {

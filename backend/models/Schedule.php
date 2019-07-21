@@ -106,17 +106,28 @@ class Schedule extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'teacher_id']);
     }
-
+     public function beforeSave($insert)
+    {
+         if ($this->isNewRecord) {
+            $this->status = 0;
+        }
+        if($this->begin_date != null)
+            $this->begin_date = \Yii::$app->formatter->asDate($this->begin_date, 'php:Y-m-d');
+        if($this->end_date != null)
+            $this->end_date = \Yii::$app->formatter->asDate($this->end_date, 'php:Y-m-d');
+       
+        return parent::beforeSave($insert);
+    }
+    public static function getDate($date=null)
+    {
+        return ($date!=null)?\Yii::$app->formatter->asDate($date, 'php:d.m.Y'):null;
+    }
     /**
      * @return \yii\db\ActiveQuery
      */
     public function getScheduleGraphs()
     {
         return $this->hasMany(ScheduleGraph::className(), ['schedule_id' => 'id']);
-    }
-     public static function getDate($date=null)
-    {
-        return ($date!=null)?\Yii::$app->formatter->asDate($date, 'php:d.m.Y'):null;
     }
     public function getTypeDescription()
     {
@@ -136,7 +147,7 @@ class Schedule extends \yii\db\ActiveRecord
     //Получить описание типов пользователя.
     public function getStatusDescription()
     {
-        switch ($this->type) {
+        switch ($this->status) {
             case 0: return "Создано";
             case 10: return "Завершено";
         }

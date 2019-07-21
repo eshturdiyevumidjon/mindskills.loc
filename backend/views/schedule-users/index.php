@@ -89,7 +89,7 @@ CrudAsset::register($this);
                       if($session['ScheduleUsers[comment]']===null || $session['ScheduleUsers[comment]'] == 1)
                       echo "<td>".$value->comment."</td>";
                       if($session['ScheduleUsers[unsubscribe]']===null || $session['ScheduleUsers[unsubscribe]'] == 1)
-                      echo "<td>".$value->unsubscribe."</td>";
+                      echo "<td>".$value->getUnsubscribeDescription()."</td>";
                       echo 
                       "<td class='align-center' style='width: 100px;'>".Html::a('<i class="material-icons view-u">visibility</i>', ['view','id'=>$value->id],['role'=>'modal-remote','title'=>'Просмотр']).Html::a('<i class="material-icons blue-u">mode_edit</i>', ['update','id'=>$value->id],['role'=>'modal-remote','title'=>'Изменить']).Html::a('<i class="material-icons red-u">delete_forever</i>', ['delete','id'=>$value->id],['role'=>'modal-remote','title'=>'Удалить', 
                         'data-confirm'=>false, 'data-method'=>false,

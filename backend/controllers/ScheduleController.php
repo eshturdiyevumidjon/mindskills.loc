@@ -94,7 +94,7 @@ class ScheduleController extends Controller
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "Расписания",
-                    'content'=>'<span class="text-success">Create Schedule success</span>',
+                    'content'=>'<span class="text-success">Успешно выполнено</span>',
                     'footer'=> Html::button('Ок',['class'=>'btn btn-primary pull-left','data-dismiss'=>"modal"]).
                             Html::a('Создать ещё',['create'],['class'=>'btn btn-info','role'=>'modal-remote'])
         

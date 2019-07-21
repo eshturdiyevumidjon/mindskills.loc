@@ -20,7 +20,10 @@ use backend\models\Subjects;
             <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
         </div>
         <div class="<?= ($model->isNewRecord)?'input-field col s6':'col s6'?>" >
-            <?= $form->field($model, 'price')->textInput() ?>
+            <?= $form->field($model, 'price')->widget(\yii\widgets\MaskedInput::className(), [
+                                'mask' => '9',
+                                'clientOptions' => ['repeat' => 10, 'greedy' => false]
+                            ]) ?>
         </div>
     </div>
     <div class="row">
@@ -47,7 +50,7 @@ use backend\models\Subjects;
                         'todayHighlight' => true,
                         'format'=>'dd.mm.yyyy',
                         ]
-                ]) ?>
+                    ]) ?>
         </div>
         <div class="<?= ($model->isNewRecord)?'input-field col s6':'col s6'?>" >
                 <?= $form->field($model, 'end_date')->widget(DatePicker::className(), [
@@ -62,21 +65,19 @@ use backend\models\Subjects;
         </div>
     </div>
     <div class="row">
-        <div class="col s6" >  
-                <?=$form->field($model, 'status')->dropDownList($model->getStatus(), ['prompt' => 'Выберите...','style'=>'margin-top:10px;'])?>
+        <div class="<?= ($model->isNewRecord)?'input-field col s6':'col s6'?>" >
+                <?= $form->field($model, 'sum_of_teacher')->widget(\yii\widgets\MaskedInput::className(), [
+                        'mask' => '9',
+                        'clientOptions' => ['repeat' => 10, 'greedy' => false]
+                            ]) ?>
         </div>
         <div class="col s6" >  
                 <?=$form->field($model, 'type')->dropDownList($model->getType(), ['prompt' => 'Выберите...','style'=>'margin-top:10px;'])?>
         </div>
     </div>
-    <div class="row">
-        <div class="<?= ($model->isNewRecord)?'input-field col s6':'col s6'?>" >
-                <?= $form->field($model, 'sum_of_teacher')->textInput() ?>
-        </div>
-    </div>
     <?php if (!Yii::$app->request->isAjax){ ?>
         <div class="form-group">
-            <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+            <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Редактировать', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
         </div>
     <?php } ?>
 

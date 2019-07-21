@@ -50,6 +50,7 @@ class Register extends Model
 
         $t=$company->save();
 
+
         $filial=new Filials();
         $filial->filial_name=$this->filial_name;
         $t=$t&&$filial->save();
@@ -62,8 +63,10 @@ class Register extends Model
         $user->auth_key=$this->password;
         $user->phone=$this->Companies_phone;
         $user->type=1;
-        $user->balanc=0;
+        $user->filial_id=$filial->id;
+        
         $t=$t&&$user->save();
+       
         Yii::$app->db->createCommand()->update('user', ['company_id' => $company->id,'filial_id'=>$filial->id ], [ 'id' => $user->id ])->execute();
         return $t;
     }   

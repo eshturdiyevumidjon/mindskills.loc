@@ -28,6 +28,7 @@ use common\models\User;
                 }
             ],
             'phone',
+            'balanc',
             [
             'attribute' => 'image',
             'format'=>'raw', 

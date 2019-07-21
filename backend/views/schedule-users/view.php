@@ -15,7 +15,12 @@ use yii\widgets\DetailView;
             'pupil.fio',
             'payed',
             'comment:ntext',
-            'unsubscribe',
+            [
+                'attribute'=>'unsubscribe',
+                'value'=>function($data){
+                    return $data->getUnsubscribeDescription();
+                }
+            ],
         ],
     ]) ?>
 

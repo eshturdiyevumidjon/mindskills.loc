@@ -266,8 +266,13 @@ class UserController extends Controller
     {
         $request = Yii::$app->request;
         $model = $this->findModel($id);       
-        $model->birthday=\Yii::$app->formatter->asDate($model->birthday, 'php:d.m.Y');
-
+        
+        if ($model->birthday!=null) {
+          $model->birthday=\Yii::$app->formatter->asDate($model->birthday, 'php:d.m.Y');
+        }
+        else{
+            $model->birthday="";
+        }
         if($request->isAjax){
             /*
             *   Process for ajax request

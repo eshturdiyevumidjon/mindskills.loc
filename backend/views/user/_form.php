@@ -15,11 +15,11 @@ use backend\models\Filials;
     <div class="row">
        <div class="col s4">
         <div class="row">
-            <div class="col s12">
-                <div id="image" style="float: left;">
-                 <?= $model->image != null ? '<img style="width:100%; height:250px;" src="http://' . $_SERVER["SERVER_NAME"] . "/uploads/avatar/" . $model->image .' ">' : '<img src="http://' . $_SERVER["SERVER_NAME"].'/uploads/no-user.jpg">' ?>
+                <div class="col s12">
+                    <div id="image" style="float: left;">
+                     <?= $model->image != null ? '<img style="width:100%; height:250px;" src="http://' . $_SERVER["SERVER_NAME"] . "/uploads/avatar/" . $model->image .' ">' : '<img src="http://' . $_SERVER["SERVER_NAME"].'/uploads/no-user.jpg">' ?>
+                    </div>
                 </div>
-            </div>
                 <div class="col s12">
                  <?= $form->field($model, 'photoOfUser')->fileInput(['class'=>"image_input"]); ?>
                 </div>
@@ -54,11 +54,14 @@ use backend\models\Filials;
                 </div> 
             </div>
             <div class="row">
-                    <div class="<?= ($model->isNewRecord)?'input-field col s4':'col s4'?>" >
-                    <?= $form->field($model, 'balanc')->textInput(['maxlength' => true],['type' => 'number']) ?>
+                    <div class="col s4" >
+                    <?= $form->field($model, 'balanc')->widget(\yii\widgets\MaskedInput::className(), [
+                                'mask' => '9',
+                                'clientOptions' => ['repeat' => 10, 'greedy' => false]
+                            ]) ?>
                     </div>   
                     <div class="col s4">
-                        <?=$form->field($model, 'filial_id')->dropDownList($model->getAvailableFilials(), ['prompt' => 'Выберите','style'=>'margin-top:10px;'])?>
+                        <?=$form->field($model, 'filial_id')->dropDownList($model->getAvailableFilials(), ['prompt' => 'Выберите','style'=>'margin-top:12px;'])?>
                     </div>                 
             </div>
     </div>

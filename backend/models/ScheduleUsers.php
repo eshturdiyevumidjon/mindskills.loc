@@ -64,13 +64,33 @@ class ScheduleUsers extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'pupil_id']);
     }
-
     /**
      * @return \yii\db\ActiveQuery
      */
     public function getSchedule()
     {
         return $this->hasOne(Schedule::className(), ['id' => 'schedule_id']);
+    }
+    public function beforeSave($insert)
+    {
+        if ($this->isNewRecord) {
+            $this->unsubscribe = 1;
+        }      
+        return parent::beforeSave($insert);
+    }
+    public function getUnsubscribeDescription()
+    {
+        switch ($this->unsubscribe) {
+            case 1: return "Да";
+            case 2: return "Нет";
+        }
+    }
+    public function getUnsubscribe()
+    {
+        return [
+            1 => 'Да',
+            2 => 'Нет',
+        ];
     }
     public function ColumnsScheduleUsers($post)
     {

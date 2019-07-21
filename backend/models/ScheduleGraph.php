@@ -68,6 +68,15 @@ class ScheduleGraph extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Schedule::className(), ['id' => 'schedule_id']);
     }
+     public function beforeSave($insert)
+    {
+        if($this->begin_date != null)
+            $this->begin_date = \Yii::$app->formatter->asDate($this->begin_date, 'php:Y-m-d');
+        if($this->end_date != null)
+            $this->end_date = \Yii::$app->formatter->asDate($this->end_date, 'php:Y-m-d');
+       
+        return parent::beforeSave($insert);
+    }
     public static function getDate($date=null)
     {
         return ($date!=null)?\Yii::$app->formatter->asDate($date, 'php:d.m.Y'):null;

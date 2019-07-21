@@ -18,7 +18,7 @@ class m190718_095608_create_schedule_users_table extends Migration
             'pupil_id' => $this->integer()->comment('Ученик'),
             'payed' => $this->float()->comment('Размер оплаты'),
             'comment' => $this->text()->comment('Комментария'),
-            'unsubscribe' => $this->boolean()->comment('Отписать'),
+            'unsubscribe' => $this->integer()->comment('Отписать'),
         ]);
     }
 

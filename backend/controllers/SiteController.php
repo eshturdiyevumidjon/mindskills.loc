@@ -82,12 +82,9 @@ class SiteController extends Controller
     {
         $model = new Register();
       
+
         if($model->load(Yii::$app->request->post()) && $model->register())
         {
-                // Yii::$app->response->format=Response::FORMAT_JSON;
-
-                // return ActiveForm::validate($model);
-
                 $modelForm=new LoginForm();
                 $modelForm->username=$model->Companiesname;
                 $modelForm->password=$model->password;
@@ -97,6 +94,7 @@ class SiteController extends Controller
         }
         else
         {
+          
               return $this->render('register', ['model' => $model]); 
         }
           

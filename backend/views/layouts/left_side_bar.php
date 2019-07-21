@@ -50,13 +50,6 @@ $pathInfo = Yii::$app->request->pathInfo;
                       </ul>
                   </div>
               </li>
-              <li class="<bold <?= ($pathInfo=='courses/index')?'active':''?>">
-                  <a href="/courses/index" class="<?= ($pathInfo=='courses/index')?'active':''?>">
-                    <i class="material-icons">import_contacts</i>
-                    <span>Курсы</span>
-                  </a>
-              </li>
-            <?php if(Yii::$app->user->identity->company->type==1): ?>
               <li class="bold <?= ($pathInfo=='subjects/index'||$pathInfo=='classroom/index')?'active':''?>">
                   <a class="collapsible-header waves-effect waves-cyan <?= ($pathInfo=='subjects/index'||$pathInfo=='classroom/index')?'active':''?>">
                     <i class="material-icons">inbox</i>
@@ -79,8 +72,6 @@ $pathInfo = Yii::$app->request->pathInfo;
                       </ul>
                   </div>
               </li>
-            <?php else: ?>
-            <?php endif; ?>
             <?php if(Yii::$app->user->identity->company->type==1): ?>
               <li class="bold <?= ($pathInfo=='companies/index'||$pathInfo=='filials/index'||
               $pathInfo=='tarifs/index')?'active':''?>">
@@ -113,6 +104,12 @@ $pathInfo = Yii::$app->request->pathInfo;
               </li>
               <?php else: ?>
               <?php endif; ?>
+              <li class="<bold <?= ($pathInfo=='courses/index')?'active':''?>">
+                  <a href="/courses/index" class="<?= ($pathInfo=='courses/index')?'active':''?>">
+                    <i class="material-icons">import_contacts</i>
+                    <span>Курсы</span>
+                  </a>
+              </li>
               <li class="<bold <?= ($pathInfo=='feadback/index')?'active':''?>">
                   <a href="/feadback/index" class="<?= ($pathInfo=='feadback/index')?'active':''?>">
                     <i class="material-icons">undo</i>
