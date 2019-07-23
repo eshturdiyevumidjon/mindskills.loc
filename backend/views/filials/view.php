@@ -18,11 +18,11 @@ use yii\widgets\DetailView;
             if($data->logo != null) 
                 {
             $path = 'http://' . $_SERVER['SERVER_NAME'] . '/uploads/filial_logos/' . $data->logo;
-            return '<img style="width: 55px;height:55px; border-radius: 1em;border: solid 1px #cecece;" src="' . $path . '" >';
+            return '<img style="width:55px; max-height:55px;"class="img-circle" src="' . $path . '" >';
                 }
             else {
-                $path = 'http://' . $_SERVER['SERVER_NAME'] . '/uploads/filial_logos/logo.png';
-                return '<img style="width: 55px;height:55px; border-radius: 1em;border: solid 1px #cecece;" src="' . $path . '" >';
+                $path = 'http://' . $_SERVER['SERVER_NAME'] . '/uploads/7.jpg';
+                return '<img style="width:55px; max-height:55px;"class="img-circle" src="' . $path . '" >';
             }
             }
              ],

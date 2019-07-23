@@ -17,7 +17,7 @@ use backend\models\Filials;
         <div class="row">
                 <div class="col s12">
                     <div id="image" style="float: left;">
-                     <?= $model->image != null ? '<img style="width:100px; height:180px;" src="http://' . $_SERVER["SERVER_NAME"] . "/uploads/avatar/" . $model->image .' ">' : '<img style="width:225px; max-height:225px;"class="img-circle" src="http://' . $_SERVER["SERVER_NAME"].'/uploads/no-user.jpg">' ?>
+                     <?= $model->image != null ? '<img style="width:225px;border-radius:10%; " src="http://' . $_SERVER["SERVER_NAME"] . "/uploads/avatar/" . $model->image .' ">' : '<img style="width:225px;border-radius:10%; "  class="img-circle" src="http://' . $_SERVER["SERVER_NAME"].'/uploads/no-user.jpg">' ?>
                     </div>
                 </div>
                 <div class="col s12">

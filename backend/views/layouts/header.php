@@ -2,6 +2,11 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 
+$user=Yii::$app->user->identity;
+
+if($user->image == null) $path = 'http://' . $_SERVER['SERVER_NAME'] . '/uploads/no-user.jpg';
+else $path = 'http://' . $_SERVER['SERVER_NAME'] . '/uploads/avatar/' . $user->image;
+
 ?>
 
 <header id="header" class="page-topbar">
@@ -34,7 +39,7 @@ use yii\helpers\Url;
               <li>
                 <a href="javascript:void(0);" class="waves-effect waves-block waves-light profile-button" data-activates="profile-dropdown">
                   <span class="avatar-status avatar-online">
-                    <img src="../images/avatar/avatar-7.png" alt="avatar">
+                    <img src="<?=$path?>"  alt="avatar"class="img-circle"style="margin-bottom: 15px;">
                     <i></i>
                   </span>
                 </a>

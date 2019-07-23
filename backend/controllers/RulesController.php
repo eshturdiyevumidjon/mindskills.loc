@@ -3,20 +3,18 @@
 namespace backend\controllers;
 
 use Yii;
-use backend\models\Filials;
-use backend\models\FilialsSearch;
+use backend\models\Rules;
+use backend\models\RulesSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
-use yii\web\UploadedFile;
 use yii\helpers\Html;
-use backend\models\Districts;
-use backend\models\Regions;
+
 /**
- * FilialsController implements the CRUD actions for Filials model.
+ * RulesController implements the CRUD actions for Rules model.
  */
-class FilialsController extends Controller
+class RulesController extends Controller
 {
     /**
      * @inheritdoc
@@ -35,12 +33,12 @@ class FilialsController extends Controller
     }
 
     /**
-     * Lists all Filials models.
+     * Lists all Rules models.
      * @return mixed
      */
     public function actionIndex()
     {    
-        $searchModel = new FilialsSearch();
+        $searchModel = new RulesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -51,7 +49,7 @@ class FilialsController extends Controller
 
 
     /**
-     * Displays a single Filials model.
+     * Displays a single Rules model.
      * @param integer $id
      * @return mixed
      */
@@ -61,13 +59,12 @@ class FilialsController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "Филиал",
-                    'size'=>'large',
+                    'title'=> "Rules #".$id,
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Изменить',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
         }else{
             return $this->render('view', [
@@ -75,36 +72,9 @@ class FilialsController extends Controller
             ]);
         }
     }
-     public function actionColumns()
-    {
-        $request = Yii::$app->request;
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        $session = Yii::$app->session;
-   
-        if($request->post()){
-            $post = $request->post();
-            Filials::ColumnsFilials($post);
-            return [
-                'forceReload'=>'#crud-datatable-pjax',
-                'forceClose'=>true,
-            ];          
-        }
-        else
-        {           
-            return [
-                'title'=> "Сортировка с колонок",
-                'size' => 'large',
-                'content'=>$this->renderAjax('columns', [
-                    'session' => $session,
-                ]),
-                'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                           Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
-            ];         
-        }       
-    }
 
     /**
-     * Creates a new Filials model.
+     * Creates a new Rules model.
      * For ajax request will return json object
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
@@ -112,42 +82,40 @@ class FilialsController extends Controller
     public function actionCreate()
     {
         $request = Yii::$app->request;
-        $model = new Filials();  
-        $model->company_id=Yii::$app->user->identity->company_id;
+        $model = new Rules();  
+
         if($request->isAjax){
             /*
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-           if($model->load($request->post()) && $model->save()){
-                $model->image = UploadedFile::getInstance($model,'image');
-                if(!empty($model->image))
-                {
-                    
-                    $model->image->saveAs('uploads/filial_logos/' . $model->id.'.'.$model->image->extension);
-                    Yii::$app->db->createCommand()->update('filials', ['logo' => $model->id.'.'.$model->image->extension], [ 'id' => $model->id ])->execute();
-                }
+            if($request->isGet){
                 return [
-                    'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Филиалы",
-                    'content'=>'<span class="text-success">Успешно выполнено</span>',
-                    'footer'=> Html::button('Ок',['class'=>'btn btn-primary pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Создать ещё',['create'],['class'=>'btn btn-info','role'=>'modal-remote'])
-                ];
-                // return [
-                //     'forceReload'=>'#crud-datatable-pjax',
-                //     'forceClose'=>true
-        
-                // ];         
-            }else{           
-                return [
-                    'title'=> "Создать",
-                    'size'=>'large',
+                    'title'=> "Create new Rules",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+        
+                ];         
+            }else if($model->load($request->post()) && $model->save()){
+                return [
+                    'forceReload'=>'#crud-datatable-pjax',
+                    'title'=> "Create new Rules",
+                    'content'=>'<span class="text-success">Create Rules success</span>',
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                            Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
+        
+                ];         
+            }else{           
+                return [
+                    'title'=> "Create new Rules",
+                    'content'=>$this->renderAjax('create', [
+                        'model' => $model,
+                    ]),
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
             }
@@ -167,7 +135,7 @@ class FilialsController extends Controller
     }
 
     /**
-     * Updates an existing Filials model.
+     * Updates an existing Rules model.
      * For ajax request will return json object
      * and for non-ajax request if update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
@@ -183,35 +151,33 @@ class FilialsController extends Controller
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            if($model->load($request->post()) && $model->save()){
-                $model->image = UploadedFile::getInstance($model,'image');
-                if(!empty($model->image))
-                {
-                    if($model->logo!=""&&$model->logo!=null)
-                    {
-                        unlink("uploads/filial_logos/" . $model->logo);
-                    }
-                    $model->image->saveAs('uploads/filial_logos/' . $model->id.'.'.$model->image->extension);
-                    Yii::$app->db->createCommand()->update('filials', ['logo' => $model->id.'.'.$model->image->extension], [ 'id' => $model->id ])->execute();
-                }
+            if($request->isGet){
                 return [
-                    'forceReload'=>'#crud-datatable-pjax',
-                    'size'=>'large',
-                    'title'=> "Филиал ",
-                    'content'=>$this->renderAjax('view', [
-                        'model' => $model,
-                    ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Изменить',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
-                ];    
-            }else{
-                 return [
-                    'title'=> "Изменить",
+                    'title'=> "Update Rules #".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                ];         
+            }else if($model->load($request->post()) && $model->save()){
+                return [
+                    'forceReload'=>'#crud-datatable-pjax',
+                    'title'=> "Rules #".$id,
+                    'content'=>$this->renderAjax('view', [
+                        'model' => $model,
+                    ]),
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                ];    
+            }else{
+                 return [
+                    'title'=> "Update Rules #".$id,
+                    'content'=>$this->renderAjax('update', [
+                        'model' => $model,
+                    ]),
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
                 ];        
             }
         }else{
@@ -229,7 +195,7 @@ class FilialsController extends Controller
     }
 
     /**
-     * Delete an existing Filials model.
+     * Delete an existing Rules model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
@@ -238,15 +204,7 @@ class FilialsController extends Controller
     public function actionDelete($id)
     {
         $request = Yii::$app->request;
-        if($id!=1)
-        {
-            $model=$this->findModel($id);
-            if($model->logo!=""&&$model->logo!=null)
-            {
-                unlink("uploads/filial_logos/" . $model->logo);
-            }
-            $model->delete();
-        }
+        $this->findModel($id)->delete();
 
         if($request->isAjax){
             /*
@@ -263,16 +221,9 @@ class FilialsController extends Controller
 
 
     }
-    public function actionDistricts($id)
-    {  
-        $datas = Regions::find()->where(['id' => $id])->one();
-        $district = Districts::find()->where(['region_id' => $datas->id])->all();
-        foreach ($district as $value) { 
-            echo "<option value = '".$value->id."'>".$value->name."</option>" ;            
-        }
-    }
+
      /**
-     * Delete multiple existing Filials model.
+     * Delete multiple existing Rules model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
@@ -283,15 +234,8 @@ class FilialsController extends Controller
         $request = Yii::$app->request;
         $pks = explode(',', $request->post( 'pks' )); // Array or selected records primary keys
         foreach ( $pks as $pk ) {
-            if($pk!=1)
-            {
-                $model = $this->findModel($pk);
-                if($model->logo!=""&&$model->logo!=null)
-                {
-                    unlink("uploads/filial_logos/" . $model->logo);
-                }
-                $model->delete();
-            }
+            $model = $this->findModel($pk);
+            $model->delete();
         }
 
         if($request->isAjax){
@@ -310,15 +254,15 @@ class FilialsController extends Controller
     }
 
     /**
-     * Finds the Filials model based on its primary key value.
+     * Finds the Rules model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Filials the loaded model
+     * @return Rules the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Filials::findOne($id)) !== null) {
+        if (($model = Rules::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

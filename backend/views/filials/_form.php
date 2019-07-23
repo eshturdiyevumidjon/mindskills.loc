@@ -88,8 +88,8 @@ use yii\helpers\ArrayHelper;
 
      <div class="row">
             <div class="col s6">
-                <div id="logo">
-                         <?= $model->logo != null ? '<img style="width:100%; height:250px;" src="http://' . $_SERVER["SERVER_NAME"] . "/uploads/filial_logos/" . $model->logo .' ">' : '<img style="width:225px; max-height:225px;"class="img-circle" src="http://' . $_SERVER["SERVER_NAME"].'/uploads/filial_logos/logo.png">' ?>
+                <div id="image">
+                         <?= $model->logo != null ? '<img style="width:200px; max-height:200px;"class="img-circle"  src="http://' . $_SERVER["SERVER_NAME"] . "/uploads/filial_logos/" . $model->logo .' ">' : '<img style="width:200px; max-height:200px;"class="img-circle" src="http://' . $_SERVER["SERVER_NAME"].'/uploads/7.jpg">' ?>
                 </div>
             <br>
                 <?= $form->field($model, 'image')->fileInput(['class'=>"image_input"]); ?>
@@ -118,7 +118,7 @@ $(document).ready(function(){
             var reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onload = function(e){
-                var template = '<img style="width:100%; max-height:180px;" src="'+e.target.result+'"> ';
+                var template = '<img style="width:200px; height:200px;" class="img-circle"src="'+e.target.result+'"> ';
                 $('#image').html('');
                 $('#image').append(template);
             };

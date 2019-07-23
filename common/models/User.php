@@ -10,6 +10,7 @@ use backend\base\AppActiveQuery;
 use backend\models\Companies;
 use yii\behaviors\BlameableBehavior;
 use backend\models\Filials;
+use backend\models\Inbox;
 use yii\web\ForbiddenHttpException;
 use yii\helpers\ArrayHelper;
 
@@ -180,6 +181,18 @@ class User extends ActiveRecord implements IdentityInterface
     public function getAvailableFilials()
     {
         return Arrayhelper::map(Filials::find()->where(['company_id'=>Yii::$app->user->identity->company->id])->all(),'id','filial_name');
+    }
+    public function getInboxes()
+    {
+        return $this->hasMany(Inbox::className(), ['from' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getInboxes0()
+    {
+        return $this->hasMany(Inbox::className(), ['to' => 'id']);
     }
     /**
      * @return \yii\db\ActiveQuery
