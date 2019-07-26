@@ -2,114 +2,146 @@
 use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\bootstrap\Modal;
-use kartik\grid\GridView;
+
 use johnitvn\ajaxcrud\CrudAsset;
 use yii\widgets\Pjax;
 use yii\widgets\LinkPager;
+use common\models\User;
 
 $this->title = 'Почтовый ящик';
 $this->params['breadcrumbs'][] = $this->title;
+$user=Yii::$app->user->identity;
 CrudAsset::register($this);
 
+if($user->image == null) $path = 'http://' . $_SERVER['SERVER_NAME'] . '/uploads/no-user.jpg';
+else $path = 'http://' . $_SERVER['SERVER_NAME'] . '/uploads/avatar/' . $user->image;
+
+$models=$dataProvider->getModels();
 ?>
 <?php Pjax::begin(['enablePushState' => false, 'id' => 'inbox-pjax']) ?>
-<div class="content-frame">                                    
-    <div class="content-frame-top">                        
-        <div class="page-title">                    
-            <h2><span class="fa fa-inbox"></span> Почтовый ящик <small>(<?=$inbox?> не прочитан)</small></h2>
-        </div>                   
-    </div>
-    <div class="content-frame-left" style="height: 581px;">
-        <div class="block">
-            <?= Html::a('<span class="fa fa-edit"></span> Написать', ['/inbox/create'],
-            ['data-pjax'=>'0','title'=> 'Написать', 'class'=>'btn btn-danger btn-block btn-lg']) ?>
-        </div>
-        <?= $this->render('left', [
-            'starred' => $starred,
-            'inbox' => $inbox,
-            'send' => $send,
-            'deleted' => $deleted,
-            'turn' => 3,
-        ]) ?>
-    </div>
-    <div class="content-frame-body" style="height: 641px;">
-        <div class="panel panel-default">
-            <div class="panel-heading ui-draggable-handle">
-                <div class="pull-right" style="width: 150px;">
-                    <div class="input-group">
-                        
-                        <?= kartik\date\DatePicker::widget([
-                            'name' => 'date_cr',
-                            'value' => $date_cr,
-                            'options' => ['id' => 'date_cr', 'placeholder' => 'Выберите'],
-                            'size' => kartik\select2\Select2::SMALL,
-                            'layout' => '{picker}{input}',
-                            'pluginEvents' => [
-                                "changeDate" => "function(e) { window.location.href = '/inbox/sends?date_cr='+$('#date_cr').val();   }",
-                            ],
-                            'pluginOptions' => [
-                                'autoclose'=>true,
-                                'format' => 'yyyy-mm-dd',
-                                'todayHighlight' => true,
-                            ]
-                        ]);?>
-                    </div>
-                </div>
+<div class="container">
+    <div id="mail-app" class="section">
+      <div class="row">
+        <div class="col s12">
+          <nav class=" ">
+            <div class="nav-wrapper">
+              <div class="left col s12 m5 l5">
+                <ul>
+                  <li>
+                    <a href="#!" class="email-menu">
+                      <i class="material-icons">menu</i>
+                    </a>
+                  </li>
+                  <li><a href="#!" class="email-type">Почтовый ящик</a>
+                  </li>
+                </ul>
+              </div><!-- 
+              <div class="col s12 m7 l7 hide-on-med-and-down">
+                <ul class="right">
+                  <li>
+                    <a href="#!">
+                      <i class="material-icons">archive</i>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#!">
+                      <i class="material-icons">delete</i>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#!">
+                      <i class="material-icons">email</i>
+                    </a>
+                  </li>
+                </ul>
+              </div> -->
             </div>
-            <div class="panel-body mail">
-                <?php
-                    foreach ($dataProvider->getModels() as $model) 
-                    {
-                        if($model->starred == 1) $starred = 'starred';
-                        else $starred = '';
-                        if($model->is_read == 0) {$path = 'http://' . $_SERVER['SERVER_NAME'] . '/img/onetick.png';}
-                        else {$path = 'http://' . $_SERVER['SERVER_NAME'] . '/img/twotick.png';}
-
-                        $unread = ''; $mail = 'mail-info';
-
-                        if($model->file !== null) $file = '<a data-pjax="0" href="'.Url::toRoute(['/inbox/download-file',"id" => $model->id]).'"' . '><div class="mail-attachments"><span class="fa fa-paperclip"></span> ' . $model->format_size(filesize('uploads/inbox/'.$model->file)) .'</div></a>';
-                        else $file = '';
+          </nav>
+        </div>
+        <div class="col s12">
+          <div id="email-sidebar" class="col s3 m2 s6 card-panel">
+            <ul>
+              <li>
+                <img src="<?=$path?>" alt="" class="circle responsive-img valign profile-image">
+              </li>
+              <li>
+                <a href="/inbox/create" role="modal-remote">
+                <span class="material-icons"style="font-size: large;">create</span>Написать
+                </a>
+              </li>
+              <li>
+                <a href="/inbox/index">
+                <span class="material-icons"style="font-size: large;">inbox</span>
+                 <small class="notification-badge"><?= $inbox ?></small>Входящие
+                </a>
+              </li>
+              <li>
+                <a href="/inbox/favorites"> <span class="material-icons"style="font-size: large;">star</span>Избранные
+                </a>
+              </li>
+              <li style="background-color:rgba(0,0,0,0.09);border-radius: 10px;">
+                 <a href="/inbox/sends"> 
+                  <span class="material-icons"style="font-size: large;">email</span>Отправленные
+                </a>
+              </li>
+              <li>
+                 <a href="/inbox/deleting"> 
+                  <span class="material-icons"style="font-size: large;">delete</span>Удаленные
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="col s9 m10">
+            <div class="card-panel"> 
+                <ul class="collection hover-sms" >
+                <?php 
+                    foreach($dataProvider->getModels() as $model):
+                    if($model->starred == 1) $starred = 'yellow-text';
+                        else $starred = 'black-text';
                 ?>
-                    <div class="mail-item <?=$unread?> <?=$mail?>">
-                        <div class="mail-star <?=$starred?>">
-                            <span onclick="$.get('/inbox/set-star', {'id':<?=$model->id?>}, function(data){$.pjax.reload({container:'#inbox-pjax', async: false});} );" class="fa fa-star-o"></span>
-                        </div>
-                        <div class="mail-user" style="font-weight: 700;"><?=$model->to0->fio?></div>
- 
-                        <a class="mail-text" title="Просмотр" role="modal-remote" href="<?=Url::toRoute(['/inbox/view1',"id" => $model->id])?>"><?=$model->title . ($model->is_read == 0 ? '  <img width=20 src='.$path.'>' : ' <img width=20 src='.$path.'>')?></a>
-                        <div class="mail-date">
-                            <?= date( 'H:i d.m.Y', strtotime($model->date_cr) ) ?>
-                            <?=Html::a('<i class="glyphicon glyphicon-trash"></i>',
+                <li class="collection-item avatar" style="margin: 0;">
+             
+            
+                  <?php 
+                    if($model->from0->image == null) $images = 'http://' . $_SERVER['SERVER_NAME'] . '/uploads/no-user.jpg';
+                    else $images = 'http://' . $_SERVER['SERVER_NAME'] . '/uploads/avatar/' . $model->from0->image;
+                  ?>
+                  <a href="#!" class="left" onclick="$.get('/inbox/set-star', {'id':<?=$model->id?>}, function(data){$.pjax.reload({container:'#inbox-pjax', async: false});} );"><i class="material-icons <?=$starred?>">grade</i></a>
+                  <img src="<?= $images ?>" class="circle">
+                
+                <span class="card-title grey-text text-darken-4"><?=$model->from0->fio?></span>
+                <a class="mail-text" title="Просмотр" role="modal-remote" href="<?=Url::toRoute(['/inbox/view1',"id" => $model->id])?>"><?=$model->title . ($model->is_read == 0 ? ' <i style="color:red;">(no read)</i>' : '<i style="color:red;">( read)</i>')?></a>
+                <p class="truncate grey-text ultra-small right" style="">
+                  <?php 
+                    $paths = 'http://' . $_SERVER['SERVER_NAME'] . '/uploads/inbox/' . $model->file;
+                  ?>
+                  <?php if($paths!=null){$paths;}?>
+                </p>
+                
+                <?=Html::a('<i class="glyphicon glyphicon-trash"></i>',
                                         ["/inbox/check-delete", 'id' => $model->id,] ,
                                         [
-                                            "class"=>"text-danger",
+                                            "class"=>"text-danger right",
                                             'role'=>'modal-remote',
                                             'data-confirm'=>false, 'data-method'=>false,
                                             'data-request-method'=>'post',
                                             'data-confirm-title'=>'Подтвердите действие',
                                             'data-confirm-message'=>'Вы уверены что хотите удалить этого элемента?'
-                                        ])?>
-                        </div>
-                        <?=$file?>
-                    </div>
-                <?php
-                }
-                ?>
+                ])?>
+                <span class="right"><?= date( 'H:i d.m.Y', strtotime($model->date_cr) ) ?></span>
+                </li>
+                <?php endforeach; ?>
+                </ul>
+
             </div>
-            <div class="panel-footer">
-                <span class="pull-right">
-                    <?=LinkPager::widget(['pagination'=>$dataProvider->pagination,])?>                    
-                </span>
-            </div>                            
+           </div>
         </div>
+      </div>    
     </div>
 </div>
 <?php Pjax::end() ?>
 <?php Modal::begin([
     "id"=>"ajaxCrudModal",
-    "options" => [
-        "tabindex" => false,
-    ],
     "footer"=>"",// always need it for jquery plugin
 ])?>
 <?php Modal::end(); ?>

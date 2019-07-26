@@ -24,7 +24,7 @@ use kartik\select2\Select2;
     
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'file')->fileInput(['maxlength' => true,'class'=>'dropify']) ?>
+    <?= $form->field($model, 'files')->fileInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'text')->textarea(['rows'=>5]) ?>
 

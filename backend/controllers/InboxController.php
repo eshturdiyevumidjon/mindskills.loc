@@ -120,7 +120,7 @@ class InboxController extends Controller
                 ->andFilterWhere(['between', 'date_cr', $date_cr . ' 00:00:00', $date_cr . ' 23:59:59' ]);
         }
         else $query = Inbox::find()
-            ->where(['starred' => 1,])
+            ->where(['starred' => 1,'deleted' => 0])
             ->andWhere(['or',
                ['LIKE', 'from', $userId],
                ['LIKE', 'to', $userId],
@@ -227,22 +227,23 @@ class InboxController extends Controller
         $request = Yii::$app->request;
         $model = $this->findModel($id);
         $model->is_read = 1;
-        $model->save();
+        $model->save(false);
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
                     'title'=> $model->title,
                     'forceReload'=>'#inbox-pjax',
                     'content'=>$this->renderAjax('view', [
-                        'model' => $this->findModel($id),
+                        'model' =>$model ,
                     ]),
                     'footer'=> Html::button('Закрыть',['class'=>'btn btn-info pull-right','data-dismiss'=>"modal"])
                     
                             
-                ];    
+                ];  
+        
         }else{
             return $this->render('view', [
-                'model' => $this->findModel($id),
+                'model' => $model,
             ]);
         }
     }
@@ -274,7 +275,7 @@ class InboxController extends Controller
         $model = $this->findModel($id);
         if($model->starred === 1) $model->starred = 0;
         else $model->starred = 1;
-        $model->save();
+        $model->save(false);
     }
 
     /**
@@ -296,7 +297,7 @@ class InboxController extends Controller
                     $inbox->title = $model->title;
                     $inbox->text = $model->text;
                     $inbox->to = $user;
-                    if($inbox->save())
+                    if($inbox->save(false))
                     {
                         $model->files = UploadedFile::getInstance($model, 'files');
                         if(!empty($model->files)) {
@@ -433,7 +434,7 @@ class InboxController extends Controller
         $inbox = Inbox::findOne($id);
         $inbox->is_read = 1;
         $inbox->deleted = 1;
-        $inbox->save();
+        $inbox->save(false);
         if($request->isAjax){
             /*
             *   Process for ajax request
