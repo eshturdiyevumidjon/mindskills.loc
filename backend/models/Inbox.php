@@ -41,7 +41,7 @@ class Inbox extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['users'],'required'],
+            [['to'],'required'],
             [['from', 'to', 'starred', 'reply', 'deleted', 'is_read'], 'integer'],
             [['text'], 'string'],
             [['date_cr'], 'safe'],
@@ -84,6 +84,10 @@ class Inbox extends \yii\db\ActiveRecord
             $this->from = Yii::$app->user->identity->id;
         }
         return parent::beforeSave($insert);
+    }
+    public static function getDate($date=null)
+    {
+        return ($date!=null)?\Yii::$app->formatter->asDate($date, 'php:H:i d.m.Y'):null;
     }
     public function getUsersList()
     {

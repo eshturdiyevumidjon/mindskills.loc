@@ -9,14 +9,13 @@ use kartik\select2\Select2;
     
     <div class="row">
         <div class="col s12">
-            <?=$form->field($model, 'users')->widget(Select2::classname(), [
+            <?=$form->field($model, 'to')->widget(Select2::classname(), [
               'data' => $model->getUsersList(),
                 'size' => Select2::SMALL,
                 'language' => 'ru',
                 'options' => ['placeholder' => 'Выберите',],
                 'pluginOptions' => [
                     'allowClear' => true,
-                    'multiple' => true,
                 ],
             ])?>
         </div>
@@ -30,7 +29,7 @@ use kartik\select2\Select2;
 
     <?php if (!Yii::$app->request->isAjax){ ?>
           <div class="form-group">
-            <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+            <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Редактировать', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
         </div>
     <?php } ?>
 

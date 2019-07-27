@@ -24,7 +24,7 @@ CrudAsset::register($this);
            <h4 class="card-title grey-text text-darken-4"><?=$user->fio?></h4>
           <p class="medium-small grey-text"><?=$user->getTypeDescription()?></p>
         </div>
-        <div class="col s12 m2 center-align">
+        <div class="col s12 m3 center-align">
           <h4 class="card-title grey-text text-darken-4"><?=$user->phone?></h4>
           <p class="medium-small grey-text"><?=$user->getAttributeLabel('phone')?></p>
         </div>
@@ -36,19 +36,17 @@ CrudAsset::register($this);
           <h4 class="card-title grey-text text-darken-4">$<?=$user->balanc?></h4>
           <p class="medium-small grey-text"><?=$user->getAttributeLabel('balanc')?></p>
         </div>
+      </div>
         <div class="col s12 m1 right-align">
           <a class="btn-floating activator waves-effect waves-light rec accent-2 right">
             <i class="material-icons">create</i>
           </a>
-        </div>
-      </div>
+        </div><br><br>
     </div>
-
     <div class="card-reveal" style="display: none; transform: translateY(0px);">
         <span class="card-title grey-text text-darken-4">
             <i class="material-icons right">close</i>
         </span>
-               
        <div class="row center-align">
           <h3><?=$user->fio?></h3> 
        </div>

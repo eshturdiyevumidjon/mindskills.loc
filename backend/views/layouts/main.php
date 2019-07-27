@@ -112,8 +112,7 @@ use backend\assets\DashboardAsset;
               </a>
             </li>
             <li>
-              <a href="app-email.html" class="btn-floating red">
-                <i class="material-icons">mail_outline</i>
+                <?= Html::a('<i class="material-icons">mail_outline</i>Эмаил', ['/inbox/index'],['class'=>'btn-floating red']); ?>
               </a>
             </li>
           </ul>

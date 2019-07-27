@@ -8,7 +8,6 @@ if($user->image == null) $path = 'http://' . $_SERVER['SERVER_NAME'] . '/uploads
 else $path = 'http://' . $_SERVER['SERVER_NAME'] . '/uploads/avatar/' . $user->image;
 
 ?>
-
 <header id="header" class="page-topbar">
       <!-- start header nav-->
       <div class="navbar-fixed">
@@ -39,7 +38,7 @@ else $path = 'http://' . $_SERVER['SERVER_NAME'] . '/uploads/avatar/' . $user->i
               <li>
                 <a href="javascript:void(0);" class="waves-effect waves-block waves-light profile-button" data-activates="profile-dropdown">
                   <span class="avatar-status avatar-online">
-                    <img src="<?=$path?>"  alt="avatar"class="img-circle"style="margin-bottom: 15px;">
+                    <img src="<?=$path?>"  alt="avatar" style="margin-bottom: 15px; "class="img-circle">
                     <i></i>
                   </span>
                 </a>
@@ -113,8 +112,7 @@ else $path = 'http://' . $_SERVER['SERVER_NAME'] . '/uploads/avatar/' . $user->i
                   <i class="material-icons">settings</i> Settings</a>
               </li>
               <li>
-                <a href="#" class="grey-text text-darken-1">
-                  <i class="material-icons">live_help</i> Help</a>
+                <?= Html::a('<i class="material-icons">email</i>Чат', ['/inbox/index'],['class' => 'grey-text text-darken-1']); ?>
               </li>
               <li class="divider"></li>
               <li>

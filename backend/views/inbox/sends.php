@@ -18,7 +18,7 @@ else $path = 'http://' . $_SERVER['SERVER_NAME'] . '/uploads/avatar/' . $user->i
 
 $models=$dataProvider->getModels();
 ?>
-<?php Pjax::begin(['enablePushState' => false, 'id' => 'inbox-pjax']) ?>
+<?php Pjax::begin(['enablePushState' => false, 'id' => 'inbox-3-pjax']) ?>
 <div class="container">
     <div id="mail-app" class="section">
       <div class="row">
@@ -59,80 +59,138 @@ $models=$dataProvider->getModels();
           </nav>
         </div>
         <div class="col s12">
-          <div id="email-sidebar" class="col s3 m2 s6 card-panel">
+            <div style="max-height: 440px;overflow-y: hidden;" class="col s3 m3 s6 card-panel">
+          <div id="email-sidebar" >
             <ul>
               <li>
-                <img src="<?=$path?>" alt="" class="circle responsive-img valign profile-image">
+                <img src="<?=$path?>" alt="" class="circle responsive-img valign profile-image" style="width: 200px;height: 200px;">
               </li>
               <li>
-                <a href="/inbox/create" role="modal-remote">
-                <span class="material-icons"style="font-size: large;">create</span>Написать
+                <a href="/inbox/create?type=3" role="modal-remote">
+                  <div class="row">
+                    <div class="col s4 right-align">
+                      <span class="material-icons"style="font-size: large;">create</span>
+                    </div>
+                    <div class="col s8 left-align">
+                      Написать
+                    </div>
+                  </div>
                 </a>
               </li>
               <li>
                 <a href="/inbox/index">
-                <span class="material-icons"style="font-size: large;">inbox</span>
-                 <small class="notification-badge"><?= $inbox ?></small>Входящие
+                  <div class="row">
+                    <div class="col s4 right-align">
+                      <span class="material-icons"style="font-size: large;">inbox</span>  <?php if($inbox>0):?><small class="notification-badge"><?= $inbox ?></small><?php endif;?>
+                    </div>
+                    <div class="col s8 left-align">
+                      Входящие
+                    </div>
+                  </div>
                 </a>
               </li>
               <li>
-                <a href="/inbox/favorites"> <span class="material-icons"style="font-size: large;">star</span>Избранные
+                <a href="/inbox/favorites"> 
+                  <div class="row">
+                    <div class="col s4 right-align">
+                      <span class="material-icons"style="font-size: large;">star</span>
+                    </div>
+                    <div class="col s8 left-align">
+                      Избранные
+                    </div>
+                  </div>
                 </a>
               </li>
               <li style="background-color:rgba(0,0,0,0.09);border-radius: 10px;">
-                 <a href="/inbox/sends"> 
-                  <span class="material-icons"style="font-size: large;">email</span>Отправленные
+                <a href="/inbox/sends">
+                  <div class="row">
+                    <div class="col s4 right-align"> 
+                     <span class="material-icons"style="font-size: large;">email</span>
+                    </div>
+                    <div class="col s8 left-align">
+                      Отправленные
+                    </div>
+                  </div>
                 </a>
               </li>
               <li>
-                 <a href="/inbox/deleting"> 
-                  <span class="material-icons"style="font-size: large;">delete</span>Удаленные
+                <a href="/inbox/deleting"> 
+                  <div class="row">
+                    <div class="col s4 right-align">
+                      <span class="material-icons"style="font-size: large;">delete</span>
+                    </div>
+                    <div class="col s8 left-align">
+                      Удаленные
+                    </div>
+                  </div>
                 </a>
               </li>
             </ul>
           </div>
-          <div class="col s9 m10">
+        </div>
+          <div class="col s9 m9">
             <div class="card-panel"> 
                 <ul class="collection hover-sms" >
                 <?php 
-                    foreach($dataProvider->getModels() as $model):
+                $models = $dataProvider->getModels();
+                if(count($models)){
+                    foreach($models as $model):
                     if($model->starred == 1) $starred = 'yellow-text';
                         else $starred = 'black-text';
                 ?>
                 <li class="collection-item avatar" style="margin: 0;">
-             
-            
-                  <?php 
-                    if($model->from0->image == null) $images = 'http://' . $_SERVER['SERVER_NAME'] . '/uploads/no-user.jpg';
-                    else $images = 'http://' . $_SERVER['SERVER_NAME'] . '/uploads/avatar/' . $model->from0->image;
-                  ?>
-                  <a href="#!" class="left" onclick="$.get('/inbox/set-star', {'id':<?=$model->id?>}, function(data){$.pjax.reload({container:'#inbox-pjax', async: false});} );"><i class="material-icons <?=$starred?>">grade</i></a>
-                  <img src="<?= $images ?>" class="circle">
-                
-                <span class="card-title grey-text text-darken-4"><?=$model->from0->fio?></span>
-                <a class="mail-text" title="Просмотр" role="modal-remote" href="<?=Url::toRoute(['/inbox/view1',"id" => $model->id])?>"><?=$model->title . ($model->is_read == 0 ? ' <i style="color:red;">(no read)</i>' : '<i style="color:red;">( read)</i>')?></a>
-                <p class="truncate grey-text ultra-small right" style="">
-                  <?php 
-                    $paths = 'http://' . $_SERVER['SERVER_NAME'] . '/uploads/inbox/' . $model->file;
-                  ?>
-                  <?php if($paths!=null){$paths;}?>
-                </p>
-                
-                <?=Html::a('<i class="glyphicon glyphicon-trash"></i>',
-                                        ["/inbox/check-delete", 'id' => $model->id,] ,
-                                        [
-                                            "class"=>"text-danger right",
-                                            'role'=>'modal-remote',
-                                            'data-confirm'=>false, 'data-method'=>false,
-                                            'data-request-method'=>'post',
-                                            'data-confirm-title'=>'Подтвердите действие',
-                                            'data-confirm-message'=>'Вы уверены что хотите удалить этого элемента?'
-                ])?>
-                <span class="right"><?= date( 'H:i d.m.Y', strtotime($model->date_cr) ) ?></span>
+                  <div class="row">
+                    <div class="col s1">
+                      <?php 
+                        if($model->to0->image == null) $images = 'http://' . $_SERVER['SERVER_NAME'] . '/uploads/no-user.jpg';
+                        else $images = 'http://' . $_SERVER['SERVER_NAME'] . '/uploads/avatar/' . $model->to0->image;
+                      ?>
+                      <img src="<?= $images ?>" class="circle" style="width: 65px;height: 65px;">
+                    </div>
+                    <div class="col s5">
+                        
+                          <span class="card-title grey-text text-darken-4"><?=$model->to0->fio?></span><br>
+                        <a class="mail-text" title="Просмотр" role="modal-remote" href="<?=Url::toRoute(['/inbox/view1',"id" => $model->id,
+                      "type"=>3])?>"><?=$model->title . ($model->is_read == 0 ? ' <i style="color:red;">(no read)</i>' : '<i style="color:red;">( read)</i>')?></a>
+                    </div>
+                    <div class="col s2">
+                       <?php 
+                      $paths = 'http://' . $_SERVER['SERVER_NAME'] . '/uploads/inbox/' . $model->file;
+                      echo $model->file;
+                      ?>
+                      <?php if($paths!=null){ $paths;}?>
+                      <br>
+                      <?php if($model->file!=null){ ?>
+                      <a data-pjax="0"  href=" <?=Url::toRoute(['/inbox/download-file','id' => $model->id,])?>">
+                      <i class="material-icons" style="font-size: large;">
+                        cloud_download</i>Скачать
+                      </a>
+                      <?php }?>
+                    </div>
+                    <div class="col s3">
+                      <span class="right"><?= date( 'H:i:m', strtotime($model->date_cr) ) ?></span><br>
+                      <span class="right"><?= date( 'd.m.Y', strtotime($model->date_cr) ) ?></span>
+                    </div>
+                    <div class="col s1">
+                        <?=Html::a('<i class="glyphicon glyphicon-trash"></i>',
+                        ["/inbox/check-delete", 'id' => $model->id,
+                      "type"=>3] ,
+                        [
+                            "class"=>"text-danger right",
+                            'role'=>'modal-remote',
+                            'data-confirm'=>false, 'data-method'=>false,
+                            'data-request-method'=>'post',
+                            'data-confirm-title'=>'Подтвердите действие',
+                            'data-confirm-message'=>'Вы уверены что хотите удалить этого элемента?'
+                        ])?>
+                  </div>
+              </div>
                 </li>
-                <?php endforeach; ?>
+                <?php endforeach;}
+                else{
+                  echo "<p class='center-align'>Там нет отправленных сообщений</p>";
+                } ?>
                 </ul>
-
             </div>
            </div>
         </div>

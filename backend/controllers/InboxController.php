@@ -45,32 +45,6 @@ class InboxController extends Controller
         ];
     }
 
-    // public function beforeAction($action)
-    // {
-    //     if(Yii::$app->user->identity->id === null) return $this->redirect(['/site/login']);
-    //     $rules = Rules::find()->where(['user_id' => Yii::$app->user->identity->id])->one();
-    //     if($action->id =='index' || $action->id =='view')
-    //     {
-    //         if($rules->inbox_view !== 1) throw new HttpException(403,'У вас нет разрешения на доступ к этому действию.');
-    //     }
-    //     if($action->id =='create')
-    //     {
-    //         if($rules->inbox_create !== 1) throw new HttpException(403,'У вас нет разрешения на доступ к этому действию.');
-    //     }
-    //     if($action->id =='update')
-    //     {
-    //         if($rules->inbox_update !== 1) throw new HttpException(403,'У вас нет разрешения на доступ к этому действию.');
-    //     }
-    //     if($action->id =='delete')
-    //     {
-    //         if($rules->inbox_delete !== 1) throw new HttpException(403,'У вас нет разрешения на доступ к этому действию.');
-    //     }
-    //     //throw new NotFoundHttpException('The requested page does not exist.');
-    //     //throw new HttpException(403,'У вас нет разрешения на доступ к этому действию.');
-    //     $this->enableCsrfValidation = false;
-    //     return parent::beforeAction($action);
-    // }
-
     /**
      * Lists all Inbox models.
      * @return mixed
@@ -222,7 +196,7 @@ class InboxController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionView($id)
+    public function actionView($id,$type)
     {   
         $request = Yii::$app->request;
         $model = $this->findModel($id);
@@ -232,11 +206,11 @@ class InboxController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
                     'title'=> $model->title,
-                    'forceReload'=>'#inbox-pjax',
+                    'forceReload'=>'#inbox-'.$type.'-pjax',
                     'content'=>$this->renderAjax('view', [
                         'model' =>$model ,
                     ]),
-                    'footer'=> Html::button('Закрыть',['class'=>'btn btn-info pull-right','data-dismiss'=>"modal"])
+                    'footer'=> Html::button('Закрыть',['class'=>'btn btn-info pull-left','data-dismiss'=>"modal"]).Html::a('Ответить',['reply','user'=>$model->from,'type'=>$type],['class'=>'btn btn-info pull-right','role'=>'modal-remote'])
                     
                             
                 ];  
@@ -247,8 +221,52 @@ class InboxController extends Controller
             ]);
         }
     }
+    public function actionReply($user,$type)
+    {
+        $request = Yii::$app->request;
+        $model = new Inbox();
+        $model->to=$user;
+        if($request->isAjax){
+            Yii::$app->response->format = Response::FORMAT_JSON;
+        if ($model->load($request->post()) && $model->validate()) {
+               
+                        $model->save();
+                        $model->files = UploadedFile::getInstance($model, 'files');
+                        if(!empty($model->files)) {
+                            $model->files->saveAs('uploads/inbox/'.$model->id.'.'.$model->files->extension);
+                            Yii::$app->db->createCommand()->update('inbox', 
+                                [ 'file' => $model->id.'.'.$model->files->extension ], 
+                                [ 'id' => $model->id ])
+                            ->execute();
+                        }                    
+             
 
-    public function actionView1($id)
+                 return [
+                    'forceReload'=>'#inbox-'.$type.'-pjax',
+                    'title'=> "Сообщения",
+                    'content'=>'<span class="text-success">Успешно выполнено</span>',
+                    'footer'=> Html::button('Ок',['class'=>'btn btn-primary pull-left','data-dismiss'=>"modal"]).
+                            Html::a('Отправить ещё',['create','type'=>$type],['class'=>'btn btn-info','role'=>'modal-remote'])
+                ];
+            } else 
+               return [
+                    'title'=> "Сообщения",
+                    'content'=>$this->renderAjax('create', [
+                        'model' => $model,
+                    ]),
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Отправить',['class'=>'btn btn-primary','type'=>"submit"])
+                ]; 
+            } 
+       
+        else
+        {
+           return $this->render('create', [
+                    'model' => $model,
+                ]); 
+        }
+    }
+    public function actionView1($id,$type)
     {   
         $request = Yii::$app->request;
         $model = $this->findModel($id);
@@ -256,11 +274,11 @@ class InboxController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
                     'title'=> "Сообщения",
-                    'forceReload'=>'#inbox-pjax',
+                    'forceReload'=>'#inbox-'.$type.'-pjax',
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
-                    'footer'=> Html::button('Закрыть',['class'=>'btn btn-info pull-right','data-dismiss'=>"modal"])
+                    'footer'=> Html::button('Закрыть',['class'=>'btn btn-info pull-right','data-dismiss'=>"modal"]),
                             
                 ];    
         }else{
@@ -277,53 +295,46 @@ class InboxController extends Controller
         else $model->starred = 1;
         $model->save(false);
     }
-
     /**
      * Creates a new Inbox model.
      * For ajax request will return json object
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($type)
     {
         $request = Yii::$app->request;
         $model = new Inbox();
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
         if ($model->load($request->post()) && $model->validate()) {
-               foreach ($request->post()['Inbox']['users'] as $user) 
-                {
-                    $inbox = new Inbox();
-                    $inbox->title = $model->title;
-                    $inbox->text = $model->text;
-                    $inbox->to = $user;
-                    if($inbox->save(false))
-                    {
+               
+                        $model->save();
                         $model->files = UploadedFile::getInstance($model, 'files');
                         if(!empty($model->files)) {
-                            $model->files->saveAs('uploads/inbox/'.$inbox->id.'.'.$model->files->extension);
+                            $model->files->saveAs('uploads/inbox/'.$model->id.'.'.$model->files->extension);
                             Yii::$app->db->createCommand()->update('inbox', 
-                                [ 'file' => $inbox->id.'.'.$model->files->extension ], 
-                                [ 'id' => $inbox->id ])
+                                [ 'file' => $model->id.'.'.$model->files->extension ], 
+                                [ 'id' => $model->id ])
                             ->execute();
                         }                    
-                    }                
-                }
+             
 
                  return [
-                    'title'=> "Курсы",
+                    'forceReload'=>'#inbox-'.$type.'-pjax',
+                    'title'=> "Сообщения",
                     'content'=>'<span class="text-success">Успешно выполнено</span>',
                     'footer'=> Html::button('Ок',['class'=>'btn btn-primary pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Создать ещё',['create'],['class'=>'btn btn-info','role'=>'modal-remote'])
+                            Html::a('Отправить ещё',['create','type'=>$type],['class'=>'btn btn-info','role'=>'modal-remote'])
                 ];
             } else 
                return [
-                    'title'=> "Update Inbox #".$id,
+                    'title'=> "Сообщения",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Отправить',['class'=>'btn btn-primary','type'=>"submit"])
                 ]; 
             } 
        
@@ -354,31 +365,31 @@ class InboxController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Update Inbox #".$id,
+                    'title'=> "Изменить",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Inbox #".$id,
+                    'title'=> "Сообщения",
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                            Html::a('Изменить',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
             }else{
                  return [
-                    'title'=> "Update Inbox #".$id,
+                    'title'=> "Изменить",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Save',['class'=>'btn btn-primary','type'=>"Сохранить"])
                 ];        
             }
         }else{
@@ -398,7 +409,7 @@ class InboxController extends Controller
     //Скачать документы
     public function actionDownloadFile($id)
     {
-        $model = Inbox::findOne($id);
+        $model = Inbox::findOne($id); 
         return \Yii::$app->response->sendFile('uploads/inbox/'.$model->file);
     }
 
@@ -428,19 +439,25 @@ class InboxController extends Controller
         }
     }
 
-    public function actionCheckDelete($id)
+    public function actionCheckDelete($id,$type)
     {
         $request = Yii::$app->request;
         $inbox = Inbox::findOne($id);
-        $inbox->is_read = 1;
-        $inbox->deleted = 1;
-        $inbox->save(false);
+        if($inbox->deleted == 1){
+            $inbox->delete();
+        }
+        else
+        {
+            $inbox->is_read = 1;
+            $inbox->deleted = 1;
+            $inbox->save(false);
+        }
         if($request->isAjax){
             /*
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>'#inbox-pjax'];
+            return ['forceClose'=>true,'forceReload'=>'#inbox-'.$type.'-pjax'];
         }else{
             /*
             *   Process for non-ajax request
@@ -494,43 +511,5 @@ class InboxController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
-    }
-
-    public function actionAlerts()
-    {    
-        $userId = Yii::$app->user->identity->id;
-        $query = Alerts::find()->where([/*'status' => 1,*/ 'user_id' => $userId]);
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-            'sort'=> ['defaultOrder' => ['id'=>SORT_DESC]]
-        ]);
-
-        return $this->render('alerts', [
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
-    public function actionViewAlert($id)
-    {
-        $request = Yii::$app->request;
-        $alert = Alerts::findOne($id);
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        return [
-            'title'=> "Уведомления",
-            'size' => 'normal',
-            'content'=>$this->renderAjax('view-alert', [
-                'model' => $alert,
-            ]),
-            //'footer'=> Html::button('OK',['class'=>'btn btn-primary','data-dismiss'=>"modal"])
-            'footer'=>Html::a('Просмотр',['/orders/view','id'=>$alert->order_id],['class'=>'btn btn-info', /*'data-dismiss'=>"modal",*/ 'data-pjax'=>'0'])
-        ];
-    }
-
-    public function actionDeleteAlert($id)
-    {
-        $request = Yii::$app->request;
-        Alerts::findOne($id)->delete();
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        return ['forceClose'=>true,'forceReload'=>'#crud-datatable-pjax'];
     }
 }
