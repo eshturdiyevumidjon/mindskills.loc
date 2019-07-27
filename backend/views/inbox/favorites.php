@@ -150,7 +150,7 @@ $models=$dataProvider->getModels();
                   </div>
                   <div class="col s5">
                       <a href="#!" class="left" onclick="$.get('/inbox/set-star', {'id':<?=$model->id?>}, function(data){$.pjax.reload({container:'#inbox-2-pjax', async: false});} );"><i class="material-icons <?=$starred?>">grade</i></a>
-                      <span class="card-title grey-text text-darken-4"><?=$model->from0->fio?></span><br>
+                      <b><?=$model->from0->fio?></b><br>
                       <a class="mail-text" title="Просмотр" role="modal-remote" href="<?=Url::toRoute(['/inbox/view1',"id" => $model->id,
                       "type"=>2])?>"><?=$model->title . ($model->is_read == 0 ? ' <i style="color:red;">(new)</i>' : '')?>
                       </a>

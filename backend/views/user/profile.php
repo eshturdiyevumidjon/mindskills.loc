@@ -18,7 +18,7 @@ CrudAsset::register($this);
       <img src="<?=$path?>" alt="profile image" class="circle z-depth-2 responsive-img activator gradient-45deg-light-blue-cyan gradient-shadow">
     </figure>
    
-    <div class="card-content">
+    <div class="card-content" style="height: 220px;">
       <div class="row pt-2">
         <div class="col s12 m3 offset-m2">
            <h4 class="card-title grey-text text-darken-4"><?=$user->fio?></h4>

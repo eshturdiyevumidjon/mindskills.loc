@@ -241,13 +241,7 @@ class InboxController extends Controller
                         }                    
              
 
-                 return [
-                    'forceReload'=>'#inbox-'.$type.'-pjax',
-                    'title'=> "Сообщения",
-                    'content'=>'<span class="text-success">Успешно выполнено</span>',
-                    'footer'=> Html::button('Ок',['class'=>'btn btn-primary pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Отправить ещё',['create','type'=>$type],['class'=>'btn btn-info','role'=>'modal-remote'])
-                ];
+                 return ['forceClose'=>true];
             } else 
                return [
                     'title'=> "Сообщения",
@@ -318,15 +312,7 @@ class InboxController extends Controller
                                 [ 'id' => $model->id ])
                             ->execute();
                         }                    
-             
-
-                 return [
-                    'forceReload'=>'#inbox-'.$type.'-pjax',
-                    'title'=> "Сообщения",
-                    'content'=>'<span class="text-success">Успешно выполнено</span>',
-                    'footer'=> Html::button('Ок',['class'=>'btn btn-primary pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Отправить ещё',['create','type'=>$type],['class'=>'btn btn-info','role'=>'modal-remote'])
-                ];
+              return ['forceClose'=>true];
             } else 
                return [
                     'title'=> "Сообщения",

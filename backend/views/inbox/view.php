@@ -14,37 +14,43 @@ CrudAsset::register($this);
                <div class="col s12">    
                Получатель:<?php echo " ".$model->to0->fio; ?>
                </div>
-            </div>
+              </div>
+              <br>
             <div class="row">
                <div class="col s12">
                 Отправитель:<?php echo " ".$model->from0->fio; ?>
                </div>
             </div>
-            <?php $form = yii\widgets\ActiveForm::begin();?>
+            <hr>
             <div class="row">
-                <div class="col s12">    
-               <?= $form->field($model, 'text')->textarea(['rows'=>6]) ?>
-               </div>
+              <div class="col s12">
+                      <p class="title"><?=$model->title?></p>
+                     <p class="left-align"><?php echo $model->text;?></p>
             </div>
-                <?php yii\widgets\ActiveForm::end();?>
-
+            </div>
                 <?php if($model->file != null) {  ?>
+              <hr>
             <div class="row">
+
                 <div class="col s9">
-                    
                        <?php if($model->file!=null){ ?>
-                    <a  href=" <?=Url::toRoute(['/inbox/download-file','id' => $model->id,])?>"><?php echo $model->file;?><br>
-                        <i class="material-icons" style="font-size: large;">
-                          cloud_download</i>Скачать
+                        <a  href=" <?=Url::toRoute(['/inbox/download-file','id' => $model->id,])?>"><br>
+                         <div class="row">
+                        <div class="col s1 right-align">
+                          <i class="material-icons" style="font-size: large;">
+                        cloud_download</i>
+                        </div>
+                        <div class="col s7 left-align">
+                          Скачать
+                        </div>
+                      </div>
                     </a>
                       <?php }?>
                 </div>
             </div>
             <div class="row">
-                <div class="col s9">
-                </div>
-                <div class="col s3">
-                    <span class="bottom"><?= date( 'H:i d.m.Y', strtotime($model->date_cr) ) ?></span>
+                <div class="col s12 right-align">
+                      <span><?= date( 'H:i d.m.Y', strtotime($model->date_cr) ) ?></span>
                 </div>
             </div>
                 </div>

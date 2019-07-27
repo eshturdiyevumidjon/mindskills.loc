@@ -89,7 +89,7 @@ $models=$dataProvider->getModels();
                   </div>
                 </a>
               </li>
-              <li>
+              <!-- <li>
                 <a href="/inbox/favorites"> 
                   <div class="row">
                     <div class="col s4 right-align">
@@ -100,7 +100,7 @@ $models=$dataProvider->getModels();
                     </div>
                   </div>
                 </a>
-              </li>
+              </li> -->
               <li style="background-color:rgba(0,0,0,0.09);border-radius: 10px;">
                 <a href="/inbox/sends">
                   <div class="row">
@@ -129,12 +129,15 @@ $models=$dataProvider->getModels();
           </div>
         </div>
           <div class="col s9 m9">
+
+          <div class="row">
             <div class="card-panel"> 
-                <ul class="collection hover-sms" >
                 <?php 
-                $models = $dataProvider->getModels();
-                if(count($models)){
-                    foreach($models as $model):
+                  $models = $dataProvider->getModels();
+                  if(count($models)){
+                  ?>
+                <ul class="collection hover-sms" >
+                <?php  foreach($models as $model):
                     if($model->starred == 1) $starred = 'yellow-text';
                         else $starred = 'black-text';
                 ?>
@@ -147,9 +150,8 @@ $models=$dataProvider->getModels();
                       ?>
                       <img src="<?= $images ?>" class="circle" style="width: 65px;height: 65px;">
                     </div>
-                    <div class="col s5">
-                        
-                          <span class="card-title grey-text text-darken-4"><?=$model->to0->fio?></span><br>
+                    <div class="col s4">
+                        <b><?=$model->from0->fio?></b><br>
                         <a class="mail-text" title="Просмотр" role="modal-remote" href="<?=Url::toRoute(['/inbox/view1',"id" => $model->id,
                       "type"=>3])?>"><?=$model->title . ($model->is_read == 0 ? ' <i style="color:red;">(no read)</i>' : '<i style="color:red;">( read)</i>')?></a>
                     </div>
@@ -162,16 +164,23 @@ $models=$dataProvider->getModels();
                       <br>
                       <?php if($model->file!=null){ ?>
                       <a data-pjax="0"  href=" <?=Url::toRoute(['/inbox/download-file','id' => $model->id,])?>">
-                      <i class="material-icons" style="font-size: large;">
-                        cloud_download</i>Скачать
-                      </a>
+                      <div class="row">
+                        <div class="col s3 right-align">
+                          <i class="material-icons" style="font-size: large;">
+                        cloud_download</i>
+                        </div>
+                        <div class="col s9 left-align">
+                          Скачать
+                        </div>
+                      </div>
+                     </a>
                       <?php }?>
                     </div>
                     <div class="col s3">
                       <span class="right"><?= date( 'H:i:m', strtotime($model->date_cr) ) ?></span><br>
                       <span class="right"><?= date( 'd.m.Y', strtotime($model->date_cr) ) ?></span>
                     </div>
-                    <div class="col s1">
+                    <div class="col s2">
                         <?=Html::a('<i class="glyphicon glyphicon-trash"></i>',
                         ["/inbox/check-delete", 'id' => $model->id,
                       "type"=>3] ,
@@ -186,12 +195,19 @@ $models=$dataProvider->getModels();
                   </div>
               </div>
                 </li>
-                <?php endforeach;}
-                else{
-                  echo "<p class='center-align'>Там нет отправленных сообщений</p>";
-                } ?>
+                <?php endforeach;?>
                 </ul>
+                 <?php }
+                    else{
+                      echo '<div id="card-alert" class="card purple lighten-5">
+                              <div class="card-content purple-text">
+                                <p>Нет полученных сообщений.</p>
+                              </div>
+                            </div>';
+                     
+                    } ?>
             </div>
+          </div>
            </div>
         </div>
       </div>    

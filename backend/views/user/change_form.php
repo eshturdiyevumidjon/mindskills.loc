@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use kartik\date\DatePicker; 
 
 if (!file_exists('uploads/avatar/'.$model->image) || $model->image == '') {
     $path = 'http://' . $_SERVER['SERVER_NAME'].'/uploads/no-user.jpg';
@@ -48,9 +49,21 @@ if (!file_exists('uploads/avatar/'.$model->image) || $model->image == '') {
                     <?= $form->field($model, 'new_password')->textInput(['maxlength' => true]) ?>
                 </div>
             </div>
+            <div class="row">
+                <div class="col s6">
+                        <?= $form->field($model, 'birthday')->widget(DatePicker::className(), [
+                        'language' => 'ru',
+                        'size' => 'sm', 
+                        'type'=>DatePicker::TYPE_INPUT,
+                        'pluginOptions' => [
+                        'todayHighlight' => true,
+                        'format'=>'dd.mm.yyyy',
+                        ]
+                    ]) ?>
+                </div>
+            </div>
         </div>
     </div>
-
 
     <?php ActiveForm::end(); ?>
 

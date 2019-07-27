@@ -71,7 +71,7 @@ $models=$dataProvider->getModels();
                     </div>
                   </a>
                 </li>
-                <li>
+                <!-- <li>
                   <a href="/inbox/favorites">
                     <div class="row">
                       <div class="col s4 right-align">
@@ -82,7 +82,7 @@ $models=$dataProvider->getModels();
                       </div>
                     </div>
                   </a>
-                </li>
+                </li> -->
                 <li>
                   <a href="/inbox/sends"> 
                     <div class="row">
@@ -111,12 +111,16 @@ $models=$dataProvider->getModels();
             </div>
           </div>
           <div class="col s9 m9 l9">
+            <div class="row">
+
             <div class="card-panel"> 
-                <ul class="collection hover-sms" >
-                <?php 
+              <?php 
                 $models = $dataProvider->getModels();
                 if(count($models)>0)
                 {
+                  ?>
+                <ul class="collection hover-sms" >
+                <?php
                     foreach($models as $model):
                     if($model->starred == 1) $starred = 'yellow-text';
                         else $starred = 'black-text';
@@ -130,9 +134,8 @@ $models=$dataProvider->getModels();
                     ?>
                     <img src="<?= $images ?>" class="circle" style="width: 60px;height: 60px;">
                   </div>
-                  <div class="col s5">
-                    <a href="#!" class="left" onclick="$.get('/inbox/set-star', {'id':<?=$model->id?>}, function(data){$.pjax.reload({container:'#inbox-4-pjax', async: false});} );"><i class="material-icons <?=$starred?>">grade</i></a>
-                    <span class="card-title grey-text text-darken-4"><?=$model->from0->fio?></span><br>
+                  <div class="col s4">
+                    <b><?=$model->from0->fio?></b><br>
                     <a class="mail-text" title="Просмотр" role="modal-remote" href="<?=Url::toRoute(['/inbox/view1',"id" => $model->id,"type"=>4])?>"><?=$model->title;?></a>
                   </div>
                   <div class="col s2">
@@ -144,12 +147,19 @@ $models=$dataProvider->getModels();
                       <br>
                       <?php if($model->file!=null){ ?>
                       <a data-pjax="0" href=" <?=Url::toRoute(['/inbox/download-file','id' => $model->id,])?>">
-                      <i class="material-icons" style="font-size: large;">
-                        cloud_download</i>Скачать
+                      <div class="row">
+                        <div class="col s3 right-align">
+                          <i class="material-icons" style="font-size: large;">
+                        cloud_download</i>
+                        </div>
+                        <div class="col s9 left-align">
+                          Скачать
+                        </div>
+                      </div>
                       </a>
                       <?php }?>
                   </div>
-                  <div class="col s2">
+                  <div class="col s3">
                       <span class="right"><?= date( 'H:i:m', strtotime($model->date_cr) ) ?></span><br>
                       <span class="right"><?= date( 'd.m.Y', strtotime($model->date_cr) ) ?></span>
                   </div>
@@ -167,15 +177,19 @@ $models=$dataProvider->getModels();
                   </div>
               </div>
                 </li>
-                <?php endforeach; 
-                  }
-                  else
-                  {
-                    echo "<p class='center-align'>Корзинка пуста</p>";
-                  }
-                ?>
+                <?php endforeach;?>
                 </ul>
+                 <?php }
+                    else{
+                      echo '<div id="card-alert" class="card purple lighten-5">
+                              <div class="card-content purple-text">
+                                <p>Корзинка пуста</p>
+                              </div>
+                            </div>';
+                     
+                    } ?>
             </div>
+          </div>
            </div>
         </div>
       </div>    

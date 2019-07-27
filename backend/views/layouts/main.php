@@ -91,7 +91,7 @@ use backend\assets\DashboardAsset;
             ) ?>  
         <!-- END CONTENT -->
         <!-- Floating Action Button -->
-        <div class="fixed-action-btn " style="bottom: 50px; right: 19px;">
+    <!--     <div class="fixed-action-btn " style="bottom: 50px; right: 19px;">
           <a class="btn-floating btn-large gradient-45deg-light-blue-cyan gradient-shadow">
             <i class="material-icons">add</i>
           </a>
@@ -112,11 +112,11 @@ use backend\assets\DashboardAsset;
               </a>
             </li>
             <li>
-                <?= Html::a('<i class="material-icons">mail_outline</i>Эмаил', ['/inbox/index'],['class'=>'btn-floating red']); ?>
+                
               </a>
             </li>
           </ul>
-        </div>
+        </div> -->
         <!-- Floating Action Button -->
         <!-- //////////////////////////////////////////////////////////////////////////// -->
         <!-- START RIGHT SIDEBAR NAV-->
@@ -133,7 +133,7 @@ use backend\assets\DashboardAsset;
       <footer class="page-footer gradient-45deg-purple-deep-orange">
         <div class="footer-copyright">
           <div class="container">
-            <span>&copy; My Company <?= date('Y') ?></span>
+            <span>&copy; Кибера <?= date('Y') ?></span>
             <span class="right hide-on-small-only"><?= Yii::powered() ?></span>
           </div>
         </div>
