@@ -52,10 +52,9 @@ CrudAsset::register($this);
        </div>
       <div class="row">
         <div class="col s4 center-align">
-          <img src="<?=$path?>" style="border-radius:10%;">
+          <img src="<?=$path?>" style="border-radius:10%;width: 50%;height: 50%;">
         </div>
         <div class="col s8">
-          
                     </span><br>
                     <div class="row">
                         <div class="col s1">
@@ -65,7 +64,6 @@ CrudAsset::register($this);
                       <?=$user->getTypeDescription()?>
                       </div>
                     </div>
-                   
                   <p>
                     <div class="row">
                         <div class="col s1">

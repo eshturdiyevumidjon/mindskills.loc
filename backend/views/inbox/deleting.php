@@ -8,7 +8,7 @@ use yii\widgets\Pjax;
 use yii\widgets\LinkPager;
 use common\models\User;
 
-$this->title = 'Почтовый ящик';
+$this->title = 'Чат';
 $this->params['breadcrumbs'][] = $this->title;
 $user=Yii::$app->user->identity;
 CrudAsset::register($this);
@@ -32,7 +32,7 @@ $models=$dataProvider->getModels();
                       <i class="material-icons">menu</i>
                     </a>
                   </li>
-                  <li><a href="#!" class="email-type">Почтовый ящик</a>
+                  <li><a href="#!" class="email-type">Чат</a>
                   </li>
                 </ul>
               </div>

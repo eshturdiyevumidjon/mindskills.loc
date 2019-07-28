@@ -8,7 +8,7 @@ use yii\widgets\Pjax;
 use yii\widgets\LinkPager;
 use common\models\User;
 
-$this->title = 'Почтовый ящик';
+$this->title = 'Чат';
 $this->params['breadcrumbs'][] = $this->title;
 
 CrudAsset::register($this);
