@@ -32,7 +32,8 @@ class Classroom extends \yii\db\ActiveRecord
         return [
             [['company_id', 'filial_id'], 'integer'],
             [['name'], 'string', 'max' => 255],
-            [['company_id'], 'exist', 'skipOnError' => true, 'targetClass' => Companies::className(), 'targetAttribute' => ['company_id' => 'id']],
+            [['company_id'], 'exist', 'skipOnError' => true, 
+            'targetClass' => Companies::className(), 'targetAttribute' => ['company_id' => 'id']],
         ];
     }
 

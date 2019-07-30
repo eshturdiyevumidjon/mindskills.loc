@@ -229,18 +229,15 @@ class InboxController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
         if ($model->load($request->post()) && $model->validate()) {
-               
-                        $model->save();
-                        $model->files = UploadedFile::getInstance($model, 'files');
-                        if(!empty($model->files)) {
-                            $model->files->saveAs('uploads/inbox/'.$model->id.'.'.$model->files->extension);
-                            Yii::$app->db->createCommand()->update('inbox', 
-                                [ 'file' => $model->id.'.'.$model->files->extension ], 
-                                [ 'id' => $model->id ])
-                            ->execute();
-                        }                    
-             
-
+                $model->save();
+                $model->files = UploadedFile::getInstance($model, 'files');
+                if(!empty($model->files)) {
+                    $model->files->saveAs('uploads/inbox/'.$model->id.'.'.$model->files->extension);
+                    Yii::$app->db->createCommand()->update('inbox', 
+                        [ 'file' => $model->id.'.'.$model->files->extension ], 
+                        [ 'id' => $model->id ])
+                    ->execute();
+                }    
                  return ['forceClose'=>true];
             } else 
                return [
@@ -265,16 +262,16 @@ class InboxController extends Controller
         $request = Yii::$app->request;
         $model = $this->findModel($id);
         if($request->isAjax){
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return [
-                    'title'=> "Сообщения",
-                    'forceReload'=>'#inbox-'.$type.'-pjax',
-                    'content'=>$this->renderAjax('view', [
-                        'model' => $this->findModel($id),
-                    ]),
-                    'footer'=> Html::button('Закрыть',['class'=>'btn btn-info pull-right','data-dismiss'=>"modal"]),
-                            
-                ];    
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return [
+                'title'=> "Сообщения",
+                'forceReload'=>'#inbox-'.$type.'-pjax',
+                'content'=>$this->renderAjax('view', [
+                    'model' => $this->findModel($id),
+                ]),
+                'footer'=> Html::button('Закрыть',['class'=>'btn btn-info pull-right','data-dismiss'=>"modal"]),
+                        
+            ];    
         }else{
             return $this->render('view', [
                 'model' => $this->findModel($id),
@@ -302,16 +299,15 @@ class InboxController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
         if ($model->load($request->post()) && $model->validate()) {
-               
-                        $model->save();
-                        $model->files = UploadedFile::getInstance($model, 'files');
-                        if(!empty($model->files)) {
-                            $model->files->saveAs('uploads/inbox/'.$model->id.'.'.$model->files->extension);
-                            Yii::$app->db->createCommand()->update('inbox', 
-                                [ 'file' => $model->id.'.'.$model->files->extension ], 
-                                [ 'id' => $model->id ])
-                            ->execute();
-                        }                    
+                $model->save();
+                $model->files = UploadedFile::getInstance($model, 'files');
+                if(!empty($model->files)) {
+                    $model->files->saveAs('uploads/inbox/'.$model->id.'.'.$model->files->extension);
+                    Yii::$app->db->createCommand()->update('inbox', 
+                        [ 'file' => $model->id.'.'.$model->files->extension ], 
+                        [ 'id' => $model->id ])
+                    ->execute();
+                }                    
               return ['forceClose'=>true];
             } else 
                return [

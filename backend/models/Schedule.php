@@ -47,13 +47,17 @@ class Schedule extends \yii\db\ActiveRecord
             [['price', 'sum_of_teacher'], 'number'],
             [['begin_date', 'end_date'], 'safe'],
             [['name'], 'string', 'max' => 255],
-            [['company_id'], 'exist', 'skipOnError' => true, 'targetClass' => Companies::className(), 'targetAttribute' => ['company_id' => 'id']],
-            [['filial_id'], 'exist', 'skipOnError' => true, 'targetClass' => Filials::className(), 'targetAttribute' => ['filial_id' => 'id']],
-            [['subject_id'], 'exist', 'skipOnError' => true, 'targetClass' => Subjects::className(), 'targetAttribute' =>['subject_id'=>'id']],
-            [['teacher_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['teacher_id' => 'id']],
+            [['company_id'], 'exist', 'skipOnError' => true, 
+            'targetClass' => Companies::className(),
+             'targetAttribute' => ['company_id' => 'id']],
+            [['filial_id'], 'exist', 'skipOnError' => true, 
+            'targetClass' => Filials::className(), 'targetAttribute' => ['filial_id' => 'id']],
+            [['subject_id'], 'exist', 'skipOnError' => true, 
+            'targetClass' => Subjects::className(), 'targetAttribute' =>['subject_id'=>'id']],
+            [['teacher_id'], 'exist', 'skipOnError' => true, 
+            'targetClass' => User::className(), 'targetAttribute' => ['teacher_id' => 'id']],
         ];
     }
-
     /**
      * {@inheritdoc}
      */

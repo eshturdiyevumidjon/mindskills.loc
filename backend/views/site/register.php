@@ -34,7 +34,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="col s12">
       <div class="card" style="width: 28%;margin-top: 2%;margin-left:36%; ;">
               <div class="input-field col s12 center">
-               <p class="center register-form-text"><h5><?= Html::encode($this->title) ?></h5></p>
+               <p class="center register-form-text">
+                <h5><?= Html::encode($this->title) ?></h5>
+              </p>
               <img src="/images/logo/login-logo.png" alt="" class="circle responsive-img valign profile-image-login" style="width: 100px;">
               </div>
           <div class="row">
@@ -68,7 +70,8 @@ $this->params['breadcrumbs'][] = $this->title;
                   <?= Html::submitButton('Регистрация', ['class' => 'btn waves-effect waves-light col s12']) ?>
               </div>
           </div>
-              <?php ActiveForm::end(); ?></p>
+              <?php ActiveForm::end(); ?>
+            </p>
           </div>
 </div>
 </div> 

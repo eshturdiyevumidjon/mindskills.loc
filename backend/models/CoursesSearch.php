@@ -43,19 +43,15 @@ class CoursesSearch extends Courses
     public function search($params)
     {
         $query = Courses::find();
-
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-
         $this->load($params);
-
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
             return $dataProvider;
         }
-
         $query->andFilterWhere([
             'id' => $this->id,
             'subject_id' => $this->subject_id,
@@ -67,9 +63,7 @@ class CoursesSearch extends Courses
             'company_id' => $this->company_id,
             'filial_id' => $this->filial_id,
         ]);
-
         $query->andFilterWhere(['like', 'name', $this->name]);
-
         return $dataProvider;
     }
 }

@@ -10,13 +10,12 @@ use backend\models\Feadback;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            //'id',
             'name',
             'email:email',
             'message:ntext',
             [
-                'attribute'=>'date_cr',
-                'value'=>function($data)
+                'attribute' => 'date_cr',
+                'value' => function($data)
                 {
                     return Feadback::getDate($data->date_cr);
                 }

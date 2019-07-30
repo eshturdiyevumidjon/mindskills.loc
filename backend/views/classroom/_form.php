@@ -8,7 +8,6 @@ use yii\widgets\ActiveForm;
 ?>
 
 <div class="classroom-form">
-
     <?php $form = ActiveForm::begin(); ?>
     <div class="row">
         <div class="<?= ($model->isNewRecord)?'input-field col s12':'col s12'?>" >
@@ -20,7 +19,5 @@ use yii\widgets\ActiveForm;
 	        <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Редактировать', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
 	    </div>
 	<?php } ?>
-
     <?php ActiveForm::end(); ?>
-    
 </div>

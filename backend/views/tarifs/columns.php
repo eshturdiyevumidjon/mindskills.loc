@@ -9,20 +9,21 @@ $model=new Tarifs();
 	<div class="row">
 	    <div class="col-md-4">
 	        <label>
-	            <input type="checkbox" name="Tarifs[name]" id="1" value="1" <?= ($session['Tarifs[name]']===null || $session['Tarifs[name]'] == 1) ? 'checked=""': '' ?> > 
-	        <label for="1"><?=$model->getAttributeLabel('name')?></label>
+	            <input type="checkbox" name="Tarifs[name]" id="1" value="1" <?= ($session['Tarifs[name]'] === null || $session['Tarifs[name]'] == 1) ? 'checked = ""': '' ?> > 
+	        	<label for="1"><?=$model->getAttributeLabel('name')?></label>
 	        </label>
 	    </div>
 	    <div class="col-md-4">
 	        <label>
-	            <input type="checkbox" name="Tarifs[days]" id="2" value="1" <?= ($session['Tarifs[days]']===null || $session['Tarifs[days]'] == 1) ? 'checked=""': '' ?> > 
-	        <label for="2" ><?=$model->getAttributeLabel('days')?></label>
+	            <input type="checkbox" name="Tarifs[days]" id="2" value="1" <?= ($session['Tarifs[days]'] === null || $session['Tarifs[days]'] == 1) ? 'checked = ""': '' ?> > 
+	        	<label for="2" ><?=$model->getAttributeLabel('days')?></label>
 	        </label>
 	    </div>
 	    <div class="col-md-4">
 	        <label>
-	            <input type="checkbox" name="Tarifs[price]" id="3" value="1" <?= ($session['Tarifs[price]']===null || $session['Tarifs[price]'] == 1) ? 'checked=""': '' ?> > 
-	        <label for="3"><?=$model->getAttributeLabel('price')?></label>
+	            <input type="checkbox" name="Tarifs[price]" id="3" value="1" <?= ($session['Tarifs[price]'] === null || 
+	            $session['Tarifs[price]'] == 1) ? 'checked = ""': '' ?> > 
+	        	<label for="3"><?=$model->getAttributeLabel('price')?></label>
 	        </label>
 	    </div>
 	</div>
@@ -34,7 +35,6 @@ $model=new Tarifs();
 	            <input type="checkbox" id="markAll" value="1"> 
 	        	<label for="markAll" style="color : red;">Выделить все</label>
 	        </label>
-	       
         </div>
     </div>
     <?php ActiveForm::end(); ?>
@@ -42,8 +42,7 @@ $model=new Tarifs();
 <?php 
 $this->registerJs(<<<JS
 $("#markAll").click(function(){
-        $("input[type=checkbox]").prop('checked', $(this).prop('checked'));
-
+$("input[type = checkbox]").prop('checked', $(this).prop('checked'));
 });
 JS
 );

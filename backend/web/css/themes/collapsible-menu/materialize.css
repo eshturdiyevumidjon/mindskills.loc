@@ -5975,7 +5975,7 @@ input[type=datetime]:not(.browser-default),
 input[type=datetime-local]:not(.browser-default),
 input[type=tel]:not(.browser-default),
 input[type=number]:not(.browser-default),
-input[type=search]:not(.browser-default),
+/*input[type=search]:not(.browser-default),*/
 textarea.materialize-textarea {
   background-color: transparent;
   border: none;
@@ -5991,6 +5991,11 @@ textarea.materialize-textarea {
   box-sizing: content-box;
   transition: all 0.3s;
 }
+input[type=search]:not(.browser-default){
+    height: 2rem;
+
+}
+
 
 input:not([type]):disabled, input:not([type])[readonly="readonly"],
 input[type=text]:not(.browser-default):disabled,

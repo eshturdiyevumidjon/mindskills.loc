@@ -30,13 +30,13 @@ use backend\models\Subjects;
         <div class="col s6" >
             <?= $form->field($model, 'subject_id')->dropDownlist(
                       ArrayHelper::map(Subjects::find()->all(),'id','name'),
-                      ['prompt'=>'Выберите...']
+                      ['prompt' => 'Выберите...']
                   );?>
         </div>
         <div class="col s6" >
             <?= $form->field($model, 'teacher_id')->dropDownlist(
-                      ArrayHelper::map(User::find()->where(['type'=>2])->all(),'id','fio'),
-                      ['prompt'=>'Выберите...']
+                      ArrayHelper::map(User::find()->where(['type' => 2])->all(),'id','fio'),
+                      ['prompt' => 'Выберите...']
                   );?>
         </div>
     </div>
@@ -45,10 +45,10 @@ use backend\models\Subjects;
                 <?= $form->field($model, 'begin_date')->widget(DatePicker::className(), [
                         'language' => 'ru',
                         'size' => 'sm', 
-                        'type'=>DatePicker::TYPE_INPUT,
+                        'type' => DatePicker::TYPE_INPUT,
                         'pluginOptions' => [
                         'todayHighlight' => true,
-                        'format'=>'dd.mm.yyyy',
+                        'format' => 'dd.mm.yyyy',
                         ]
                     ]) ?>
         </div>
@@ -56,10 +56,10 @@ use backend\models\Subjects;
                 <?= $form->field($model, 'end_date')->widget(DatePicker::className(), [
                         'language' => 'ru',
                         'size' => 'sm', 
-                        'type'=>DatePicker::TYPE_INPUT,
+                        'type' => DatePicker::TYPE_INPUT,
                         'pluginOptions' => [
                         'todayHighlight' => true,
-                        'format'=>'dd.mm.yyyy',
+                        'format' => 'dd.mm.yyyy',
                         ]
                     ]) ?>
         </div>
@@ -72,7 +72,7 @@ use backend\models\Subjects;
                             ]) ?>
         </div>
         <div class="col s6" >  
-                <?=$form->field($model, 'type')->dropDownList($model->getType(), ['prompt' => 'Выберите...','style'=>'margin-top:10px;'])?>
+                <?=$form->field($model, 'type')->dropDownList($model->getType(), ['prompt' => 'Выберите...','style' => 'margin-top:10px;'])?>
         </div>
     </div>
     <?php if (!Yii::$app->request->isAjax){ ?>
@@ -80,7 +80,5 @@ use backend\models\Subjects;
             <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Редактировать', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
         </div>
     <?php } ?>
-
     <?php ActiveForm::end(); ?>
-    
 </div>

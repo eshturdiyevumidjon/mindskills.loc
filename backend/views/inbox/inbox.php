@@ -1,35 +1,68 @@
 <div class="content-frame">                                    
                     <div class="content-frame-top">                        
                         <div class="page-title">                    
-                            <h2><span class="fa fa-inbox"></span> Inbox <small>(3 unread)</small></h2>
-                        </div>                                                                                
-                        
+                            <h2>
+                                <span class="fa fa-inbox"></span> Inbox 
+                                <small>(3 unread)</small>
+                            </h2>
+                        </div> 
                         <div class="pull-right">                            
-                            <button class="btn btn-default"><span class="fa fa-cogs"></span> Settings</button>
-                            <button class="btn btn-default content-frame-left-toggle"><span class="fa fa-bars"></span></button>
+                            <button class="btn btn-default">
+                                <span class="fa fa-cogs"></span> 
+                                Settings
+                            </button>
+                            <button class="btn btn-default content-frame-left-toggle">
+                                <span class="fa fa-bars"></span>
+                            </button>
                         </div>                        
                     </div>
                     <div class="content-frame-left" style="height: 581px;">
                         <div class="block">
-                            <a href="pages-mailbox-compose.html" class="btn btn-danger btn-block btn-lg"><span class="fa fa-edit"></span> COMPOSE</a>
+                            <a href="pages-mailbox-compose.html" class="btn btn-danger btn-block btn-lg">
+                                <span class="fa fa-edit"></span> 
+                                COMPOSE
+                            </a>
                         </div>
                         <div class="block">
                             <div class="list-group border-bottom">
-                                <a href="#" class="list-group-item active"><span class="fa fa-inbox"></span> Inbox <span class="badge badge-success">3</span></a>
-                                <a href="#" class="list-group-item"><span class="fa fa-star"></span> Starred <span class="badge badge-warning">6</span></a>
-                                <a href="#" class="list-group-item"><span class="fa fa-rocket"></span> Sent</a>
-                                <a href="#" class="list-group-item"><span class="fa fa-flag"></span> Flagged</a>
-                                <a href="#" class="list-group-item"><span class="fa fa-trash-o"></span> Deleted <span class="badge badge-default">1.4k</span></a>                            
+                                <a href="#" class="list-group-item active">
+                                    <span class="fa fa-inbox"></span> Inbox 
+                                    <span class="badge badge-success">3</span>
+                                </a>
+                                <a href="#" class="list-group-item">
+                                    <span class="fa fa-star"></span> Starred 
+                                    <span class="badge badge-warning">6</span>
+                                </a>
+                                <a href="#" class="list-group-item">
+                                    <span class="fa fa-rocket"></span> Sent
+                                </a>
+                                <a href="#" class="list-group-item">
+                                    <span class="fa fa-flag"></span> Flagged
+                                </a>
+                                <a href="#" class="list-group-item">
+                                    <span class="fa fa-trash-o"></span> Deleted 
+                                    <span class="badge badge-default">1.4k</span>
+                                </a>                            
                             </div>                        
                         </div>
                         <div class="block">
                             <h4>Labels</h4>
-                            <div class="list-group list-group-simple">                                
-                                <a href="#" class="list-group-item"><span class="fa fa-circle text-success"></span> Clients</a>
-                                <a href="#" class="list-group-item"><span class="fa fa-circle text-warning"></span> Social</a>
-                                <a href="#" class="list-group-item"><span class="fa fa-circle text-danger"></span> Work</a>
-                                <a href="#" class="list-group-item"><span class="fa fa-circle text-info"></span> Family</a>
-                                <a href="#" class="list-group-item"><span class="fa fa-circle text-primary"></span> Friends</a>
+                            <div class="list-group list-group-simple">     
+                                <a href="#" class="list-group-item">
+                                    <span class="fa fa-circle text-success"></span> Clients
+                                </a>
+                                <a href="#" class="list-group-item">
+                                    <span class="fa fa-circle text-warning"></span> Social
+                                </a>
+                                <a href="#" class="list-group-item">
+                                    <span class="fa fa-circle text-danger"></span> Work
+                                </a>
+                                <a href="#" class="list-group-item">
+                                    <span class="fa fa-circle text-info"></span> Family
+                                </a>
+                                <a href="#" class="list-group-item">
+                                    <span class="fa fa-circle text-primary"></span> Friends
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -41,43 +74,70 @@
                         <div class="panel panel-default">
                             <div class="panel-heading ui-draggable-handle">
                                 <label class="check mail-checkall">
-                                    <div class="icheckbox_minimal-grey" style="position: relative;"><input type="checkbox" class="icheckbox" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                    <div class="icheckbox_minimal-grey" style="position: relative;">
+                                        <input type="checkbox" class="icheckbox" style="position: absolute; opacity: 0;">
+                                        <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;">
+                                        </ins>
+                                    </div>
                                 </label>
                                 <div class="btn-group">
-                                    <button class="btn btn-default"><span class="fa fa-mail-reply"></span></button>
-                                    <button class="btn btn-default"><span class="fa fa-mail-reply-all"></span></button>
-                                    <button class="btn btn-default"><span class="fa fa-mail-forward"></span></button>
+                                    <button class="btn btn-default">
+                                        <span class="fa fa-mail-reply"></span>
+                                    </button>
+                                    <button class="btn btn-default">
+                                        <span class="fa fa-mail-reply-all"></span>
+                                    </button>
+                                    <button class="btn btn-default">
+                                        <span class="fa fa-mail-forward"></span>
+                                    </button>
                                 </div>
                                 <div class="btn-group">
-                                    <button class="btn btn-default"><span class="fa fa-star"></span></button>                                    
-                                    <button class="btn btn-default"><span class="fa fa-flag"></span></button>
+                                    <button class="btn btn-default">
+                                        <span class="fa fa-star"></span>
+                                    </button>                                    
+                                    <button class="btn btn-default">
+                                        <span class="fa fa-flag"></span>
+                                    </button>
                                 </div>                                
-                                <button class="btn btn-default"><span class="fa fa-warning"></span></button>
-                                <button class="btn btn-default"><span class="fa fa-trash-o"></span></button>                                                                    
+                                    <button class="btn btn-default">
+                                        <span class="fa fa-warning"></span>
+                                    </button>
+                                    <button class="btn btn-default">
+                                        <span class="fa fa-trash-o"></span>
+                                    </button>  
                                 <div class="pull-right" style="width: 150px;">
                                     <div class="input-group">
-                                        <div class="input-group-addon"><span class="fa fa-calendar"></span></div>
-                                        <input class="form-control datepicker" type="text" data-orientation="left">                                    
+                                        <div class="input-group-addon">
+                                            <span class="fa fa-calendar"></span>
+                                        </div>
+                                        <input class="form-control datepicker" type="text" data-orientation="left">                            
                                     </div>
                                 </div>
                             </div>
                             <div class="panel-body mail">
-                                
-                                <div class="mail-item mail-unread mail-info">                                    
+                                <div class="mail-item mail-unread mail-info">   
                                     <div class="mail-checkbox">
-                                        <div class="icheckbox_minimal-grey" style="position: relative;"><input type="checkbox" class="icheckbox" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                        <div class="icheckbox_minimal-grey" style="position: relative;">
+                                            <input type="checkbox" class="icheckbox" style="position: absolute; opacity: 0;">
+                                            <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;">
+                                            </ins>
+                                        </div>
                                     </div>
                                     <div class="mail-star">
                                         <span class="fa fa-star-o"></span>
                                     </div>
-                                    <div class="mail-user">Dmitry Ivaniuk</div>                                    
-                                    <a href="pages-mailbox-message.html" class="mail-text">Product development</a>                                    
+                                    <div class="mail-user">Dmitry Ivaniuk</div>        
+                                    <a href="pages-mailbox-message.html" class="mail-text">Product development
+                                    </a>                                    
                                     <div class="mail-date">Today, 11:21</div>
                                 </div>
-                                
-                                <div class="mail-item mail-unread mail-danger">                                    
+                                <div class="mail-item mail-unread mail-danger"> 
                                     <div class="mail-checkbox">
-                                        <div class="icheckbox_minimal-grey" style="position: relative;"><input type="checkbox" class="icheckbox" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                                        <div class="icheckbox_minimal-grey" style="position: relative;">
+                                            <input type="checkbox" class="icheckbox" style="position: absolute; opacity: 0;">
+                                            <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;">
+                                            </ins>
+                                        </div>
                                     </div>
                                     <div class="mail-star">
                                         <span class="fa fa-star-o"></span>

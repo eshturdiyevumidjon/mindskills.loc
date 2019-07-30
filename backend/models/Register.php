@@ -50,7 +50,6 @@ class Register extends Model
 
         $t=$company->save();
 
-
         $filial=new Filials();
         $filial->filial_name=$this->filial_name;
         $t=$t&&$filial->save();

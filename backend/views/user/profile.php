@@ -55,57 +55,59 @@ CrudAsset::register($this);
           <img src="<?=$path?>" style="border-radius:10%;width: 50%;height: 50%;">
         </div>
         <div class="col s8">
-                    </span><br>
+                    <br>
                     <div class="row">
                         <div class="col s1">
                           <i class="material-icons cyan-text text-darken-2">perm_identity</i>
                         </div>
                         <div class="col s11">
-                      <?=$user->getTypeDescription()?>
-                      </div>
+                          <?=$user->getTypeDescription()?>
+                        </div>
                     </div>
                   <p>
                     <div class="row">
                         <div class="col s1">
-                      <i class="material-icons cyan-text text-darken-2">phone</i>
-                      </div>
+                          <i class="material-icons cyan-text text-darken-2">phone</i>
+                        </div>
                         <div class="col s11">
-                         <?=$user->phone?>
-                      </div>
+                          <?=$user->phone?>
+                        </div>
                     </div>
                   </p>
                   <p>
-                     <div class="row">
+                    <div class="row">
                         <div class="col s1">
-                    <i class="material-icons cyan-text text-darken-2">email</i>
-                    </div>
+                          <i class="material-icons cyan-text text-darken-2">email</i>
+                        </div>
                         <div class="col s11">
                           <?=$user->username?>
-                       </div>
+                        </div>
                     </div>
                   </p>
                   <p>
-                     <div class="row">
+                    <div class="row">
                         <div class="col s1">
-                    <i class="material-icons cyan-text text-darken-2">cake</i>
-                    </div>
+                          <i class="material-icons cyan-text text-darken-2">cake</i>
+                        </div>
                         <div class="col s11">
-                         <?=$user->getDate($user->birthday)?>
-                           </div>
+                          <?=$user->getDate($user->birthday)?>
+                        </div>
                     </div>
                   </p>
                   <p>
-                     <div class="row">
+                    <div class="row">
                         <div class="col s1">
-                    <i class="material-icons cyan-text text-darken-2">attach_money</i>
-                    </div>
+                          <i class="material-icons cyan-text text-darken-2">attach_money</i>
+                        </div>
                         <div class="col s11">
-                         <?=$user->balanc?>
-                           </div>
+                          <?=$user->balanc?>
+                        </div>
                     </div>
                   </p>
-                  <?= Html::a('<i class="material-icons">mode_edit</i>', ['change','id'=>$user->id],['role'=>'modal-remote','title'=>'Изменить','class'=>'btn-floating right'])?>
-        </div>
+                  <?= Html::a('<i class="material-icons">mode_edit</i>', ['change',
+                    'id' => $user->id],['role' => 'modal-remote','title' => 'Изменить',
+                    'class' => 'btn-floating right'])?>
+          </div>
       </div>
     </div>
 </div>

@@ -30,20 +30,26 @@ CrudAsset::register($this);
             </a>
             <ul class="right hide-on-med-and-down">
               <li>
-                <?=Html::a('Сортировка', ['columns'],['role'=>'modal-remote','title'=> 'Сортировка с колонок'])?>
+                <?=Html::a('Сортировка', ['columns'],['role' => 'modal-remote','title' => 'Сортировка с колонок'])?>
               </li>
-              <li><?= Html::a('<i class="material-icons">add</i>', ['create'],['title'=>'Создать','role'=>'modal-remote'])?></li>
-              <li><?=Html::a('<i class="material-icons">refresh</i>',[''],['title'=>'Обновить'])?></li>
+              <li>
+                <?= Html::a('<i class="material-icons">add</i>', ['create'],['title' => 'Создать','role' => 'modal-remote'])?>
+              </li>
+              <li>
+                <?=Html::a('<i class="material-icons">refresh</i>',[''],['title' => 'Обновить'])?>
+              </li>
               <li>
                 <input type="search" name="search" style="display: none;" id="searchTarifs"/>
               </li>
               <li>
-                <a href="#" id="showSearchTarifs" title='Поиск'><i class="material-icons">search</i></a>
+                <a href="#" id="showSearchTarifs" title='Поиск'>
+                  <i class="material-icons">search</i>
+                </a>
               </li>
             </ul>
           </div>
         </nav>
-<?php Pjax::begin(['enablePushState' => false,'id'=>'crud-datatable-pjax'])?>
+<?php Pjax::begin(['enablePushState' => false,'id' => 'crud-datatable-pjax'])?>
 <div class="section" >
     <div id="row-grouping" class="section">
             <div class="row">
@@ -54,13 +60,13 @@ CrudAsset::register($this);
                             <th>
                             </th>
                             <th>ID</th>
-                            <?php if($session['Tarifs[name]']===null || $session['Tarifs[name]'] == 1){ ?>
+                            <?php if($session['Tarifs[name]'] === null || $session['Tarifs[name]'] == 1){ ?>
                             <th>Наименование</th>
                             <?php }?>
-                            <?php if($session['Tarifs[days]']===null || $session['Tarifs[days]'] == 1){ ?> 
+                            <?php if($session['Tarifs[days]'] === null || $session['Tarifs[days]'] == 1){ ?> 
                             <th>Дней</th>
                             <?php }?>
-                            <?php if($session['Tarifs[price]']===null || $session['Tarifs[price]'] == 1){ ?> 
+                            <?php if($session['Tarifs[price]'] === null || $session['Tarifs[price]'] == 1){ ?> 
                             <th>Цена</th> 
                             <?php }?>
                             <th>Действия</th>                   
@@ -72,19 +78,28 @@ CrudAsset::register($this);
                                   echo "<tr>
                             <td><input type='checkbox' name='check".$value->id."'></td>     
                             <td>".$value->id."</td>";
-                            if($session['Tarifs[name]']===null || $session['Tarifs[name]'] == 1)
+                            if($session['Tarifs[name]'] === null || 
+                              $session['Tarifs[name]'] == 1)
                             echo "<td>".$value->name."</td>";
-                            if($session['Tarifs[days]']===null || $session['Tarifs[days]'] == 1)
+                            if($session['Tarifs[days]'] === null || 
+                              $session['Tarifs[days]'] == 1)
                             echo "<td>".$value->days."</td>";
-                            if($session['Tarifs[price]']===null || $session['Tarifs[price]'] == 1)
+                            if($session['Tarifs[price]'] === null || 
+                              $session['Tarifs[price]'] == 1)
                             echo "<td>".$value->price."</td>";
                             echo 
-                            "<td class='align-center' style='width: 100px;'>".Html::a('<i class="material-icons view-u">visibility</i>', ['view','id'=>$value->id],['role'=>'modal-remote','title'=>'Просмотр']).Html::a('<i class="material-icons blue-u">mode_edit</i>', ['update','id'=>$value->id],['role'=>'modal-remote','title'=>'Изменить']).Html::a('<i class="material-icons red-u">delete_forever</i>', ['delete','id'=>$value->id],['role'=>'modal-remote','title'=>'Удалить', 
-                                      'data-confirm'=>false, 'data-method'=>false,
-                                          'data-request-method'=>'post',
-                                          'data-toggle'=>'tooltip',
-                                           'data-confirm-title'=>'Подтвердите действие',
-                    'data-confirm-message'=>'Вы уверены что хотите удалить этого элемента?'])."
+                            "<td class='align-center' style='width: 100px;'>".
+                            Html::a('<i class="material-icons view-u">visibility</i>', ['view','id' => $value->id],['role' => 'modal-remote',
+                              'title' => 'Просмотр']).
+                            Html::a('<i class="material-icons blue-u">mode_edit</i>', ['update','id' => $value->id],['role' => 'modal-remote',
+                              'title' => 'Изменить']).
+                            Html::a('<i class="material-icons red-u">delete_forever</i>', ['delete','id' => $value->id],['role' => 'modal-remote',
+                              'title' => 'Удалить', 
+                                          'data-confirm' => false, 'data-method' => false,
+                                          'data-request-method' => 'post',
+                                          'data-toggle' => 'tooltip',
+                                          'data-confirm-title' => 'Подтвердите действие',
+                                          'data-confirm-message' => 'Вы уверены что хотите удалить этого элемента?'])."
                             </td>
                           </tr>";  
                               }
@@ -110,13 +125,12 @@ CrudAsset::register($this);
 $this->registerJs(<<<JS
 $(document).ready(function(){
   $("#showSearchTarifs").click(function(){
-    $("#searchTarifs").slideToggle("slow");
+  $("#searchTarifs").slideToggle("slow");
   });
-
 $("#searchTarifs").on("keyup", function() {
     var value = $(this).val().toLowerCase();
     $("#myTableTarifs tr").filter(function() {
-      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
     });
   });
 });

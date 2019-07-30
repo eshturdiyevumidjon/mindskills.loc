@@ -7,33 +7,31 @@ use common\models\User;
 /* @var $model backend\models\Courses */
 ?>
 <div class="courses-view">
- 
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            //'id',
             'name',
             [
-                'attribute'=>'subject_id',
-                'value'=>function($data){
+                'attribute' => 'subject_id',
+                'value' => function($data){
                     return $data->subject->name;
                 }
             ],
             [
-                'attribute'=>'user_id',
-                'value'=>function($data){
+                'attribute' => 'user_id',
+                'value' => function($data){
                     return $data->user->fio;
                 }
             ],
             [   
-                'attribute'=>'begin_date',
-                'value'=>function($data){
+                'attribute' => 'begin_date',
+                'value' => function($data){
                     return User::getDate($data->begin_date);
                 }
             ],
             [   
-                'attribute'=>'end_date',
-                'value'=>function($data){
+                'attribute' => 'end_date',
+                'value' => function($data){
                     return User::getDate($data->end_date);
                 }
             ],
@@ -41,5 +39,4 @@ use common\models\User;
             'prosent_for_teacher',
         ],
     ]) ?>
-
 </div>

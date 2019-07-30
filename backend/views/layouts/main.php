@@ -133,7 +133,7 @@ use backend\assets\DashboardAsset;
       <footer class="page-footer gradient-45deg-purple-deep-orange">
         <div class="footer-copyright">
           <div class="container">
-            <span>&copy; Кибера <?= date('Y') ?></span>
+            <span>&copy; Kibera <?= date('Y') ?></span>
             <span class="right hide-on-small-only"><?= Yii::powered() ?></span>
           </div>
         </div>

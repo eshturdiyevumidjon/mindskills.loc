@@ -26,24 +26,33 @@ CrudAsset::register($this);
             <nav class=" purple">
               <div class="nav-wrapper ">
                 <a href="#!" class="brand-logo">
-                  <p style="font-size: 22px;margin-left: 20px;"><i class="material-icons">view_list</i><?=Html::encode($this->title)?></p>
+                  <p style="font-size: 22px;margin-left: 20px;">
+                    <i class="material-icons">view_list</i>
+                    <?=Html::encode($this->title)?>
+                  </p>
                 </a>
                 <ul class="right hide-on-med-and-down">
                   <li>
-                    <?=Html::a('Сортировка', ['columns'],['role'=>'modal-remote','title'=> 'Сортировка с колонок'])?>
+                    <?=Html::a('Сортировка', ['columns'],['role' => 'modal-remote','title' => 'Сортировка с колонок'])?>
                   </li>
-                  <li><?= Html::a('<i class="material-icons">add</i>', ['create'],['title'=>'Создать','role'=>'modal-remote'])?></li>
-                  <li><?=Html::a('<i class="material-icons">refresh</i>',[''],['title'=>'Обновить'])?></li>
+                  <li>
+                    <?= Html::a('<i class="material-icons">add</i>', ['create'],['title' => 'Создать','role' => 'modal-remote'])?>
+                  </li>
+                  <li>
+                    <?=Html::a('<i class="material-icons">refresh</i>',[''],['title' => 'Обновить'])?>
+                  </li>
                   <li>
                     <input type="search" name="search" style="display: none;" id="searchschedule"/>
                   </li>
                   <li>
-                    <a href="#" id="showsearchschedule" title='Поиск'><i class="material-icons">search</i></a>
+                    <a href="#" id="showsearchschedule" title='Поиск'>
+                      <i class="material-icons">search</i>
+                    </a>
                   </li>
                 </ul>
               </div>
             </nav>
-<?php Pjax::begin(['enablePushState' => false,'id'=>'crud-datatable-pjax'])?>
+<?php Pjax::begin(['enablePushState' => false,'id' => 'crud-datatable-pjax'])?>
 <div class="section" >
     <div id="row-grouping" class="section">
             <div class="row">
@@ -54,41 +63,41 @@ CrudAsset::register($this);
                             <th>
                             </th>
                             <th>ID</th>
-                            <?php if($session['Schedule[name]']===null || $session['Schedule[name]'] == 1){ ?>
+                            <?php if($session['Schedule[name]'] === null || $session['Schedule[name]'] == 1){ ?>
                             <th>Наименование</th>
                             <?php }?>
                             <?php if(Yii::$app->user->identity->company->type == 1){ ?>
-                            <?php if($session['Schedule[company_id]']===null || $session['Schedule[company_id]'] == 1){ ?> 
+                            <?php if($session['Schedule[company_id]'] === null || $session['Schedule[company_id]'] == 1){ ?> 
                             <th>Компания</th>
                             <?php }?>
                             <?php }?>
                             <?php if(Yii::$app->user->identity->company->type == 1){ ?>
-                            <?php if($session['Schedule[filial_id]']===null || $session['Schedule[filial_id]'] == 1){ ?> 
+                            <?php if($session['Schedule[filial_id]'] === null || $session['Schedule[filial_id]'] == 1){ ?> 
                             <th>Филиал</th> 
                             <?php }?>
                             <?php }?>
-                            <?php if($session['Schedule[subject_id]']===null || $session['Schedule[subject_id]'] == 1){ ?>
+                            <?php if($session['Schedule[subject_id]'] === null || $session['Schedule[subject_id]'] == 1){ ?>
                             <th>Предмет</th>
                             <?php }?>
-                            <?php if($session['Schedule[teacher_id]']===null || $session['Schedule[teacher_id]'] == 1){ ?>
+                            <?php if($session['Schedule[teacher_id]'] === null || $session['Schedule[teacher_id]'] == 1){ ?>
                             <th>Преподаватель</th>
                             <?php }?>
-                            <?php if($session['Schedule[price]']===null || $session['Schedule[price]'] == 1){ ?>
+                            <?php if($session['Schedule[price]'] === null || $session['Schedule[price]'] == 1){ ?>
                             <th>Стоимость занятий курса</th>
                             <?php }?>
-                            <?php if($session['Schedule[sum_of_teacher]']===null || $session['Schedule[sum_of_teacher]'] == 1){ ?>
+                            <?php if($session['Schedule[sum_of_teacher]'] === null || $session['Schedule[sum_of_teacher]'] == 1){ ?>
                             <th>Зарплата преподавателю</th>
                             <?php }?>
-                            <?php if($session['Schedule[begin_date]']===null || $session['Schedule[begin_date]'] == 1){ ?>
+                            <?php if($session['Schedule[begin_date]'] === null || $session['Schedule[begin_date]'] == 1){ ?>
                             <th>Начало курса</th>
                             <?php }?>
-                            <?php if($session['Schedule[end_date]']===null || $session['Schedule[end_date]'] == 1){ ?>
+                            <?php if($session['Schedule[end_date]'] === null || $session['Schedule[end_date]'] == 1){ ?>
                             <th>Конец курса</th>
                             <?php }?>
-                            <?php if($session['Schedule[status]']===null || $session['Schedule[status]'] == 1){ ?>
+                            <?php if($session['Schedule[status]'] === null || $session['Schedule[status]'] == 1){ ?>
                             <th>Статус</th>
                             <?php }?>
-                            <?php if($session['Schedule[type]']===null || $session['Schedule[type]'] == 1){ ?>
+                            <?php if($session['Schedule[type]'] === null || $session['Schedule[type]'] == 1){ ?>
                             <th>Тип занятия</th>
                             <?php }?>
                             <th>Действия</th>                   
@@ -100,37 +109,44 @@ CrudAsset::register($this);
                                   echo "<tr>
                             <td><input type='checkbox' name='check".$value->id."'></td>     
                             <td>".$value->id."</td>";
-                            if($session['Schedule[name]']===null || $session['Schedule[name]'] == 1)
+                            if($session['Schedule[name]'] === null || $session['Schedule[name]'] == 1)
                             echo "<td>".$value->name."</td>";
                             if(Yii::$app->user->identity->company->type == 1){
-                            if($session['Schedule[company_id]']===null || $session['Schedule[company_id]'] == 1)
+                            if($session['Schedule[company_id]'] === null || $session['Schedule[company_id]'] == 1)
                             echo "<td>".$value->company->name."</td>";}
                             if(Yii::$app->user->identity->company->type == 1){
-                            if($session['Schedule[filial_id]']===null || $session['Schedule[filial_id]'] == 1)
+                            if($session['Schedule[filial_id]'] === null || $session['Schedule[filial_id]'] == 1)
                             echo "<td>".$value->filial->filial_name."</td>";}
-                            if($session['Schedule[subject_id]']===null || $session['Schedule[subject_id]'] == 1)
+                            if($session['Schedule[subject_id]'] === null || $session['Schedule[subject_id]'] == 1)
                             echo "<td>".$value->subject->name."</td>";
-                            if($session['Schedule[teacher_id]']===null || $session['Schedule[teacher_id]'] == 1)
+                            if($session['Schedule[teacher_id]'] === null || $session['Schedule[teacher_id]'] == 1)
                             echo "<td>".$value->teacher->fio."</td>";
-                            if($session['Schedule[price]']===null || $session['Schedule[price]'] == 1)
+                            if($session['Schedule[price]'] === null || $session['Schedule[price]'] == 1)
                             echo "<td>".$value->price."</td>";
-                            if($session['Schedule[sum_of_teacher]']===null || $session['Schedule[sum_of_teacher]'] == 1)
+                            if($session['Schedule[sum_of_teacher]'] === null || $session['Schedule[sum_of_teacher]'] == 1)
                             echo "<td>".$value->sum_of_teacher."</td>";
-                            if($session['Schedule[begin_date]']===null || $session['Schedule[begin_date]'] == 1)
+                            if($session['Schedule[begin_date]'] === null || $session['Schedule[begin_date]'] == 1)
                             echo "<td>".Schedule::getDate($value->begin_date)."</td>";
-                            if($session['Schedule[end_date]']===null || $session['Schedule[end_date]'] == 1)
+                            if($session['Schedule[end_date]'] === null || $session['Schedule[end_date]'] == 1)
                             echo "<td>".Schedule::getDate($value->end_date)."</td>";
-                            if($session['Schedule[status]']===null || $session['Schedule[status]'] == 1)
+                            if($session['Schedule[status]'] === null || $session['Schedule[status]'] == 1)
                             echo "<td>".$value->getStatusDescription()."</td>";
-                            if($session['Schedule[type]']===null || $session['Schedule[type]'] == 1)
+                            if($session['Schedule[type]'] === null || $session['Schedule[type]'] == 1)
                             echo "<td>".$value->getTypeDescription()."</td>";
                             echo 
-                            "<td class='align-center' style='width: 100px;'>".Html::a('<i class="material-icons view-u">visibility</i>', ['view','id'=>$value->id],['role'=>'modal-remote','title'=>'Просмотр']).Html::a('<i class="material-icons blue-u">mode_edit</i>', ['update','id'=>$value->id],['role'=>'modal-remote','title'=>'Изменить']).Html::a('<i class="material-icons red-u">delete_forever</i>', ['delete','id'=>$value->id],['role'=>'modal-remote','title'=>'Удалить', 
-                              'data-confirm'=>false, 'data-method'=>false,
-                              'data-request-method'=>'post',
-                              'data-toggle'=>'tooltip',
-                              'data-confirm-title'=>'Подтвердите действие',
-                              'data-confirm-message'=>'Вы уверены что хотите удалить этого элемента?'])."
+                            "<td class='align-center' style='width: 100px;'>".
+                            Html::a('<i class="material-icons view-u">visibility</i>', ['view','id' => $value->id],['role' => 'modal-remote',
+                              'title' => 'Просмотр']).
+                            Html::a('<i class="material-icons blue-u">mode_edit</i>', ['update','id' => $value->id],['role' => 'modal-remote',
+                              'title' => 'Изменить']).
+                            Html::a('<i class="material-icons red-u">delete_forever</i>', ['delete','id' => $value->id],['role' => 'modal-remote',
+                              'title' => 'Удалить', 
+                              'data-confirm' => false, 'data-method' => false,
+                              'data-request-method' => 'post',
+                              'data-toggle' => 'tooltip',
+                              'data-confirm-title' => 'Подтвердите действие',
+                              'data-confirm-message' => 'Вы уверены что хотите удалить 
+                              этого элемента?'])."
                             </td>
                           </tr>";  
                               }
@@ -156,13 +172,12 @@ CrudAsset::register($this);
 $this->registerJs(<<<JS
 $(document).ready(function(){
   $("#showsearchschedule").click(function(){
-    $("#searchschedule").slideToggle("slow");
+  $("#searchschedule").slideToggle("slow");
   });
-
 $("#searchschedule").on("keyup", function() {
     var value = $(this).val().toLowerCase();
     $("#myTablesubjects tr").filter(function() {
-      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
     });
   });
 });

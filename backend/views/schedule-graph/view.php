@@ -10,24 +10,22 @@ use backend\models\ScheduleGraph;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            //'id',
             'schedule.name',
             'classroom.name',
             [
-                'attribute'=>'begin_date',
-                'value'=>function($data)
+                'attribute' => 'begin_date',
+                'value' => function($data)
                 {
                     return ScheduleGraph::getDate($data->begin_date);
                 }
             ],
             [
-                'attribute'=>'end_date',
-                'value'=>function($data)
+                'attribute' => 'end_date',
+                'value' => function($data)
                 {
                     return ScheduleGraph::getDate($data->end_date);
                 }
             ],
         ],
     ]) ?>
-
 </div>

@@ -11,8 +11,6 @@ use yii\widgets\DetailView;
         'model' => $model,
         'attributes' => [
             'id',
-            //'company_id',
-            //'filial_id',
             'name',
         ],
     ]) ?>

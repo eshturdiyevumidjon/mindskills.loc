@@ -10,14 +10,13 @@ use yii\widgets\DetailView;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            //'id',
             'schedule.name',
             'pupil.fio',
             'payed',
             'comment:ntext',
             [
-                'attribute'=>'unsubscribe',
-                'value'=>function($data){
+                'attribute' => 'unsubscribe',
+                'value' => function($data){
                     return $data->getUnsubscribeDescription();
                 }
             ],

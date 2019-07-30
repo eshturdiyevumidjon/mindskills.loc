@@ -22,7 +22,6 @@ class Regions extends \yii\db\ActiveRecord
     {
         return 'regions';
     }
-
     /**
      * {@inheritdoc}
      */
@@ -32,7 +31,6 @@ class Regions extends \yii\db\ActiveRecord
             [['name'], 'string', 'max' => 255],
         ];
     }
-
     /**
      * {@inheritdoc}
      */
@@ -43,7 +41,6 @@ class Regions extends \yii\db\ActiveRecord
             'name' => 'Наименование',
         ];
     }
-
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -51,7 +48,6 @@ class Regions extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Districts::className(), ['region_id' => 'id']);
     }
-
     /**
      * @return \yii\db\ActiveQuery
      */

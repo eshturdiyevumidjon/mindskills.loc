@@ -34,8 +34,12 @@ class ScheduleGraph extends \yii\db\ActiveRecord
         return [
             [['schedule_id', 'classroom_id'], 'integer'],
             [['begin_date', 'end_date'], 'safe'],
-            [['classroom_id'], 'exist', 'skipOnError' => true, 'targetClass' => Classroom::className(), 'targetAttribute' => ['classroom_id' => 'id']],
-            [['schedule_id'], 'exist', 'skipOnError' => true, 'targetClass' => Schedule::className(), 'targetAttribute' => ['schedule_id' => 'id']],
+            [['classroom_id'], 'exist', 'skipOnError' => true, 
+            'targetClass' => Classroom::className(), 
+            'targetAttribute' => ['classroom_id' => 'id']],
+            [['schedule_id'], 'exist', 'skipOnError' => true, 
+            'targetClass' => Schedule::className(), 
+            'targetAttribute' => ['schedule_id' => 'id']],
         ];
     }
 
@@ -90,9 +94,13 @@ class ScheduleGraph extends \yii\db\ActiveRecord
         $session['ScheduleGraph[begin_date]'] = 0;
         $session['ScheduleGraph[end_date]'] = 0;
             
-        if( isset($post['ScheduleGraph']['schedule_id']) ) $session['ScheduleGraph[schedule_id]'] = 1;
-        if( isset($post['ScheduleGraph']['classroom_id']) ) $session['ScheduleGraph[classroom_id]'] = 1;
-        if( isset($post['ScheduleGraph']['begin_date']) ) $session['ScheduleGraph[begin_date]'] = 1;
-        if( isset($post['ScheduleGraph']['end_date']) ) $session['ScheduleGraph[end_date]'] = 1;
+        if( isset($post['ScheduleGraph']['schedule_id']) ) 
+            $session['ScheduleGraph[schedule_id]'] = 1;
+        if( isset($post['ScheduleGraph']['classroom_id']) ) 
+            $session['ScheduleGraph[classroom_id]'] = 1;
+        if( isset($post['ScheduleGraph']['begin_date']) ) 
+            $session['ScheduleGraph[begin_date]'] = 1;
+        if( isset($post['ScheduleGraph']['end_date']) ) 
+            $session['ScheduleGraph[end_date]'] = 1;
     }
 }

@@ -44,24 +44,13 @@ class Subjects extends \yii\db\ActiveRecord
             [['company_id', 'filial_id'], 'integer'],
             [['name'], 'string', 'max' => 255],
             [['name'],'required'],
-            [['company_id'], 'exist', 'skipOnError' => true, 'targetClass' => Companies::className(), 'targetAttribute' => ['company_id' => 'id']],
-            [['filial_id'], 'exist', 'skipOnError' => true, 'targetClass' => Filials::className(), 'targetAttribute' => ['filial_id' => 'id']],
+            [['company_id'], 'exist', 'skipOnError' => true,
+             'targetClass' => Companies::className(),
+              'targetAttribute' => ['company_id' => 'id']],
+            [['filial_id'], 'exist', 'skipOnError' => true, 
+            'targetClass' => Filials::className(), 'targetAttribute' => ['filial_id' => 'id']],
         ];
     }
-    // public function behaviors()
-    // {
-    //     return [
-    //         TimestampBehavior::className(),
-    //         [
-    //                 'class' => BlameableBehavior::class,
-    //                 'createdByAttribute' => 'company_id',
-    //                 'updatedByAttribute' => null,
-    //                 'value' => function($event) {
-    //                     return Yii::$app->user->identity->company_id;
-    //                 },
-    //         ],
-    //     ];
-    // }
 
      /**
      * @inheritdoc

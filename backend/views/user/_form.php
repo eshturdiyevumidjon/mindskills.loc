@@ -17,7 +17,8 @@ use backend\models\Filials;
         <div class="row">
                 <div class="col s12">
                     <div id="image" style="float: left;">
-                     <?= $model->image != null ? '<img style="width:225px;border-radius:10%; " src="http://' . $_SERVER["SERVER_NAME"] . "/uploads/avatar/" . $model->image .' ">' : '<img style="width:225px;border-radius:10%; "  class="img-circle" src="http://' . $_SERVER["SERVER_NAME"].'/uploads/no-user.jpg">' ?>
+                     <?= $model->image != null ? '<img style="width:225px;border-radius:10%; " src="http://' . $_SERVER["SERVER_NAME"] . "/uploads/avatar/" . 
+                         $model->image .' ">' : '<img style="width:225px;border-radius:10%; "  class="img-circle" src="http://' . $_SERVER["SERVER_NAME"].'/uploads/no-user.jpg">' ?>
                     </div>
                 </div>
                 <div class="col s12">
@@ -42,7 +43,7 @@ use backend\models\Filials;
                       <?= $form->field($model, 'birthday')->widget(DatePicker::className(), [
                         'language' => 'ru',
                         'size' => 'sm', 
-                        'type'=>DatePicker::TYPE_INPUT,
+                        'type'=> DatePicker::TYPE_INPUT,
                         'pluginOptions' => [
                         'todayHighlight' => true,
                         'format'=>'dd.mm.yyyy',
@@ -68,22 +69,18 @@ use backend\models\Filials;
                     </div>                 
             </div>
     </div>
-       </div>
-
-    	<?php if (!Yii::$app->request->isAjax){ ?>
-	  	<div class="form-group">
-	        <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Редактировать', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-	    </div>
-	<?php } ?>
-
-    <?php ActiveForm::end(); ?>
-    
+           </div>
+        	<?php if (!Yii::$app->request->isAjax){ ?>
+    	  	<div class="form-group">
+    	        <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Редактировать', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+    	    </div>
+	       <?php } ?>
+<?php ActiveForm::end(); ?>
 </div>
 <?php 
 $this->registerJs(<<<JS
 $(document).ready(function(){
     var fileCollection = new Array();
-
     $(document).on('change', '.image_input', function(e){
         var files = e.target.files;
         $.each(files, function(i, file){
@@ -97,8 +94,6 @@ $(document).ready(function(){
             };
         });
     });
-
-    
 });
 JS
 );

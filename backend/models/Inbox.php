@@ -47,11 +47,12 @@ class Inbox extends \yii\db\ActiveRecord
             [['date_cr'], 'safe'],
             [['files'], 'file', 'skipOnEmpty' => true,], 
             [['title', 'file'], 'string', 'max' => 255],
-            [['from'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['from' => 'id']],
-            [['to'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['to' => 'id']],
+            [['from'], 'exist', 'skipOnError' => true, 
+            'targetClass' => User::className(), 'targetAttribute' => ['from' => 'id']],
+            [['to'], 'exist', 'skipOnError' => true, 
+            'targetClass' => User::className(), 'targetAttribute' => ['to' => 'id']],
         ];
     }
-
     /**
      * {@inheritdoc}
      */
@@ -101,7 +102,6 @@ class Inbox extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'from']);
     }
-
     /**
      * @return \yii\db\ActiveQuery
      */

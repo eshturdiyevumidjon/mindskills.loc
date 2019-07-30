@@ -53,27 +53,19 @@ class Courses extends \yii\db\ActiveRecord
             [['begin_date', 'end_date'], 'safe'],
             [['cost', 'prosent_for_teacher'], 'number'],
             [['name'], 'string', 'max' => 255],
-            [['company_id'], 'exist', 'skipOnError' => true, 'targetClass' => Companies::className(), 'targetAttribute' => ['company_id' => 'id']],
-            [['filial_id'], 'exist', 'skipOnError' => true, 'targetClass' => Filials::className(), 'targetAttribute' => ['filial_id' => 'id']],
-            [['subject_id'], 'exist', 'skipOnError' => true, 'targetClass' => Subjects::className(), 'targetAttribute' => ['subject_id' => 'id']],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['company_id'], 'exist', 'skipOnError' => true, 
+            'targetClass' => Companies::className(), 
+            'targetAttribute' => ['company_id' => 'id']],
+            [['filial_id'], 'exist', 'skipOnError' => true, 
+            'targetClass' => Filials::className(), 
+            'targetAttribute' => ['filial_id' => 'id']],
+            [['subject_id'], 'exist', 'skipOnError' => true, 
+            'targetClass' => Subjects::className(), 
+            'targetAttribute' => ['subject_id' => 'id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 
+            'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
-    // public function behaviors()
-    // {
-    //     return [
-    //         TimestampBehavior::className(),
-    //         [
-    //                 'class' => BlameableBehavior::class,
-    //                 'createdByAttribute' => 'company_id',
-    //                 'updatedByAttribute' => null,
-    //                 'value' => function($event) {
-    //                     return Yii::$app->user->identity->company_id;
-    //                 },
-    //         ],
-    //     ];
-    // }
-
      /**
      * @inheritdoc
      */
@@ -88,7 +80,6 @@ class Courses extends \yii\db\ActiveRecord
             else $companyId = null;
         } 
         else $companyId = null;
-
         return new AppActiveQuery(get_called_class(), [
            'companyId' => $companyId,
         ]);
@@ -157,10 +148,10 @@ class Courses extends \yii\db\ActiveRecord
     }
      public function beforeSave($insert)
     {
-        
-        if($this->begin_date != null)$this->begin_date = \Yii::$app->formatter->asDate($this->begin_date, 'php:Y-m-d');
-        if($this->end_date != null)$this->end_date = \Yii::$app->formatter->asDate($this->end_date, 'php:Y-m-d');
-        
+        if($this->begin_date != null)
+            $this->begin_date = \Yii::$app->formatter->asDate($this->begin_date, 'php:Y-m-d');
+        if($this->end_date != null)
+            $this->end_date = \Yii::$app->formatter->asDate($this->end_date, 'php:Y-m-d');
         return parent::beforeSave($insert);
     }
     public static function getDate($date=null)

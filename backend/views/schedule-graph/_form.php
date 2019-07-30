@@ -19,7 +19,7 @@ use backend\models\Classroom;
             <?= $form->field($model, 'begin_date')->widget(DatePicker::className(), [
                 'language' => 'ru',
                 'size' => 'sm', 
-                'type'=>DatePicker::TYPE_INPUT,
+                'type'=> DatePicker::TYPE_INPUT,
                 'pluginOptions' => [
                 'todayHighlight' => true,
                 'format'=>'dd.mm.yyyy',
@@ -30,7 +30,7 @@ use backend\models\Classroom;
             <?= $form->field($model, 'end_date')->widget(DatePicker::className(), [
                 'language' => 'ru',
                 'size' => 'sm', 
-                'type'=>DatePicker::TYPE_INPUT,
+                'type'=> DatePicker::TYPE_INPUT,
                 'pluginOptions' => [
                 'todayHighlight' => true,
                 'format'=>'dd.mm.yyyy',
@@ -65,7 +65,5 @@ use backend\models\Classroom;
 	        <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Редактировать', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
 	    </div>
 	<?php } ?>
-
     <?php ActiveForm::end(); ?>
-    
 </div>

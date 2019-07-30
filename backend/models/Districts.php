@@ -32,10 +32,10 @@ class Districts extends \yii\db\ActiveRecord
         return [
             [['region_id'], 'integer'],
             [['name'], 'string', 'max' => 255],
-            [['region_id'], 'exist', 'skipOnError' => true, 'targetClass' => Regions::className(), 'targetAttribute' => ['region_id' => 'id']],
+            [['region_id'], 'exist', 'skipOnError' => true, 
+            'targetClass' => Regions::className(), 'targetAttribute' => ['region_id' => 'id']],
         ];
     }
-
     /**
      * {@inheritdoc}
      */
@@ -47,7 +47,6 @@ class Districts extends \yii\db\ActiveRecord
             'region_id' => 'Область',
         ];
     }
-
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -55,7 +54,6 @@ class Districts extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Regions::className(), ['id' => 'region_id']);
     }
-
     /**
      * @return \yii\db\ActiveQuery
      */

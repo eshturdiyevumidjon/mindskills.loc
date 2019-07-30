@@ -11,18 +11,17 @@ use common\models\User;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            //'id',
             'fio',
             'username',
             [
-                'attribute'=>'type',
-                'value'=>function($data){
+                'attribute' => 'type',
+                'value' => function($data){
                     return $data->getTypeDescription();
                 }
             ],
             [
-                'attribute'=>'birthday',
-                'value'=>function($data)
+                'attribute' => 'birthday',
+                'value' => function($data)
                 {
                     return User::getDate($data->birthday);
                 }
@@ -39,23 +38,13 @@ use common\models\User;
             }
              ],
             [
-                'attribute'=>'created_at',
-                'value'=>function($data)
+                'attribute' => 'created_at',
+                'value' => function($data)
                 {
                     return User::getDate($data->created_at);
                 }
             ],
-            // [
-            //     'attribute'=>'updated_at',
-            //     'value'=>function($data)
-            //     {
-            //         return User::getDate($data->updated_at);
-            //     }
-            // ],
-            // 'auth_key',
-            // 'filial_id',
-            // 'company_id',
         ],
     ]) ?>
-
+    
 </div>

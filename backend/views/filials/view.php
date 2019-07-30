@@ -27,22 +27,22 @@ use yii\widgets\DetailView;
             }
              ],
             [
-                'attribute'=>'name',
-                'label'=>'Имя директора',
-                'value'=>function($data){
+                'attribute' => 'name',
+                'label' => 'Имя директора',
+                'value' => function($data){
                     return $data->getAdmin();
                 }
             ],
             'phone',
             [
-                'attribute'=>'region_id',
-                'value'=>function($data){
+                'attribute' => 'region_id',
+                'value' => function($data){
                     return $data->region->name;
                 }
             ],
             [
-                'attribute'=>'district_id',
-                'value'=>function($data){
+                'attribute' => 'district_id',
+                'value' => function($data){
                     return $data->district->name;
                 }
             ],
@@ -50,8 +50,8 @@ use yii\widgets\DetailView;
             'site',
             'email:email',
             [
-                'attribute'=>'company_id',
-                'value'=>function($data){
+                'attribute' => 'company_id',
+                'value' => function($data){
                     return $data->company->name;
                 }
             ]

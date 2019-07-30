@@ -40,7 +40,6 @@ class Filials extends \yii\db\ActiveRecord
     {
         return 'filials';
     }
-
     public function behaviors()
     {
         if(Yii::$app->user->identity){
@@ -89,7 +88,6 @@ class Filials extends \yii\db\ActiveRecord
            'companyId' => $companyId,
         ]);
     }
-
     /**
      * @inheritdoc
      */
@@ -119,9 +117,14 @@ class Filials extends \yii\db\ActiveRecord
             [['address'], 'string'],
             [['filial_name'],'required'],
             [['filial_name', 'logo', 'surname', 'name', 'middle_name', 'phone', 'site', 'email'], 'string', 'max' => 255],
-            [['company_id'], 'exist', 'skipOnError' => true, 'targetClass' => Companies::className(), 'targetAttribute' => ['company_id' => 'id']],
-            [['district_id'], 'exist', 'skipOnError' => true, 'targetClass' => Districts::className(), 'targetAttribute' => ['district_id' => 'id']],
-            [['region_id'], 'exist', 'skipOnError' => true, 'targetClass' => Regions::className(), 'targetAttribute' => ['region_id' => 'id']],
+            [['company_id'], 'exist', 'skipOnError' => true, 
+            'targetClass' => Companies::className(), 
+            'targetAttribute' => ['company_id' => 'id']],
+            [['district_id'], 'exist', 'skipOnError' => true, 
+            'targetClass' => Districts::className(),
+             'targetAttribute' => ['district_id' => 'id']],
+            [['region_id'], 'exist', 'skipOnError' => true,
+             'targetClass' => Regions::className(), 'targetAttribute' => ['region_id' => 'id']],
         ];
     }
 
@@ -154,7 +157,6 @@ class Filials extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Companies::className(), ['id' => 'company_id']);
     }
-
     /**
      * @return \yii\db\ActiveQuery
      */

@@ -17,7 +17,7 @@ use backend\models\Schedule;
             <?= $form->field($model, 'payed')->widget(\yii\widgets\MaskedInput::className(), [
                                 'mask' => '9',
                                 'clientOptions' => ['repeat' => 10, 'greedy' => false]
-                            ])?>
+            ])?>
         </div>
     </div>
     <div class="row">
@@ -34,16 +34,15 @@ use backend\models\Schedule;
         </div>
         <div class="col s6" >
              <?= $form->field($model, 'pupil_id')->dropDownlist(
-                      ArrayHelper::map(User::find()->where(['type'=>3])->all(),'id','fio'),
-                      ['prompt'=>'Выберите...']
+                      ArrayHelper::map(User::find()->where(['type' => 3])->all(),'id','fio'),
+                      ['prompt' => 'Выберите...']
                   );?>
         </div>
     </div>
-	<?php if (!Yii::$app->request->isAjax){ ?>
+	  <?php if (!Yii::$app->request->isAjax){ ?>
 	  	<div class="form-group">
 	        <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Редактировать', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
 	    </div>
-	<?php } ?>
+	  <?php } ?>
     <?php ActiveForm::end(); ?>
-    
 </div>

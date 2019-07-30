@@ -10,7 +10,6 @@ use backend\models\Schedule;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            //'id',
             'name',
             'company.name',
             'filial.filial_name',
@@ -19,32 +18,31 @@ use backend\models\Schedule;
             'price',
             'sum_of_teacher',
             [
-                'attribute'=>'begin_date',
-                'value'=>function($data)
+                'attribute' => 'begin_date',
+                'value' => function($data)
                 {
                     return Schedule::getDate($data->begin_date);
                 }
             ],
             [
-                'attribute'=>'end_date',
-                'value'=>function($data)
+                'attribute' => 'end_date',
+                'value' => function($data)
                 {
                     return Schedule::getDate($data->end_date);
                 }
             ],
             [
-                'attribute'=>'status',
-                'value'=>function($data){
+                'attribute' => 'status',
+                'value' => function($data){
                     return $data->getStatusDescription();
                 }
             ],
             [
-                'attribute'=>'type',
-                'value'=>function($data){
+                'attribute' => 'type',
+                'value' => function($data){
                     return $data->getTypeDescription();
                 }
             ],
         ],
     ]) ?>
-
 </div>

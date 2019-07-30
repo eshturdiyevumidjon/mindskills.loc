@@ -54,7 +54,7 @@ if (!file_exists('uploads/avatar/'.$model->image) || $model->image == '') {
                         <?= $form->field($model, 'birthday')->widget(DatePicker::className(), [
                         'language' => 'ru',
                         'size' => 'sm', 
-                        'type'=>DatePicker::TYPE_INPUT,
+                        'type'=> DatePicker::TYPE_INPUT,
                         'pluginOptions' => [
                         'todayHighlight' => true,
                         'format'=>'dd.mm.yyyy',
@@ -64,17 +64,12 @@ if (!file_exists('uploads/avatar/'.$model->image) || $model->image == '') {
             </div>
         </div>
     </div>
-
     <?php ActiveForm::end(); ?>
-
 </div>
-
 <?php 
 $this->registerJs(<<<JS
-    
 $(document).ready(function(){
     var fileCollection = new Array();
-
     $(document).on('change', '.image_input', function(e){
         var files = e.target.files;
         $.each(files, function(i, file){

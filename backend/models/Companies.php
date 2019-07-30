@@ -57,8 +57,8 @@ class Companies extends \yii\db\ActiveRecord
             'Companies_fio' => 'ФИО',
             'Companiesname' => 'Логин',
             'password' => 'Пароль',
-            'Companiesphone'=>'Телефон',
-            'tarif_id'=>'Тариф',
+            'Companiesphone' => 'Телефон',
+            'tarif_id' => 'Тариф',
         ];
     }
     public function beforeSave($insert) 
@@ -93,10 +93,6 @@ class Companies extends \yii\db\ActiveRecord
     $session = Yii::$app->session;
 
     $session['Companies[name]'] = 0;
-    // $session['Companies[filial_name]'] = 0;
-    // $session['Companies[Companies_fio]'] =0;
-    // $session['Companies[Companiesname]'] = 0;
-    // $session['Companies[Companies_phone]'] =0;
     $session['Companies[tarif_id]'] =0;
         
     if( isset($post['Companies']['name']) ) $session['Companies[name]'] = 1;

@@ -63,8 +63,8 @@ class ClassroomController extends Controller
                     'content'=>$this->renderAjax('view', [
                     'model' => $this->findModel($id),
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Изменить',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','           data-dismiss'=>"modal"]).
+                               Html::a('Изменить',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
         }else{
             return $this->render('view', [
@@ -95,8 +95,8 @@ class ClassroomController extends Controller
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "Аудитории",
                     'content'=>'<span class="text-success">Успешно выполнено</span>',
-                    'footer'=> Html::button('Ок',['class'=>'btn btn-primary pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Создать ещё',['create'],['class'=>'btn btn-info','role'=>'modal-remote'])
+                    'footer'=> Html::button('Ок',['class'=>'btn btn-primary pull-left','            data-dismiss'=>"modal"]).
+                                Html::a('Создать ещё',['create'],['class'=>'btn btn-info','role'=>'modal-remote'])
                 ];         
             }else{           
                 return [
@@ -104,7 +104,7 @@ class ClassroomController extends Controller
                     'content'=>$this->renderAjax('create', [
                     'model' => $model,
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','        data-dismiss'=>"modal"]).
                                 Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
@@ -145,7 +145,7 @@ class ClassroomController extends Controller
                 'content'=>$this->renderAjax('columns', [
                     'session' => $session,
                 ]),
-                'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','            data-dismiss'=>"modal"]).
                            Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
             ];         
         }       
@@ -173,7 +173,7 @@ class ClassroomController extends Controller
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','            data-dismiss'=>"modal"]).
                                 Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
                 ];         
             }else if($model->load($request->post()) && $model->save()){
@@ -183,7 +183,7 @@ class ClassroomController extends Controller
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','        data-dismiss'=>"modal"]).
                             Html::a('Изменить',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
             }else{
@@ -192,7 +192,7 @@ class ClassroomController extends Controller
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','        data-dismiss'=>"modal"]).
                                 Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
                 ];        
             }
@@ -253,7 +253,6 @@ class ClassroomController extends Controller
             $model = $this->findModel($pk);
             $model->delete();
         }
-
         if($request->isAjax){
             /*
             *   Process for ajax request
@@ -266,9 +265,7 @@ class ClassroomController extends Controller
             */
             return $this->redirect(['index']);
         }
-       
     }
-
     /**
      * Finds the Classroom model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

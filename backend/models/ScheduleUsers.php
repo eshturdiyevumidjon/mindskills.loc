@@ -37,8 +37,10 @@ class ScheduleUsers extends \yii\db\ActiveRecord
             [['schedule_id', 'pupil_id', 'unsubscribe'], 'integer'],
             [['payed'], 'number'],
             [['comment'], 'string'],
-            [['pupil_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['pupil_id' => 'id']],
-            [['schedule_id'], 'exist', 'skipOnError' => true, 'targetClass' => Schedule::className(), 'targetAttribute' => ['schedule_id' => 'id']],
+            [['pupil_id'], 'exist', 'skipOnError' => true, 
+            'targetClass' => User::className(), 'targetAttribute' => ['pupil_id' => 'id']],
+            [['schedule_id'], 'exist', 'skipOnError' => true, 
+            'targetClass' => Schedule::className(), 'targetAttribute' => ['schedule_id' => 'id']],
         ];
     }
 
