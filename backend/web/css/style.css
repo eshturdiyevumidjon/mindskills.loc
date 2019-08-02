@@ -2631,7 +2631,7 @@ footer.page-footer {
   padding-top: 1px;
 }
 
-select {
+/*select {
   background-color: transparent;
   width: 100%;
   padding: 5px;
@@ -2639,7 +2639,7 @@ select {
   border-radius: 2px;
   height: 3rem;
   border-bottom: 1px solid #bdbdbd;
-}
+}*/
 
 #sidenav-overlay {
   background-color: transparent;
@@ -6937,13 +6937,13 @@ ul.side-nav .collapsible-header.active:after {
   height: auto !important;
 }
 
-.jsgrid-edit-row select {
+/*.jsgrid-edit-row select {
   display: block !important;
 }
 
 .jsgrid-insert-row select {
   display: block !important;
-}
+}*/
 
 .jsgrid-insert-row .select-wrapper .caret {
   display: none !important;

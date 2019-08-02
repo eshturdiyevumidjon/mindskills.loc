@@ -10,6 +10,8 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
+use yii\data\ActiveDataProvider;
+
 /**
  * SubjectsController implements the CRUD actions for Subjects model.
  */
@@ -36,17 +38,68 @@ class SubjectsController extends Controller
      * @return mixed
      */
     public function actionIndex()
-    {    
-        $searchModel = new SubjectsSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+    {  
+        if(Yii::$app->request->isAjax && $_POST['search'] == '1')
+       {    
+       
+            $query = User::find();
+            $dataProvider = new ActiveDataProvider([
+                'query' => $query,
+            ]);
+            $birthday=($_POST['UserSearch']['birthday'])?\Yii::$app->formatter->asDate($_POST['UserSearch']['birthday'], 'php:Y-m-d'):"";
+            $filial_id=$_POST['UserSearch']['filial_id'];
+            $company_id=$_POST['UserSearch']['company_id'];
+            $fio=$_POST['UserSearch']['fio'];
+            $username=$_POST['UserSearch']['username'];
+            $phone=$_POST['UserSearch']['phone'];
+            $status=$_POST['status'];
+            $balanc=$_POST['UserSearch']['balanc'];
+           
+            if(isset($birthday) || isset($status) || isset($filial_id) || isset($company_id)
+                || isset($fio) || isset($username) ||isset($phone) || isset($balanc))
+            {
+                    $query->andFilterWhere([
+                         
+                        'balanc' => $balanc,
+                        'status' => $status,
+                        'filial_id' => $filial_id,
+                        'company_id' => $company_id
+                    ]);
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
+                    $query->andFilterWhere(['like', 'fio', $fio])
+                            ->andFilterWhere(['like', 'username', $username])
+                            ->andFilterWhere(['like', 'birthday', $birthday])
+                        ->andFilterWhere(['like', 'phone', $phone]);
+                       
+                     
+                     return $this->renderAjax('tbody', [
+                  
+                    'dataProvider' => $dataProvider,
+                    
+                    'searchModel'=>$searchModel,
+
+                ]);
+            }
+            else
+            return $this->renderAjax('tbody', [
+            'dataProvider' => $dataProvider,
+            
+            'searchModel'=>$searchModel,
+
+        ]); 
+        }
+
+
+        $searchModel=new SubjectsSearch();
+        $query = Subjects::find();
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+        return  $this->render('index',[
+            'searchModel'=>$searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
-
-
     /**
      * Displays a single Subjects model.
      * @param integer $id

@@ -94,6 +94,49 @@ CrudAsset::register($this);
                     <?php }?>
                     <th>Действия</th>
                 </tr>
+                 <tr>
+                  <td>№</td>
+                  
+                  <form id="searchForm" method="post">
+            <td>
+              <input style="width:100%; border-top:0;border-right: 0;border-left: 0;
+              "type="search" id="searchname" name="name" value="<?=$post['name']?>">
+            </td>
+            <td>
+              <input style="width:100%; border-top:0;border-right: 0;border-left: 0;
+                "type="search" name="subject_id" value="<?=$post['subject_id']?>">
+            </td>
+            <td>
+              <input style="width:100%; border-top:0;border-right: 0;border-left: 0;
+              "type="search" name="user_id" value="<?=$post['user_id']?>">
+            </td>
+            <td>
+              <input style="width:100%; border-top:0;border-right: 0;border-left: 0;
+              "type="search" name="begin_date" value="<?=$post['begin_date']?>">
+            </td>
+            <td>
+              <input style="width:100%; border-top:0;border-right: 0;border-left: 0;
+              "type="search" name="end_date" value="<?=$post['end_date']?>">
+            </td>
+            <td>
+              <input style="width:100%; border-top:0;border-right: 0;border-left: 0;
+              "type="search" id="searchcost" name="cost" value="<?=$post['cost']?>">
+            </td>
+            <td>
+              <input style="width:100%; border-top:0;border-right: 0;border-left: 0;
+              "type="search" name="prosent_for_teacher" value="<?=$post['prosent_for_teacher']?>">
+            </td>
+            <td>
+              <input style="width:100%; border-top:0;border-right: 0;border-left: 0;
+              "type="search" name="company_id" value="<?=$post['company_id']?>">
+            </td>
+            <td>
+              <input style="width:100%; border-top:0;border-right: 0;border-left: 0;
+              "type="search" name="filial_id" value="<?=$post['filial_id']?>">
+            </td>
+                  </form>
+                  <td></td>
+                </tr>
                 </thead>
                 <tbody id="myTablecourses">
                     <?php
@@ -101,7 +144,7 @@ CrudAsset::register($this);
                             echo "<tr>
                       <td>".$value->id."</td>";
                       if($session['Courses[name]'] === null || $session['Courses[name]'] == 1)
-                      echo "<td>".$value->name."</td>";
+                      echo "<td class='name'>".$value->name."</td>";
                       if($session['Courses[subject_id]'] === null || $session['Courses[subject_id]'] == 1)
                       echo "<td>".$value->subject->name."</td>";
                       if($session['Courses[user_id]'] === null || $session['Courses[user_id]'] == 1)
@@ -111,7 +154,7 @@ CrudAsset::register($this);
                       if($session['Courses[end_date]'] === null || $session['Courses[end_date]'] == 1)
                       echo "<td>".Courses::getDate($value->end_date)."</td>";
                       if($session['Courses[cost]'] === null || $session['Courses[cost]'] == 1)
-                      echo"<td>".$value->cost."</td>";
+                      echo"<td class='cost'>".$value->cost."</td>";
                       if($session['Courses[prosent_for_teacher]'] === null || $session['Courses[prosent_for_teacher]'] == 1)
                       echo "<td>".$value->prosent_for_teacher."</td>";
                       if(Yii::$app->user->identity->company->type == 1){
@@ -162,6 +205,30 @@ $("#searchcourses").on("keyup", function() {
     $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
     });
   });
+
+
+  $("#searchname").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTablecourses .name").filter(function() {
+      $('tr').each(function(){
+      var tr = $(this);
+      if (tr.find('td').hasClass("name")) tr.toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });;
+    });
+   
+  });
+  
+  $("#searchcost").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTablecourses .cost").filter(function() {
+      $('tr').each(function(){
+      var tr = $(this);
+      if (tr.find('td').hasClass("cost")) tr.toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });;
+    });
+   
+  });
+
 });
 JS
 );

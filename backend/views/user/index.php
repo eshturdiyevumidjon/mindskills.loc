@@ -3,10 +3,15 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\bootstrap\Modal;
 use kartik\grid\GridView;
+use kartik\date\DatePicker; 
+use yii\widgets\ActiveForm;
+use yii\helpers\Arrayhelper;
 use johnitvn\ajaxcrud\CrudAsset; 
 use johnitvn\ajaxcrud\BulkButtonWidget;
 use yii\widgets\Pjax;
 use common\models\User;
+use models\models\Companies;
+
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\UserSearch */
@@ -14,14 +19,17 @@ use common\models\User;
 $pathInfo = Yii::$app->request->pathInfo;
 if($pathInfo=='user/admin')
 {
+  $type=1;
   $this->title = 'Администраторы';
 }
 if($pathInfo=='user/teacher')
 {
-    $this->title = 'Предподователи';
+  $type=2;
+  $this->title = 'Предподователи';
 }
 if ($pathInfo=='user/pupil')
 {
+  $type=3;
   $this->title = 'Ученики';
 }
 $this->params['breadcrumbs'][] = $this->title;
@@ -54,7 +62,8 @@ CrudAsset::register($this);
                             ['title' => 'Обновить'])?>
                 </li>
                 <li>
-                  <input type="search" name="search" style="display: none;" id="searchuser">
+                  <input type="hidden" id="type" value="<?=$type?>">
+                  <input type="text" name="search" style="display: none;" id="searchuser">
                 </li>
                 <li>
                   <a href="#" id="showSearchuser" title='Поиск'>
@@ -69,99 +78,150 @@ CrudAsset::register($this);
      <div id="row-grouping" class="section">
         <div class="row">
             <div class="col s11" style="margin:  20px 40px 20px 40px">
-              <table class="bordered highlight centered" cellspacing="0" width="100%">
-                <thead>
-                  <tr style="font-size: 14px;">
-                  <th>ID</th>
-                  <?php if($session['User[image]'] === null || $session['User[image]'] == 1){ ?>
-                  <th>Фото</th>
-                  <?php }?>
-                  <?php if($session['User[fio]'] === null || $session['User[fio]'] == 1){ ?>
-                  <th>ФИО</th>
-                  <?php }?>
-                  <?php if($session['User[username]'] === null || $session['User[username]'] == 1){ ?>
-                  <th>Имя пользователа</th>
-                  <?php }?>
-                  <?php if($session['User[type]'] === null || $session['User[type]'] == 1){ ?>
-                  <th>Тип</th>
-                  <?php }?>
-                  <?php if($session['User[status]'] === null || $session['User[status]'] == 1){ ?>
-                  <th>Статус</th>
-                  <?php if($session['User[birthday]'] === null || $session['User[birthday]'] == 1){ ?>
-                  <th>День рождения</th>
-                  <?php }?>
-                  <?php if($session['User[phone]'] === null || $session['User[phone]'] == 1){ ?>
-                  <th>Телефон</th>
-                  <?php }?>
-                  <?php if($session['User[balanc]'] === null || $session['User[balanc]'] == 1){ ?>
-                  <th>Баланс</th>
-                  <?php }?>
-                  <?php if(Yii::$app->user->identity->company->type == 1){ ?>
-                  <?php if($session['User[company_id]'] === null || $session['User[company_id]'] == 1){ ?>
-                  <th>Компания</th>
-                  <?php } ?>
-                  <?php } ?>
-                  <?php if(Yii::$app->user->identity->company->type == 1){ ?>
-                  <?php if($session['User[filial_id]'] === null || $session['User[filial_id]'] == 1){ ?>
-                  <th>Филиал</th>
-                  <?php } ?>
-                  <?php } ?>
-                  <th>Действия</th>
-                  </tr>
-                </thead>
-                <tbody id="myTableuser">
-                    <?php
-                  foreach ($models as $value) {
-                  if (!file_exists('uploads/avatar/'.$value->image) || $value->image == '') {
-                      $path = 'http://' . $_SERVER['SERVER_NAME'].'/uploads/no-user.jpg';
-                  } else {
-                      $path = 'http://' . $_SERVER['SERVER_NAME'].'/uploads/avatar/'.$value->image;
-                  }
-                  echo "<tr><td>".$value->id."</td>";
-                  if($session['User[image]'] === null || $session['User[image]'] == 1)
-                  echo "<td><img src='$path' style='width: 60px;border-radius: 1em;border: solid 1px #cecece;'></td>";
-                  if($session['User[fio]'] === null || $session['User[fio]'] == 1)
-                  echo "<td>".$value->fio."</td>";
-                  if($session['User[username]'] === null || $session['User[username]'] == 1)
-                  echo "<td>".$value->username."</td>";
-                  if($session['User[type]'] === null || $session['User[type]'] == 1)
-                  echo "<td>".$value->getTypeDescription()."</td>";
-                  if($session['User[status]'] === null || $session['User[status]'] == 1)
-                  echo "<td>".$value->getStatusDescription()."</td>";
-                  if($session['User[birthday]'] === null || $session['User[birthday]'] == 1)
-                  echo "<td>".User::getDate($value->birthday)."</td>";
-                  if($session['User[phone]'] === null || $session['User[phone]'] == 1)
-                  echo "<td>".$value->phone."</td>";
-                  if($session['User[balanc]'] === null || $session['User[balanc]'] == 1)
-                  echo "<td>".$value->balanc."</td>";
-                  if(Yii::$app->user->identity->company->type == 1){
-                  if($session['User[company_id]'] === null || $session['User[company_id]'] == 1)
-                  echo "<td>".$value->company->name."</td>";}
-                  if(Yii::$app->user->identity->company->type == 1){
-                  if($session['User[filial_id]'] === null || $session['User[filial_id]'] == 1)  
-                  echo "<td>".$value->filial->filial_name."</td>";}
-                  echo 
-                  "<td class='align-center' style='width: 100px;'>".
-                  Html::a('<i class="material-icons view-u">visibility</i>', ['view','id' => 
-                    $value->id],['role' => 'modal-remote','title' => 'Просмотр']).
-                  Html::a('<i class="material-icons blue-u">mode_edit</i>', ['update','id' => 
-                    $value->id],['role' => 'modal-remote','title' => 'Изменить']).
-                  Html::a('<i class="material-icons red-u">delete_forever</i>', ['delete','id' => $value->id],['role' => 'modal-remote','title' => 'Удалить', 
-                            'data-confirm' => false, 'data-method' => false,
-                                'data-request-method' => 'post',
-                                'data-toggle' => 'tooltip',
-                                'data-confirm-title' => 'Подтвердите действие',
-                                'data-confirm-message' => 'Вы уверены что хотите удалить этого элемента?'])."
+              <table class="bordered highlight centered" cellspacing="0" id="MyTableuser" width="100%">  
+                 <thead>
+                  <div class="row">
+                    <tr style="font-size: 14px;">
+                      <div class="col s1 m1 l1 xl1">
+                        <th>ID</th>
+                      </div>
+                    <?php if($session['User[image]'] === null || $session['User[image]'] == 1){ ?>
+                      <div class="col s1 m1 l1 xl1">
+                        <th>Фото</th>
+                      </div>
+                    <?php }?>
+                    <?php if($session['User[fio]'] === null || $session['User[fio]'] == 1){ ?>
+                      <div class="col s1 m1 l1 xl1">
+                        <th>ФИО</th>
+                      </div>
+                    <?php }?>
+                    <?php if($session['User[username]'] === null || $session['User[username]'] == 1){ ?>
+                      <div class="col s1 m1 l1 xl1">
+                        <th>Имя пользователа</th>
+                      </div>
+                    <?php }?>
+                    <?php if($session['User[type]'] === null || $session['User[type]'] == 1){ ?>
+                      <div class="col s1 m1 l1 xl1">
+                        <th>Тип</th>
+                      </div>
+                    <?php }?>
+                    <?php if($session['User[status]'] === null || $session['User[status]'] == 1){ ?>
+                      <div class="col s1 m1 l1 xl1">
+                        <th>Статус</th>
+                      </div>
+                    <?php }?>
+                    <?php if($session['User[birthday]'] === null || $session['User[birthday]'] == 1){ ?>
+                      <div class="col s1 m1 l1 xl1">
+                        <th>День рождения</th>
+                      </div>
+                    <?php }?>
+                    <?php if($session['User[phone]'] === null || $session['User[phone]'] == 1){ ?>
+                      <div class="col s1 m1 l1 xl1">
+                        <th>Телефон</th>
+                      </div>
+                    <?php }?>
+                    <?php if($session['User[balanc]'] === null || $session['User[balanc]'] == 1){ ?>
+                      <div class="col s1 m1 l1 xl1">
+                        <th>Баланс</th>
+                      </div>
+                    <?php }?>
+                    <?php if(Yii::$app->user->identity->company->type == 1){ ?>
+                    <?php if($session['User[company_id]'] === null || $session['User[company_id]'] == 1){ ?>
+                      <div class="col s1 m1 l1 xl1">
+                        <th>Компания</th>
+                      </div>
+                    <?php } ?>
+                    <?php } ?>
+                    <?php if(Yii::$app->user->identity->company->type == 1){ ?>
+                    <?php if($session['User[filial_id]'] === null || $session['User[filial_id]'] == 1){ ?>
+                      <div class="col s1 m1 l1 xl1">
+                        <th>Филиал</th>
+                      </div>
+                    <?php } ?>
+                    <?php } ?>
+                    <div class="col s12 1 l1 xl1">
+                        <th>Действия</th>
+                      </div>
+                    </tr>
+                  </div>
+                  <tr>
+                      <?php $form= ActiveForm::begin(['options' => ['id' => 'searchForm']])?>
+                      
+                    <td>№</td>
+                    <td>
+                      <?=$form->field($searchModel,'search')->hiddenInput(['class'=>'search','style'=>'padding-bottom:14px;','form'=>'searchForm','value'=>'1'])->label(false)?>
                     </td>
-                    </tr>";}  
-                        }?>  
+                      
+                    <td><?=$form->field($searchModel,'fio')->textInput(['class'=>'search','style'=>'padding-bottom:14px;','form'=>'searchForm'])->label(false)?></td>
+                    <td><?=$form->field($searchModel,'username')->textInput(['class'=>'search','style'=>'padding-bottom:14px;','form'=>'searchForm'])->label(false)?></td>
+                    <td></td>
+                    <td>
+                      <select name="status" form="searchForm">
+                        <option></option>
+                        <?php foreach (User::getStatus() as $key => $value) {
+                         
+                          echo "<option value='$key'>$value</option>";
+                        }
+                        ?>
+                      </select>
+                    </td>
+                    <td>
+                      <?=$form->field($searchModel,'birthday')->widget(DatePicker::className(), [
+                        'language' => 'ru',
+                        'size' => 'sm', 
+                        
+                        'type'=> DatePicker::TYPE_INPUT,
+                        'pluginOptions' => [
+                        'todayHighlight' => true,
+                        'format'=>'dd.mm.yyyy',
+                        ],
+                        'options'=>[
+                          'id'=>'birtday',
+                          'form'=>'searchForm'
+                         
+                        ]
+                    ])->label(false) ?>
+                    </td>
+                    <td><?=$form->field($searchModel,'phone')->textInput(['class'=>'search','style'=>'padding-bottom:14px;','form'=>'searchForm'])->label(false)?></td>
+                    <td><?=$form->field($searchModel,'balanc')->textInput(['class'=>'search','style'=>'padding-bottom:14px;','form'=>'searchForm'])->label(false)?></td>
+                    <td>
+						            <select name="company_id" form="searchForm">
+                        <option></option>
+                        <?php foreach (User::getCompanyList() as $key => $value) {
+                            if($key==$post['company_id'])
+                          echo "<option selected value='$key'>$value</option>";
+                          else
+                          echo "<option value='$key'>$value</option>";
+                        }
+                        ?>
+                      </select>
+                    </td>
+                    <td>
+						            <select name="filial_id" form="searchForm">
+                        <option></option>
+                        <?php foreach (User::getFilialsList() as $key => $value) {
+                            if($key==$post['filial_id'])
+                          echo "<option selected value='$key'>$value</option>";
+                          else
+                          echo "<option value='$key'>$value</option>";
+                        }
+                        ?>
+                      </select>
+                    </td>
+                      <?php ActiveForm::end()?>
+                    </tr>
+                </thead>
+                    
+              
+                <tbody id="myTableuser">
+                  <?=$this->render('tbody',['dataProvider'=>$dataProvider])?>
                 </tbody>
-            </table>
+              </table>
           </div>
         </div>
     </div>
 </div>
-<?php Pjax::end()?> 
+<?php Pjax::end()?>
         </div>
       </div>
     </div>
@@ -174,16 +234,132 @@ CrudAsset::register($this);
 <?php Modal::end(); ?>
 <?php
 $this->registerJs(<<<JS
+  
 $(document).ready(function(){
   $("#showSearchuser").click(function(){
   $("#searchuser").slideToggle("slow");
   });
-  s$("#searchuser").on("keyup", function() {
+  $("#searchuser").on("keyup", function() {
     var value = $(this).val().toLowerCase();
     $("#myTableuser tr").filter(function() {
     $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
     });
   });
+
+ 
+  
+  $("[class='search']").blur(function(){
+     var type=$("#type").val();
+       if(type==1){
+        $.post("/user/admin", $('#searchForm').serialize() ,function(data){
+        document.getElementById('myTableuser').innerHTML = data;
+    });
+       }
+       if(type==2){
+        $.post("/user/teacher", $('#searchForm').serialize() ,function(data){
+        document.getElementById('myTableuser').innerHTML = data;
+    });
+       }
+       if(type==3){
+        $.post("/user/pupil", $('#searchForm').serialize() ,function(data){
+        document.getElementById('myTableuser').innerHTML = data;
+    });
+       }
+  });
+  $("select").change(function(){
+
+      var type=$("#type").val();
+       if(type==1){
+        $.post("/user/admin", $('#searchForm').serialize() ,function(data){
+        document.getElementById('myTableuser').innerHTML = data;
+       
+    });
+       }
+       if(type==2){
+        $.post("/user/teacher", $('#searchForm').serialize() ,function(data){
+        document.getElementById('myTableuser').innerHTML = data;
+    });
+       }
+       if(type==3){
+        $.post("/user/pupil", $('#searchForm').serialize() ,function(data){
+        document.getElementById('myTableuser').innerHTML = data;
+    });
+       }
+    });
+  $("#birtday").change(function(){
+       var type=$("#type").val();
+       if(type==1){
+        $.post("/user/admin", $('#searchForm').serialize() ,function(data){
+        document.getElementById('myTableuser').innerHTML = data;
+    });
+       }
+       if(type==2){
+        $.post("/user/teacher", $('#searchForm').serialize() ,function(data){
+        document.getElementById('myTableuser').innerHTML = data;
+    });
+       }
+       if(type==3){
+        $.post("/user/pupil", $('#searchForm').serialize() ,function(data){
+        document.getElementById('myTableuser').innerHTML = data;
+    });
+       }
+    });
+});
+$(document).on('pjax:complete', function() {
+ $("[class='search']").blur(function( event ){
+      var type=$("#type").val();
+       if(type==1){
+        $.post("/user/admin", $('#searchForm').serialize() ,function(data){
+        document.getElementById('myTableuser').innerHTML = data;
+    });
+       }
+       if(type==2){
+        $.post("/user/teacher", $('#searchForm').serialize() ,function(data){
+        document.getElementById('myTableuser').innerHTML = data;
+    });
+       }
+       if(type==3){
+        $.post("/user/pupil", $('#searchForm').serialize() ,function(data){
+        document.getElementById('myTableuser').innerHTML = data;
+    });
+       }
+    });
+  $("select").change(function( event ){
+      var type=$("#type").val();
+       if(type==1){
+        $.post("/user/admin", $('#searchForm').serialize() ,function(data){
+        document.getElementById('myTableuser').innerHTML = data;
+    });
+       }
+       if(type==2){
+        $.post("/user/teacher", $('#searchForm').serialize() ,function(data){
+        document.getElementById('myTableuser').innerHTML = data;
+    });
+       }
+       if(type==3){
+        $.post("/user/pupil", $('#searchForm').serialize() ,function(data){
+        document.getElementById('myTableuser').innerHTML = data;
+    });
+       }
+    });
+  $("#birtday").change(function( event ){
+      var type=$("#type").val();
+       if(type==1){
+        $.post("/user/admin", $('#searchForm').serialize() ,function(data){
+        document.getElementById('myTableuser').innerHTML = data;
+    });
+       }
+       if(type==2){
+        $.post("/user/teacher", $('#searchForm').serialize() ,function(data){
+        document.getElementById('myTableuser').innerHTML = data;
+    });
+       }
+       if(type==3){
+        $.post("/user/pupil", $('#searchForm').serialize() ,function(data){
+        document.getElementById('myTableuser').innerHTML = data;
+    });
+       }
+    });
 });
 JS
 );

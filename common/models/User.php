@@ -38,7 +38,9 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
     public $new_password=null;
-    public $photoOfUser;
+    public $photoOfUser;   
+    public $search;
+
     /**
      * {@inheritdoc}
      */
@@ -139,7 +141,7 @@ class User extends ActiveRecord implements IdentityInterface
         return [
             [['username', 'auth_key','type','fio','filial_id'], 'required'],
             [['type', 'status','created_at', 'updated_at','filial_id', 'company_id','balanc'], 'integer'],
-            [['birthday'],'safe'],
+            [['birthday','search'],'safe'],
             [['fio', 'username', 'auth_key','new_password', 'password_hash','phone','image'], 'string', 'max' => 255],
             [['username'], 'unique'],
             [['company_id'], 'exist', 'skipOnError' => true, 'targetClass' => Companies::className(), 'targetAttribute' => ['company_id' => 'id']],
@@ -232,7 +234,7 @@ class User extends ActiveRecord implements IdentityInterface
             default:return "Неизвестно";
         }
     }
-     public function getStatus()
+     public static function getStatus()
     {
         return [
             0 => 'Активен',
@@ -328,11 +330,16 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $this->password_hash = Yii::$app->security->generatePasswordHash($password);
     }
-    public function getFilialsList()
+    public static function getFilialsList()
     {
         $filial = Filials::find()->all();
         return ArrayHelper::map($filial, 'id', 'filial_name');
-    }    
+    } 
+    public static function getCompanyList()
+    {
+        $companies = Companies::find()->all();
+        return ArrayHelper::map($companies, 'id', 'name');
+    }     
 
     /**
      * Generates "remember me" authentication key

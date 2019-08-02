@@ -40,10 +40,19 @@ class CoursesController extends Controller
     {    
         $searchModel = new CoursesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        // $events = Courses::find()->all();
+        //$tasks = [];
 
+        // foreach ($events as $eve)
+        // {
+             
+        //       $event->name = $eve->name;
+        //       $tasks[] = $event;
+        // }
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            // $tasks[] = $event;
         ]);
     }
 

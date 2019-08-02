@@ -176,7 +176,7 @@ $(document).ready(function(){
   });
 $("#searchschedule").on("keyup", function() {
     var value = $(this).val().toLowerCase();
-    $("#myTablesubjects tr").filter(function() {
+    $("#myTableschedule tr").filter(function() {
     $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
     });
   });

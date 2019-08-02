@@ -39,55 +39,199 @@ class UserController extends Controller
      * Lists all User models.
      * @return mixed
      */
-    public function actionIndex($id)
+    public function actionIndex()
     {    
-        $searchModel = new UserSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        $query = User::find()->where(['type'=>$id]);
-
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-        ]);
-
-        return $this->render('index', [
-             'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+        return "";
     }
     public function actionTeacher()
     {    
-        $query = User::find()->where(['type'=>2]);
+        if(Yii::$app->request->isAjax && $_POST['search'] == '1')
+       {    
+            $query = User::find()->where(['type'=>2]);
+            $dataProvider = new ActiveDataProvider([
+                'query' => $query,
+            ]);
+            $birthday=($_POST['UserSearch']['birthday'])?\Yii::$app->formatter->asDate($_POST['UserSearch']['birthday'], 'php:Y-m-d'):"";
+            $filial_id=$_POST['filial_id'];
+            $company_id=$_POST['company_id'];
+            $fio=$_POST['UserSearch']['fio'];
+            $username=$_POST['UserSearch']['username'];
+            $phone=$_POST['UserSearch']['phone'];
+            $status=$_POST['status'];
+            $balanc=$_POST['UserSearch']['balanc'];
+           
+            if(isset($birthday) || isset($status) || isset($filial_id) || isset($company_id)
+                || isset($fio) || isset($username) ||isset($phone) || isset($balanc))
+            {
+                    $query->andFilterWhere([
+                         
+                        'balanc' => $balanc,
+                        'status' => $status,
+                        'filial_id' => $filial_id,
+                        'company_id' => $company_id
+                    ]);
 
+                    $query->andFilterWhere(['like', 'fio', $fio])
+                            ->andFilterWhere(['like', 'username', $username])
+                            ->andFilterWhere(['like', 'birthday', $birthday])
+                        ->andFilterWhere(['like', 'phone', $phone]);
+                       
+                     
+                     return $this->renderAjax('tbody', [
+                    'type'=>2,
+                    'dataProvider' => $dataProvider,
+                    
+                    'searchModel'=>$searchModel,
+
+                ]);
+            }
+            else
+            return $this->renderAjax('tbody', [
+            'type'=>2,
+            'dataProvider' => $dataProvider,
+            
+            'searchModel'=>$searchModel,
+
+        ]); 
+        }
+
+
+        $searchModel=new UserSearch();
+        $query = User::find()->where(['type'=>2]);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-        return $this->render('index', [
-            'type'=>2,
+        return  $this->render('index',[
+            'type' => 2,
+            'searchModel'=>$searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
     public function actionAdmin()
     {    
-         $query = User::find()->where(['type'=>1]);
+       
+        if(Yii::$app->request->isAjax && $_POST['UserSearch']['search'] == '1')
+       {    
+            
+            $query = User::find()->where(['type'=>1]);
+            $dataProvider = new ActiveDataProvider([
+                'query' => $query,
+            ]);
+            $birthday=($_POST['UserSearch']['birthday'])?\Yii::$app->formatter->asDate($_POST['UserSearch']['birthday'], 'php:Y-m-d'):"";
+            $filial_id=$_POST['filial_id'];
+            $company_id=$_POST['company_id'];
+            $fio=$_POST['UserSearch']['fio'];
+            $username=$_POST['UserSearch']['username'];
+            $phone=$_POST['UserSearch']['phone'];
+            $status=$_POST['status'];
+            $balanc=$_POST['UserSearch']['balanc'];
+           
+            if(isset($birthday) || isset($status) || isset($filial_id) || isset($company_id)
+                || isset($fio) || isset($username) ||isset($phone) || isset($balanc))
+            {
+                    $query->andFilterWhere([
+                         
+                        'balanc' => $balanc,
+                        'status' => $status,
+                        'filial_id' => $filial_id,
+                        'company_id' => $company_id
+                    ]);
 
+                    $query->andFilterWhere(['like', 'fio', $fio])
+                            ->andFilterWhere(['like', 'username', $username])
+                            ->andFilterWhere(['like', 'birthday', $birthday])
+                        ->andFilterWhere(['like', 'phone', $phone]);
+                       
+                     
+                     return $this->renderAjax('tbody', [
+                    'type'=>1,
+                    'dataProvider' => $dataProvider,
+                    'searchModel'=>$_POST['UserSearch'],
+                    'post'=>$_POST,
+                ]);
+            }
+            else
+            return $this->renderAjax('tbody', [
+            'type'=>1,
+            'dataProvider' => $dataProvider,
+            'post'=>$_POST,
+            'searchModel'=>$_POST['UserSearch'],
+
+        ]); 
+        }
+
+
+        $searchModel=new UserSearch();
+        $query = User::find()->where(['type'=>1]);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-        return $this->render('index', [
-            'type'=>1,
+        return  $this->render('index',[
+            'type' => 1,
+            'searchModel'=>$searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
+   
     public function actionPupil()
     {    
-        $query = User::find()->where(['type'=>3]);
+        if(Yii::$app->request->isAjax && $_POST['search'] == '1')
+       {    
+            $query = User::find()->where(['type'=>3]);
+            $dataProvider = new ActiveDataProvider([
+                'query' => $query,
+            ]);
+            $birthday=($_POST['UserSearch']['birthday'])?\Yii::$app->formatter->asDate($_POST['UserSearch']['birthday'], 'php:Y-m-d'):"";
+            $filial_id=$_POST['filial_id'];
+            $company_id=$_POST['company_id'];
+            $fio=$_POST['UserSearch']['fio'];
+            $username=$_POST['UserSearch']['username'];
+            $phone=$_POST['UserSearch']['phone'];
+            $status=$_POST['status'];
+            $balanc=$_POST['UserSearch']['balanc'];
+           
+            if(isset($birthday) || isset($status) || isset($filial_id) || isset($company_id)
+                || isset($fio) || isset($username) ||isset($phone) || isset($balanc))
+            {
+                    $query->andFilterWhere([
+                         
+                        'balanc' => $balanc,
+                        'status' => $status,
+                        'filial_id' => $filial_id,
+                        'company_id' => $company_id
+                    ]);
 
+                    $query->andFilterWhere(['like', 'fio', $fio])
+                            ->andFilterWhere(['like', 'username', $username])
+                            ->andFilterWhere(['like', 'birthday', $birthday])
+                        ->andFilterWhere(['like', 'phone', $phone]);
+                       
+                     
+                     return $this->renderAjax('tbody', [
+                    'type'=>3,
+                    'dataProvider' => $dataProvider,
+                    'searchModel'=>$searchModel,
+
+                ]);
+            }
+            else
+            return $this->renderAjax('tbody', [
+            'type'=>3,
+            'dataProvider' => $dataProvider,
+            'searchModel'=>$searchModel,
+
+        ]); 
+        }
+
+
+        $searchModel=new UserSearch();
+        $query = User::find()->where(['type'=>3]);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-        return $this->render('index', [
-            'type'=>3,
+        return  $this->render('index',[
+            'type' => 3,
+            'searchModel'=>$searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }

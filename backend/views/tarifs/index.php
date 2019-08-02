@@ -129,7 +129,7 @@ $(document).ready(function(){
   });
 $("#searchTarifs").on("keyup", function() {
     var value = $(this).val().toLowerCase();
-    $("#myTableTarifs tr").filter(function() {
+    $("#myTabletarifs tr").filter(function() {
     $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
     });
   });

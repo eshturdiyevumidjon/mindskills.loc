@@ -19,7 +19,7 @@ class UserSearch extends User
     {
         return [
             [['id', 'type', 'status', 'created_at', 'updated_at', 'filial_id', 'company_id'], 'integer'],
-            [['fio', 'username', 'auth_key', 'password_hash', 'birthday', 'phone', 'image'], 'safe'],
+            [['fio', 'username', 'auth_key', 'password_hash', 'birthday', 'phone','search', 'image'], 'safe'],
         ];
     }
 
@@ -39,7 +39,7 @@ class UserSearch extends User
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params,$id=-1)
     {
         $query = User::find();
 
@@ -57,7 +57,7 @@ class UserSearch extends User
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'type' => $this->type,
+            'type' => ($id != -1) ? $id : $this->type,
             'birthday' => $this->birthday,
             'status' => $this->status,
             'created_at' => $this->created_at,

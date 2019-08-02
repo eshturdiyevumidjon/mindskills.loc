@@ -1,0 +1,30 @@
+ <tr>
+               
+                  <td>№</td>
+                  <td></td>
+                  
+                    <input type="hidden" form="searchForm" name="search" value='1'>
+                    <td><input form="searchForm"  style="width:100%; border-top:0;border-right: 0;border-left: 0;" type="search" name="fio" id="fio" value="<?=$post['fio']?>"></td>
+                    <td><input form="searchForm"  style="width:100%; border-top:0;border-right: 0;border-left: 0;" type="search" name="username" value="<?=$post['username']?>"></td>
+                    <td><input form="searchForm" style="width:100%; border-top:0;border-right: 0;border-left: 0;" type="search" name="type" value="<?=$post['type']?>"></td>
+                    <td><input form="searchForm" style="width:100%; border-top:0;border-right: 0;border-left: 0;" type="search" name="status" value="<?=$post['status']?>"></td>
+                    <td><input form="searchForm" style="width:100%; border-top:0;border-right: 0;border-left: 0;" type="search" name="birthday" value="<?=$post['birthday']?>"></td>
+                    <td><?php
+                    echo DatePicker::widget([
+                        'name' => 'check_issue_date', 
+                        'form'=>'searchForm',
+                        'value' => $post['birthday'],
+                        'options' => ['placeholder' => ''],
+                        'pluginOptions' => [
+                          'format' => 'dd.mm.yyyy',
+                          'todayHighlight' => true
+                        ]
+                      ]);
+                    ?></td>
+                    <td><input form="searchForm" style="width:100%; border-top:0;border-right: 0;border-left: 0;" type="search" name="phone" value="<?=$post['phone']?>"></td>
+                    <td><input form="searchForm" style="width:100%; border-top:0;border-right: 0;border-left: 0;" type="search" name="balanc" value="<?=$post['balanc']?>"></td>
+                    <td><input form="searchForm" style="width:100%; border-top:0;border-right: 0;border-left: 0;" type="search" name="company_id" value="<?=$post['company_id']?>"></td>
+                    <td><input form="searchForm" style="width:100%; border-top:0;border-right: 0;border-left: 0;" type="search" name="filial_id" value="<?=$post['filial_id']?>"></td>
+                  
+                  <td></td>
+                </tr>

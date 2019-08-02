@@ -52,12 +52,12 @@ CrudAsset::register($this);
             </ul>
           </div>
         </nav>
-<?php Pjax::begin(['enablePushState' => false,'id' => 'crud-datatable-pjax'])?>
+<?php Pjax::begin(['enablePushState' => false,'id'=>'crud-datatable-pjax'])?>
 <div class="section" >
     <div id="row-grouping" class="section">
             <div class="row">
                 <div class="col s11" style="margin:  20px 40px 20px 40px">
-                  <table class="bordered highlight centered" cellspacing="0" width="100%">
+                  <table class="bordered highlight centered" cellspacing="0" id="MyTableuser" width="100%">
                     <thead>
                         <tr style="font-size: 14px;">
                             <th>
@@ -79,38 +79,22 @@ CrudAsset::register($this);
                             <th>Действия</th>                   
                         </tr>
                     </thead>
-                    <tbody id="myTablesubjects">
-                          <?php
-                              foreach ($models as $value) {
-                                  echo "<tr>
-                            <td><input type='checkbox' name='check".$value->id."'></td>     
-                            <td>".$value->id."</td>";
-                            if($session['Subjects[name]'] === null || $session['Subjects[name]'] == 1)
-                            echo "<td>".$value->name."</td>";
-                            if(Yii::$app->user->identity->company->type == 1){
-                            if($session['Subjects[company_id]'] === null || $session['Subjects[company_id]'] == 1)
-                            echo "<td>".$value->company->name."</td>";}
-                          if(Yii::$app->user->identity->company->type == 1){
-                            if($session['Subjects[filial_id]'] === null || $session['Subjects[filial_id]'] == 1)
-                            echo "<td>".$value->filial->filial_name."</td>";}
-                            echo 
-                            "<td class='align-center' style='width: 100px;'>".
-                            Html::a('<i class="material-icons view-u">visibility</i>', ['view','id' => $value->id],['role' => 'modal-remote',
-                              'title' => 'Просмотр']).
-                            Html::a('<i class="material-icons blue-u">mode_edit</i>', ['update','id' => $value->id],['role' => 'modal-remote',
-                              'title' => 'Изменить']).
-                            Html::a('<i class="material-icons red-u">delete_forever</i>', ['delete','id' => $value->id],['role' => 'modal-remote',
-                              'title' => 'Удалить', 
-                                      'data-confirm' => false, 'data-method' => false,
-                                      'data-request-method' => 'post',
-                                      'data-toggle' => 'tooltip',
-                                      'data-confirm-title' => 'Подтвердите действие',
-                                      'data-confirm-message' => 'Вы уверены что хотите удалить этого элемента?'])."
-                            </td>
-                          </tr>";  
-                              }
-                          ?>  
-                    </tbody>
+                   
+                    <tr>
+                              <td>№</td>
+                              <td></td>
+                          <form id="searchForm">
+                              <input type="hidden" form="searchForm" name="search" value='1'>
+                              <td><input form="searchForm"  style="width:100%; border-top:0;border-right: 0;border-left: 0;" type="search" name="name" id="name" value="<?=$post['name']?>"></td>
+                              <td><input form="searchForm"  style="width:100%; border-top:0;border-right: 0;border-left: 0;" type="search" name="company_id" value="<?=$post['company_id']?>"></td>
+                              <td><input form="searchForm" style="width:100%; border-top:0;border-right: 0;border-left: 0;" type="search" name="filial_id" value="<?=$post['filial_id']?>">
+                              </td>
+                          </form>
+                              <td></td>
+                    </tr>
+                <tbody id="myTableuser">
+                  <?=$this->render('tbody',['dataProvider'=>$dataProvider])?>
+                </tbody>
                   </table>
                 </div>
             </div>
@@ -139,6 +123,25 @@ $("#searchsubjects").on("keyup", function() {
     $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
     });
   });
+});
+
+ $("[type='search']").blur(function( event ){
+      
+       $.post("/subjects/index", $('#searchForm').serialize() ,function(data){
+     
+        document.getElementById('myTableuser').innerHTML = data;
+    });
+    });
+});
+$(document).on('pjax:complete', function() {
+ $("[form^='search']").blur(function( event ){
+      
+       $.post("/subjects/index", $('#searchForm').serialize() ,function(data){
+     
+        document.getElementById('myTableuser').innerHTML = data;
+    });
+       
+    });
 });
 JS
 );
