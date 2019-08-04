@@ -24,6 +24,9 @@ class Companies extends \yii\db\ActiveRecord
     public $Companies_phone;
     public $Companiesname;
     public $password;
+
+    public $search;
+
     /**
      * {@inheritdoc}
      */
@@ -39,6 +42,7 @@ class Companies extends \yii\db\ActiveRecord
     {
         return [
             [['name','filial_name','Companiesname','Companies_phone','password','Companies_fio'], 'string', 'max' => 255],
+            [['search'],'safe'],
             [['name','filial_name','Companiesname','Companies_phone','password','Companies_fio'],'required'],
             [['type','tarif_id'], 'integer'],
         ];

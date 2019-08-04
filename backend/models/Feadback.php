@@ -15,6 +15,7 @@ use kartik\datetime\DateTimePicker;
  */
 class Feadback extends \yii\db\ActiveRecord
 {
+    public $search;
     /**
      * {@inheritdoc}
      */
@@ -31,6 +32,7 @@ class Feadback extends \yii\db\ActiveRecord
         return [
             [['message'], 'string'],
             [['date_cr'], 'integer'],
+            [['search'], 'safe'],
             [['name', 'email'], 'string', 'max' => 255],
             [['email'], 'email'],
             [['email'], 'unique'],
@@ -68,11 +70,9 @@ class Feadback extends \yii\db\ActiveRecord
         $session['Feadback[name]'] = 0;
         $session['Feadback[email]'] = 0;
         $session['Feadback[message]'] = 0;
-        $session['Feadback[date_cr]'] = 0;
             
         if( isset($post['Feadback']['name']) ) $session['Feadback[name]'] = 1;
         if( isset($post['Feadback']['email']) ) $session['Feadback[email]'] = 1;
         if( isset($post['Feadback']['message']) ) $session['Feadback[message]'] = 1;
-        if( isset($post['Feadback']['date_cr']) ) $session['Feadback[date_cr]'] = 1;
     }
 }

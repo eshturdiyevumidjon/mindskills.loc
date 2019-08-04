@@ -7,6 +7,9 @@ use kartik\grid\GridView;
 use johnitvn\ajaxcrud\CrudAsset; 
 use johnitvn\ajaxcrud\BulkButtonWidget;
 use backend\models\Schedule;
+use yii\widgets\ActiveForm;
+use kartik\date\DatePicker; 
+
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\ScheduleSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -18,6 +21,11 @@ $session = Yii::$app->session;
 CrudAsset::register($this);
 
 ?>
+<style type="text/css">
+  .search{
+    text-align: center;
+  }
+</style>
 <div class="schedule-index">
     <div id="ajaxCrudDatatable">
         <div class="row">
@@ -103,54 +111,107 @@ CrudAsset::register($this);
                             <th>Действия</th>                   
                         </tr>
                     </thead>
-                    <tbody id="myTableSchedule">
-                          <?php
-                              foreach ($models as $value) {
-                                  echo "<tr>
-                            <td><input type='checkbox' name='check".$value->id."'></td>     
-                            <td>".$value->id."</td>";
-                            if($session['Schedule[name]'] === null || $session['Schedule[name]'] == 1)
-                            echo "<td>".$value->name."</td>";
-                            if(Yii::$app->user->identity->company->type == 1){
-                            if($session['Schedule[company_id]'] === null || $session['Schedule[company_id]'] == 1)
-                            echo "<td>".$value->company->name."</td>";}
-                            if(Yii::$app->user->identity->company->type == 1){
-                            if($session['Schedule[filial_id]'] === null || $session['Schedule[filial_id]'] == 1)
-                            echo "<td>".$value->filial->filial_name."</td>";}
-                            if($session['Schedule[subject_id]'] === null || $session['Schedule[subject_id]'] == 1)
-                            echo "<td>".$value->subject->name."</td>";
-                            if($session['Schedule[teacher_id]'] === null || $session['Schedule[teacher_id]'] == 1)
-                            echo "<td>".$value->teacher->fio."</td>";
-                            if($session['Schedule[price]'] === null || $session['Schedule[price]'] == 1)
-                            echo "<td>".$value->price."</td>";
-                            if($session['Schedule[sum_of_teacher]'] === null || $session['Schedule[sum_of_teacher]'] == 1)
-                            echo "<td>".$value->sum_of_teacher."</td>";
-                            if($session['Schedule[begin_date]'] === null || $session['Schedule[begin_date]'] == 1)
-                            echo "<td>".Schedule::getDate($value->begin_date)."</td>";
-                            if($session['Schedule[end_date]'] === null || $session['Schedule[end_date]'] == 1)
-                            echo "<td>".Schedule::getDate($value->end_date)."</td>";
-                            if($session['Schedule[status]'] === null || $session['Schedule[status]'] == 1)
-                            echo "<td>".$value->getStatusDescription()."</td>";
-                            if($session['Schedule[type]'] === null || $session['Schedule[type]'] == 1)
-                            echo "<td>".$value->getTypeDescription()."</td>";
-                            echo 
-                            "<td class='align-center' style='width: 100px;'>".
-                            Html::a('<i class="material-icons view-u">visibility</i>', ['view','id' => $value->id],['role' => 'modal-remote',
-                              'title' => 'Просмотр']).
-                            Html::a('<i class="material-icons blue-u">mode_edit</i>', ['update','id' => $value->id],['role' => 'modal-remote',
-                              'title' => 'Изменить']).
-                            Html::a('<i class="material-icons red-u">delete_forever</i>', ['delete','id' => $value->id],['role' => 'modal-remote',
-                              'title' => 'Удалить', 
-                              'data-confirm' => false, 'data-method' => false,
-                              'data-request-method' => 'post',
-                              'data-toggle' => 'tooltip',
-                              'data-confirm-title' => 'Подтвердите действие',
-                              'data-confirm-message' => 'Вы уверены что хотите удалить 
-                              этого элемента?'])."
+                        <tr>
+                              <?php $form= ActiveForm::begin(['options' => ['id' => 'searchForm2']])?>
+                            <td></td>
+                            <td>
+                             <?=$form->field($searchModel,'search')->hiddenInput(['class'=>'search','style'=>'padding-bottom:14px;','form'=>'searchForm2','value'=>'1'])->label(false)?>
                             </td>
-                          </tr>";  
-                              }
-                          ?>  
+                            <?php if($session['Schedule[name]'] === null || $session['Schedule[name]'] == 1){ ?>
+                            <td>
+                              <?=$form->field($searchModel,'name')->textInput(['class'=>'search',
+                                'style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;','form'=>'searchForm2'])->label(false)?>  
+                            </td>
+                            <?php }?>
+                            <?php if(Yii::$app->user->identity->company->type == 1){ ?>
+                            <?php if($session['Schedule[company_id]'] === null || $session['Schedule[company_id]'] == 1){ ?>
+                            <td>
+                              <?=$form->field($searchModel,'company_id')->textInput(['class'=>'search','style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;','form'=>'searchForm2'])->label(false)?>
+                            </td>
+                            <?php }?>
+                            <?php if($session['Schedule[filial_id]'] === null || $session['Schedule[filial_id]'] == 1){ ?>
+                            <td>
+                              <?=$form->field($searchModel,'filial_id')->textInput(['class'=>'search','style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;','form'=>'searchForm2'])->label(false)?>
+                            </td>
+                            <?php }?>
+                            <?php }?>
+                             <?php if($session['Schedule[subject_id]'] === null || $session['Schedule[subject_id]'] == 1){ ?>
+                             <td>
+                              <?=$form->field($searchModel,'subject_id')->textInput(['class'=>'search',
+                                'style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;','form'=>'searchForm2'])->label(false)?>  
+                            </td>
+                            <?php }?>
+                            <?php if($session['Schedule[teacher_id]'] === null || $session['Schedule[teacher_id]'] == 1){ ?>
+                            <td>
+                              <?=$form->field($searchModel,'teacher_id')->textInput(['class'=>'search',
+                                'style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;','form'=>'searchForm2'])->label(false)?>  
+                            </td>
+                            <?php }?>
+                            <?php if($session['Schedule[price]'] === null || $session['Schedule[price]'] == 1){ ?>
+                            <td>
+                              <?=$form->field($searchModel,'price')->textInput(['class'=>'search',
+                                'style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;','form'=>'searchForm2'])->label(false)?>  
+                            </td>
+                           <?php }?>
+                           <?php if($session['Schedule[sum_of_teacher]'] === null || $session['Schedule[sum_of_teacher]'] == 1){ ?>
+                            <td>
+                              <?=$form->field($searchModel,'sum_of_teacher')->textInput(['class'=>'search',
+                                'style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;','form'=>'searchForm2'])->label(false)?>  
+                            </td>
+                            <?php }?>
+                            <?php if($session['Schedule[begin_date]'] === null || $session['Schedule[begin_date]'] == 1){ ?>
+                            <td>
+                                <?=$form->field($searchModel,'begin_date')->widget(DatePicker::className(), [
+                                    'language' => 'ru',
+                                    'size' => 'sm', 
+                                    'type'=> DatePicker::TYPE_INPUT,
+                                    'pluginOptions' => [
+                                    'todayHighlight' => true,
+                                    'format'=>'dd.mm.yyyy',
+                                    ],
+                                    'options'=>[
+                                      'id'=>'begin_date',
+                                      'form'=>'searchForm2',
+                                      'style'=>'padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;'
+                                    ]
+                                ])->label(false) ?> 
+                            </td>
+                            <?php }?>
+                            <?php if($session['Schedule[end_date]'] === null || $session['Schedule[end_date]'] == 1){ ?>
+                            <td> 
+                                <?=$form->field($searchModel,'end_date')->widget(DatePicker::className(), [
+                                  'language' => 'ru',
+                                  'size' => 'sm',
+                                  'type'=> DatePicker::TYPE_INPUT,
+                                  'pluginOptions' => [
+                                  'todayHighlight' => true,
+                                  'format'=>'dd.mm.yyyy',
+                                  ],
+                                  'options'=>[
+                                    'id'=>'end_date',
+                                    'form'=>'searchForm2',
+                                    'style'=>'padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;'
+                                  ]
+                              ])->label(false) ?>
+                            </td>
+                             <?php }?>
+                            <?php if($session['Schedule[status]'] === null || $session['Schedule[status]'] == 1){ ?>
+                            <td>
+                              <?=$form->field($searchModel,'status')->textInput(['class'=>'search',
+                                'style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;','form'=>'searchForm2'])->label(false)?>  
+                            </td>
+                            <?php }?>
+                            <?php if($session['Schedule[type]'] === null || $session['Schedule[type]'] == 1){ ?>
+                            <td>
+                              <?=$form->field($searchModel,'type')->textInput(['class'=>'search',
+                                'style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;','form'=>'searchForm2'])->label(false)?>  
+                            </td> 
+                            <?php }?>
+                            <td></td>
+                              <?php ActiveForm::end()?>
+                        </tr>
+                    <tbody id="myTableschedule">
+                            <?=$this->render('tbody',['dataProvider'=>$dataProvider])?>
                     </tbody>
                   </table>
                 </div>
@@ -180,6 +241,48 @@ $("#searchschedule").on("keyup", function() {
     $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
     });
   });
+
+  $("[class='search']").blur(function(){
+$.post("/schedule/index", $('#searchForm2').serialize() ,function(data){
+    
+    document.getElementById('myTableschedule').innerHTML = data;
+});
+});
+
+  $("#begin_date").change(function(){
+        $.post("/schedule/index", $('#searchForm2').serialize() ,function(data){
+        document.getElementById('myTableschedule').innerHTML = data;
+    });
+    });
+
+
+  $("#end_date").change(function(){
+        $.post("/schedule/index", $('#searchForm2').serialize() ,function(data){
+        document.getElementById('myTableschedule').innerHTML = data;
+    });
+    });
+});
+
+
+$(document).on('pjax:complete', function() {
+    $("[class='search']").blur(function( event ){
+        $.post("/schedule/index", $('#searchForm2').serialize() ,function(data){
+        document.getElementById('myTableschedule').innerHTML = data;
+        });
+      });
+
+      $("#begin_date").change(function( event ){
+        $.post("/schedule/index", $('#searchForm2').serialize() ,function(data){
+        document.getElementById('myTableschedule').innerHTML = data;
+    });
+     });
+
+      $("#end_date").change(function( event ){
+        $.post("/schedule/index", $('#searchForm2').serialize() ,function(data){
+        document.getElementById('myTableschedule').innerHTML = data;
+    });
+     });
+
 });
 JS
 );

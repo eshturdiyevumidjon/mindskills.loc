@@ -3162,11 +3162,12 @@ thead {
 }
 
 td, th {
-  padding: 15px 5px;
+  padding: 15px 5px 0px 0px;
   display: table-cell;
   text-align: left;
   vertical-align: middle;
   border-radius: 2px;
+  margin: 0 0 0 0;
 }
 
 @media only screen and (max-width: 992px) {
@@ -5984,8 +5985,8 @@ textarea.materialize-textarea {
   outline: none;
   height: 3rem;
   width: 100%;
-  font-size: 1rem;
-  margin: 0 0 20px 0;
+  font-size: 1.2rem;
+  margin: 0 0 0 0;
   padding: 0;
   box-shadow: none;
   box-sizing: content-box;
@@ -6379,8 +6380,8 @@ textarea.materialize-textarea + label:after, .select-wrapper + label:after {
 .input-field .prefix ~ .validate ~ label,
 .input-field .prefix ~ .autocomplete-content {
   margin-left: 3rem;
-  width: 92%;
-  width: calc(100% - 3rem);
+  width: 100%;
+  width: calc(100%-2rem);
 }
 
 .input-field .prefix ~ label {
@@ -6960,7 +6961,7 @@ select {
 .select-wrapper span.caret {
   color: initial;
   position: absolute;
-  display:none;
+  display:none; 
   right: 0;
   top: 0;
   bottom: 0;

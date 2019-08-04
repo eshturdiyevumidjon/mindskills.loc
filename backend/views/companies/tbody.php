@@ -3,16 +3,12 @@ use yii\helpers\Html;
 
 $session = Yii::$app->session;
 		foreach ($dataProvider->getModels() as $value) {
-			echo "<tr><td>"."</td>";
+			echo "<tr>";
 			echo "<td>".$value->id."</td>";
-			if($session['Subjects[name]'] === null || $session['Subjects[name]'] == 1)
+			if($session['Companies[name]'] === null || $session['Companies[name]'] == 1)
 			echo "<td>".$value->name."</td>";
-			if(Yii::$app->user->identity->company->type == 1){
-			if($session['Subjects[company_id]'] === null || $session['Subjects[company_id]'] == 1)
-			echo "<td>".$value->company->name."</td>";}
-			if(Yii::$app->user->identity->company->type == 1){
-			if($session['Subjects[filial_id]'] === null || $session['Subjects[filial_id]'] == 1)
-			echo "<td>".$value->filial->filial_name."</td>";}
+			if($session['Companies[tarif_id]'] === null || $session['Companies[tarif_id]'] == 1)
+			echo "<td>".$value->tarifs->name."</td>";
 			echo 
 			"<td class='align-center' style='width: 100px;'>".
 			Html::a('<i class="material-icons view-u">visibility</i>', ['view','id' => 
@@ -26,5 +22,4 @@ $session = Yii::$app->session;
 			            'data-confirm-title' => 'Подтвердите действие',
 			            'data-confirm-message' => 'Вы уверены что хотите удалить этого элемента?'])."
 			</td>
-			</tr>";
-		} ?>  
+			</tr>";} ?>  

@@ -29,6 +29,7 @@ use common\models\User;
  */
 class Schedule extends \yii\db\ActiveRecord
 {
+    public $search;
     /**
      * {@inheritdoc}
      */
@@ -45,7 +46,7 @@ class Schedule extends \yii\db\ActiveRecord
         return [
             [['company_id', 'filial_id', 'subject_id', 'teacher_id', 'status', 'type'], 'integer'],
             [['price', 'sum_of_teacher'], 'number'],
-            [['begin_date', 'end_date'], 'safe'],
+            [['begin_date', 'end_date','search'], 'safe'],
             [['name'], 'string', 'max' => 255],
             [['company_id'], 'exist', 'skipOnError' => true, 
             'targetClass' => Companies::className(),

@@ -13,6 +13,8 @@ use yii\web\UploadedFile;
 use yii\helpers\Html;
 use backend\models\Districts;
 use backend\models\Regions;
+use yii\data\ActiveDataProvider;
+
 /**
  * FilialsController implements the CRUD actions for Filials model.
  */
@@ -40,11 +42,65 @@ class FilialsController extends Controller
      */
     public function actionIndex()
     {    
-        $searchModel = new FilialsSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        
+        if(Yii::$app->request->isAjax && $_POST['FilialsSearch']['search'] == '1')
+       {    
+       
+            $query = Filials::find();
+            $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            ]);
+            $filial_name=$_POST['FilialsSearch']['filial_name'];
+            $region_id=$_POST['FilialsSearch']['region_id'];
+            $district_id=$_POST['FilialsSearch']['district_id'];
+            $company_id=$_POST['FilialsSearch']['company_id'];
+            $surname=$_POST['FilialsSearch']['surname'];
+            $name=$_POST['FilialsSearch']['name'];
+            $middle_name=$_POST['FilialsSearch']['middle_name'];
+            $phone=$_POST['FilialsSearch']['phone'];
+            $address=$_POST['FilialsSearch']['address'];
+            $email=$_POST['FilialsSearch']['email'];
+            $site=$_POST['FilialsSearch']['site'];
+           
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
+            if(isset($filial_name) || isset($region_id) || isset($district_id) || isset($company_id)
+                || isset($surname) || isset($name) || isset($middle_name) || isset($phone) ||isset($address) || isset($email) || isset($site))
+            {
+                $query->joinWith('company');                
+                $query->joinWith('region');
+                $query->joinWith('district');
+
+
+                $query->andFilterWhere(['like', 'filials.filial_name', $filial_name])
+                        ->andFilterWhere(['like', 'regions.name', $region_id])
+                        ->andFilterWhere(['like', 'districts.name', $district_id])
+                        ->andFilterWhere(['like', 'filials.surname', $surname])
+                        ->andFilterWhere(['like', 'filials.name', $name])
+                        ->andFilterWhere(['like', 'filials.middle_name', $middle_name])
+                        ->andFilterWhere(['like', 'filials.phone', $phone])
+                        ->andFilterWhere(['like', 'filials.address', $address])
+                        ->andFilterWhere(['like', 'filials.email', $email])
+                        ->andFilterWhere(['like', 'filials.site', $site])
+                        ->andFilterWhere(['like', 'companies.name', $company_id]);
+
+                    return $this->renderAjax('tbody', [
+                    'dataProvider' => $dataProvider,
+                    'searchModel'=>$searchModel,
+                ]);
+            }
+            else
+                    return $this->renderAjax('tbody', [
+                    'dataProvider' => $dataProvider,
+                    'searchModel'=>$searchModel,
+        ]); 
+        }
+        $searchModel=new FilialsSearch();
+        $query = Filials::find();
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+        return  $this->render('index',[
+            'searchModel'=>$searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
@@ -66,8 +122,10 @@ class FilialsController extends Controller
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Изменить',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                        'data-dismiss'=>"modal"]).
+                            Html::a('Изменить',['update','id'=>$id],['class'=>'btn btn-primary',
+                                'role'=>'modal-remote'])
                 ];    
         }else{
             return $this->render('view', [
@@ -97,7 +155,8 @@ class FilialsController extends Controller
                 'content'=>$this->renderAjax('columns', [
                     'session' => $session,
                 ]),
-                'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                    'data-dismiss'=>"modal"]).
                            Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
             ];         
         }       
@@ -124,15 +183,17 @@ class FilialsController extends Controller
                 if(!empty($model->image))
                 {
                     
-                    $model->image->saveAs('uploads/filial_logos/' . $model->id.'.'.$model->image->extension);
-                    Yii::$app->db->createCommand()->update('filials', ['logo' => $model->id.'.'.$model->image->extension], [ 'id' => $model->id ])->execute();
+                $model->image->saveAs('uploads/filial_logos/' . $model->id.'.'.$model->image->extension);
+                Yii::$app->db->createCommand()->update('filials', ['logo' => $model->id.'.'.$model->image->extension], [ 'id' => $model->id ])->execute();
                 }
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "Филиалы",
                     'content'=>'<span class="text-success">Успешно выполнено</span>',
-                    'footer'=> Html::button('Ок',['class'=>'btn btn-primary pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Создать ещё',['create'],['class'=>'btn btn-info','role'=>'modal-remote'])
+                    'footer'=> Html::button('Ок',['class'=>'btn btn-primary pull-left',
+                        'data-dismiss'=>"modal"]).
+                            Html::a('Создать ещё',['create'],['class'=>'btn btn-info',
+                                'role'=>'modal-remote'])
                 ];
                 // return [
                 //     'forceReload'=>'#crud-datatable-pjax',
@@ -146,9 +207,9 @@ class FilialsController extends Controller
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                        'data-dismiss'=>"modal"]).
                                 Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
-        
                 ];         
             }
         }else{
@@ -201,8 +262,10 @@ class FilialsController extends Controller
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Изменить',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                        'data-dismiss'=>"modal"]).
+                            Html::a('Изменить',['update','id'=>$id],['class'=>'btn btn-primary',
+                                'role'=>'modal-remote'])
                 ];    
             }else{
                  return [
@@ -210,7 +273,8 @@ class FilialsController extends Controller
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                        'data-dismiss'=>"modal"]).
                                 Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
                 ];        
             }

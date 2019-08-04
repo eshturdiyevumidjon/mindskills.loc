@@ -7,6 +7,8 @@ use kartik\grid\GridView;
 use johnitvn\ajaxcrud\CrudAsset; 
 use johnitvn\ajaxcrud\BulkButtonWidget;
 use backend\models\Subjects;
+use yii\widgets\ActiveForm;
+
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\SubjectsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -17,6 +19,11 @@ $models = $dataProvider->getModels();
 $session = Yii::$app->session;
 CrudAsset::register($this);
 ?>
+<style type="text/css">
+  .search{
+    text-align: center;
+  }
+</style>
 <div class="subjects-index">
     <div id="ajaxCrudDatatable">
 <div class="row">
@@ -57,7 +64,7 @@ CrudAsset::register($this);
     <div id="row-grouping" class="section">
             <div class="row">
                 <div class="col s11" style="margin:  20px 40px 20px 40px">
-                  <table class="bordered highlight centered" cellspacing="0" id="MyTableuser" width="100%">
+                  <table class="bordered highlight centered" cellspacing="0" id="MyTablesubjects" width="100%">
                     <thead>
                         <tr style="font-size: 14px;">
                             <th>
@@ -79,22 +86,36 @@ CrudAsset::register($this);
                             <th>Действия</th>                   
                         </tr>
                     </thead>
-                   
-                    <tr>
-                              <td>№</td>
-                              <td></td>
-                          <form id="searchForm">
-                              <input type="hidden" form="searchForm" name="search" value='1'>
-                              <td><input form="searchForm"  style="width:100%; border-top:0;border-right: 0;border-left: 0;" type="search" name="name" id="name" value="<?=$post['name']?>"></td>
-                              <td><input form="searchForm"  style="width:100%; border-top:0;border-right: 0;border-left: 0;" type="search" name="company_id" value="<?=$post['company_id']?>"></td>
-                              <td><input form="searchForm" style="width:100%; border-top:0;border-right: 0;border-left: 0;" type="search" name="filial_id" value="<?=$post['filial_id']?>">
-                              </td>
-                          </form>
-                              <td></td>
-                    </tr>
-                <tbody id="myTableuser">
-                  <?=$this->render('tbody',['dataProvider'=>$dataProvider])?>
-                </tbody>
+                        <tr>
+                              <?php $form= ActiveForm::begin(['options' => ['id' => 'searchForm2']])?>
+                            <td></td>
+                            <td>
+                             <?=$form->field($searchModel,'search')->hiddenInput(['class'=>'search','style'=>'padding-bottom:14px;','form'=>'searchForm2','value'=>'1'])->label(false)?>
+                            </td>
+                            <?php if($session['Subjects[name]'] === null || $session['Subjects[name]'] == 1){ ?>
+                            <td>
+                              <?=$form->field($searchModel,'name')->textInput(['class'=>'search',
+                                'style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;','form'=>'searchForm2'])->label(false)?>  
+                            </td>
+                            <?php }?>
+                            <?php if(Yii::$app->user->identity->company->type == 1){ ?>
+                            <?php if($session['Subjects[company_id]'] === null || $session['Subjects[company_id]'] == 1){ ?>
+                            <td>
+                              <?=$form->field($searchModel,'company_id')->textInput(['class'=>'search','style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;','form'=>'searchForm2'])->label(false)?>
+                            </td>
+                            <?php }?>
+                            <?php if($session['Subjects[filial_id]'] === null || $session['Subjects[filial_id]'] == 1){ ?>
+                            <td>
+                              <?=$form->field($searchModel,'filial_id')->textInput(['class'=>'search','style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;','form'=>'searchForm2'])->label(false)?>
+                            </td>
+                            <?php }?>
+                            <?php }?>
+                            <td></td>
+                              <?php ActiveForm::end()?>
+                        </tr>
+                    <tbody id="myTablesubjects">
+                            <?=$this->render('tbody',['dataProvider'=>$dataProvider])?>
+                    </tbody>
                   </table>
                 </div>
             </div>
@@ -123,25 +144,19 @@ $("#searchsubjects").on("keyup", function() {
     $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
     });
   });
-});
-
- $("[type='search']").blur(function( event ){
-      
-       $.post("/subjects/index", $('#searchForm').serialize() ,function(data){
-     
-        document.getElementById('myTableuser').innerHTML = data;
+$("[class='search']").blur(function(){
+    $.post("/subjects/index", $('#searchForm2').serialize() ,function(data){
+        document.getElementById('myTablesubjects').innerHTML = data;
     });
-    });
+  });
 });
+  
 $(document).on('pjax:complete', function() {
- $("[form^='search']").blur(function( event ){
-      
-       $.post("/subjects/index", $('#searchForm').serialize() ,function(data){
-     
-        document.getElementById('myTableuser').innerHTML = data;
-    });
-       
-    });
+    $("[class='search']").blur(function( event ){
+        $.post("/subjects/index", $('#searchForm2').serialize() ,function(data){
+        document.getElementById('myTablesubjects').innerHTML = data;
+        });
+      });
 });
 JS
 );

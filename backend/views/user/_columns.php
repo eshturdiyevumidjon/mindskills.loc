@@ -27,10 +27,6 @@ return [
         'attribute'=>'password_hash',
     ],
     [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'type',
-    ],
-    [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,
         'vAlign'=>'middle',

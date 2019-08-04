@@ -10,6 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
+use yii\data\ActiveDataProvider;
 
 /**
  * ScheduleUsersController implements the CRUD actions for ScheduleUsers model.
@@ -38,15 +39,58 @@ class ScheduleUsersController extends Controller
      */
     public function actionIndex()
     {    
-        $searchModel = new ScheduleUsersSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        if(Yii::$app->request->isAjax && $_POST['ScheduleUsersSearch']['search'] == '1')
+       {    
+       
+            $query = ScheduleUsers::find();
+            $dataProvider = new ActiveDataProvider([
+                'query' => $query,
+            ]);
+            $schedule_id=$_POST['ScheduleUsersSearch']['schedule_id'];
+            $pupil_id=$_POST['ScheduleUsersSearch']['pupil_id'];
+            $payed=$_POST['ScheduleUsersSearch']['payed'];
+            $comment=$_POST['ScheduleUsersSearch']['comment'];
+            $unsubscribe=$_POST['ScheduleUsersSearch']['unsubscribe'];
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            if($_POST['ScheduleUsersSearch']['unsubscribe']) 
+                if($_POST['ScheduleUsersSearch']['unsubscribe']=="Да")$unsubscribe=1;     
+                if($_POST['ScheduleUsersSearch']['unsubscribe']=="Нет")$unsubscribe=2;
+
+            if(isset($schedule_id) || isset($pupil_id) || isset($payed) || isset($comment) || isset($unsubscribe))
+            {
+                $query->joinWith('schedule');
+                $query->joinWith('pupil');
+
+                $query->andFilterWhere([
+                    'schedule_users.payed' => $payed,
+                    'schedule_users.comment' => $comment,
+                    'schedule_users.unsubscribe' => $unsubscribe,
+                ]);
+
+                $query->andFilterWhere(['like', 'schedule.name', $schedule_id])
+                        ->andFilterWhere(['like', 'user.fio', $pupil_id]);
+                       
+                return $this->renderAjax('tbody', [
+                'dataProvider' => $dataProvider,
+                'searchModel'=>$searchModel,
+                ]);
+            }
+            else
+                return $this->renderAjax('tbody', [
+                'dataProvider' => $dataProvider,
+                'searchModel'=>$searchModel,
+                ]); 
+        }
+        $searchModel=new ScheduleUsersSearch();
+        $query = ScheduleUsers::find();
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
         ]);
+                return  $this->render('index',[
+                    'searchModel'=>$searchModel,
+                    'dataProvider' => $dataProvider,
+                ]);
     }
-
 
     /**
      * Displays a single ScheduleUsers model.
@@ -63,8 +107,10 @@ class ScheduleUsersController extends Controller
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Изменить',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                        'data-dismiss'=>"modal"]).
+                            Html::a('Изменить',['update','id'=>$id],['class'=>'btn btn-primary',
+                                'role'=>'modal-remote'])
                 ];    
         }else{
             return $this->render('view', [
@@ -94,9 +140,10 @@ class ScheduleUsersController extends Controller
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> " Посещаемости",
                     'content'=>'<span class="text-success">Успешно выполнено</span>',
-                    'footer'=> Html::button('Ок',['class'=>'btn btn-primary pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Создать ещё',['create'],['class'=>'btn btn-info','role'=>'modal-remote'])
-        
+                    'footer'=> Html::button('Ок',['class'=>'btn btn-primary pull-left',
+                        'data-dismiss'=>"modal"]).
+                            Html::a('Создать ещё',['create'],['class'=>'btn btn-info',
+                                'role'=>'modal-remote'])
                 ];         
             }else{           
                 return [
@@ -104,9 +151,9 @@ class ScheduleUsersController extends Controller
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                        'data-dismiss'=>"modal"]).
                                 Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
-        
                 ];         
             }
         }else{
@@ -145,7 +192,8 @@ class ScheduleUsersController extends Controller
                 'content'=>$this->renderAjax('columns', [
                     'session' => $session,
                 ]),
-                'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                    'data-dismiss'=>"modal"]).
                            Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
             ];         
         }       
@@ -173,7 +221,8 @@ class ScheduleUsersController extends Controller
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
-                   'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                   'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                    'data-dismiss'=>"modal"]).
                                 Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
                 ];         
             }else if($model->load($request->post()) && $model->save()){
@@ -183,7 +232,8 @@ class ScheduleUsersController extends Controller
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                        'data-dismiss'=>"modal"]).
                             Html::a('Изменить',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
             }else{
@@ -192,7 +242,8 @@ class ScheduleUsersController extends Controller
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                        'data-dismiss'=>"modal"]).
                                 Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
                 ];        
             }

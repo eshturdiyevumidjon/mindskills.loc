@@ -7,6 +7,8 @@ use kartik\grid\GridView;
 use johnitvn\ajaxcrud\CrudAsset; 
 use johnitvn\ajaxcrud\BulkButtonWidget;
 use backend\models\Feadback;
+use yii\widgets\ActiveForm;
+use kartik\date\DatePicker; 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\FeadbackSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -19,6 +21,11 @@ $models = $dataProvider->getModels();
 $session = Yii::$app->session;
 
 ?>
+<style type="text/css">
+  .search{
+    text-align: center;
+  }
+</style>
 <div class="Feadback-index">
     <div id="ajaxCrudDatatable">
         <div class="row">
@@ -66,47 +73,39 @@ $session = Yii::$app->session;
                             <?php if($session['Feadback[email]'] === null || $session['Feadback[email]'] == 1){ ?> 
                             <th>Эмаил</th>
                             <?php }?>
-                            <?php if($session['Feadback[message ]'] === null || $session['Feadback[message ]'] == 1){ ?> 
+                            <?php if($session['Feadback[message]'] === null || $session['Feadback[message]'] == 1){ ?> 
                             <th>Текст</th>
-                            <?php }?>
-                            <?php if($session['Feadback[date_cr ]'] === null || $session['Feadback[date_cr ]'] == 1){ ?> 
-                            <th>Дата создание</th>
                             <?php }?>
                             <th>Действия</th>                   
                         </tr>
                     </thead>
-                    <tbody id="myTableFeadback">
-                          <?php
-                              foreach ($models as $value) {
-                                  echo "<tr>
-                            <td><input type='checkbox' name='check".$value->id."'></td>     
-                            <td>".$value->id."</td>";
-                            if($session['Feadback[name]'] === null || $session['Feadback[name]'] == 1)
-                            echo "<td>".$value->name."</td>";
-                            if($session['Feadback[email]'] === null || $session['Feadback[email]'] == 1)
-                            echo "<td>".$value->email."</td>";
-                            if($session['Feadback[message]'] === null || $session['Feadback[message]'] == 1)
-                            echo "<td>".$value->message."</td>";
-                            if($session['Feadback[date_cr]'] === null || $session['Feadback[date_cr]'] == 1)
-                            echo "<td>".Feadback::getDate($value->date_cr)."</td>";
-                            echo 
-                            "<td class='align-center' style='width: 100px;'>".
-                            Html::a('<i class="material-icons view-u">visibility</i>',['view','id' => $value->id],['role' => 'modal-remote','title' => 'Просмотр']).
-                            Html::a('<i class="material-icons blue-u">mode_edit</i>',['update',
-                              'id' => $value->id],['role' => 'modal-remote',
-                              'title' => 'Изменить']).
-                            Html::a('<i class="material-icons red-u">delete_forever</i>',
-                              ['delete','id' => $value->id],
-                              ['role' => 'modal-remote','title' => 'Удалить', 
-                                      'data-confirm' => false, 'data-method' => false,
-                                      'data-request-method' => 'post',
-                                      'data-toggle' => 'tooltip',
-                                      'data-confirm-title' => 'Подтвердите действие',
-                                      'data-confirm-message' => 'Вы уверены что хотите удалить этого элемента?'])."
+                        <tr>
+                              <?php $form= ActiveForm::begin(['options' => ['id' => 'searchForm2']])?>
+                            <td></td>
+                            <td>
+                             <?=$form->field($searchModel,'search')->hiddenInput(['class'=>'search','style'=>'padding-bottom:14px;','form'=>'searchForm2','value'=>'1'])->label(false)?>
                             </td>
-                            </tr>";  
-                              }
-                          ?>  
+                            <?php if($session['Feadback[name]'] === null || $session['Feadback[name]'] == 1){ ?>
+                            <td>
+                              <?=$form->field($searchModel,'name')->textInput(['class'=>'search',
+                                'style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;','form'=>'searchForm2'])->label(false)?>  
+                            </td>
+                            <?php }?>
+                            <?php if($session['Feadback[email]'] === null || $session['Feadback[email]'] == 1){ ?>
+                            <td>
+                              <?=$form->field($searchModel,'email')->textInput(['class'=>'search','style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;','form'=>'searchForm2'])->label(false)?>
+                            </td>
+                            <?php }?>
+                            <?php if($session['Feadback[message]'] === null || $session['Feadback[message]'] == 1){ ?>
+                            <td>
+                              <?=$form->field($searchModel,'message')->textInput(['class'=>'search','style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;','form'=>'searchForm2'])->label(false)?>
+                            </td>
+                            <?php }?>
+                            <td></td>
+                              <?php ActiveForm::end()?>
+                        </tr>
+                    <tbody id="myTablefeadback">
+                            <?=$this->render('tbody',['dataProvider'=>$dataProvider])?>
                     </tbody>
                   </table>
                 </div>
@@ -136,6 +135,21 @@ $("#searchfeadback").on("keyup", function() {
     $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
     });
   });
+
+ $("[class='search']").blur(function(){
+    $.post("/feadback/index", $('#searchForm2').serialize() ,function(data){
+        document.getElementById('myTablefeadback').innerHTML = data;
+    });
+  });
+
+});
+
+$(document).on('pjax:complete', function() {
+    $("[class='search']").blur(function( event ){
+        $.post("/feadback/index", $('#searchForm2').serialize() ,function(data){
+        document.getElementById('myTablefeadback').innerHTML = data;
+        });
+      });
 });
 JS
 );

@@ -34,6 +34,7 @@ use yii\helpers\ArrayHelper;
  */
 class Courses extends \yii\db\ActiveRecord
 {
+    public $search;
     /**
      * {@inheritdoc}
      */
@@ -50,7 +51,7 @@ class Courses extends \yii\db\ActiveRecord
         return [
             [['name','subject_id'],'required'],
             [['subject_id', 'user_id', 'company_id', 'filial_id'], 'integer'],
-            [['begin_date', 'end_date'], 'safe'],
+            [['begin_date', 'end_date','search'], 'safe'],
             [['cost', 'prosent_for_teacher'], 'number'],
             [['name'], 'string', 'max' => 255],
             [['company_id'], 'exist', 'skipOnError' => true, 

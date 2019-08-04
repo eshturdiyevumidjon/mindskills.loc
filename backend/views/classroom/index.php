@@ -6,6 +6,7 @@ use yii\bootstrap\Modal;
 use kartik\grid\GridView;
 use johnitvn\ajaxcrud\CrudAsset; 
 use johnitvn\ajaxcrud\BulkButtonWidget;
+use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\ClassroomSearch */
@@ -17,6 +18,11 @@ $models = $dataProvider->getModels();
 $session = Yii::$app->session;
 CrudAsset::register($this);
 ?>
+<style type="text/css">
+  .search{
+    text-align: center;
+  }
+</style>
 <div class="Classroom-index">
     <div id="ajaxCrudDatatable">
         <div class="row">
@@ -49,12 +55,12 @@ CrudAsset::register($this);
                           </ul>
                       </div>
                   </nav>
-<?php Pjax::begin(['enablePushState' => false,'id' => 'crud-datatable-pjax'])?>
+<?php Pjax::begin(['enablePushState' => false,'id'=>'crud-datatable-pjax'])?>
 <div class="section" >
     <div id="row-grouping" class="section">
             <div class="row">
                 <div class="col s11" style="margin:  20px 40px 20px 40px">
-                  <table class="bordered highlight centered" cellspacing="0" width="100%">
+                  <table class="bordered highlight centered" cellspacing="0" id="myTablesubjects" width="100%">
                     <thead>
                         <tr style="font-size: 14px;">
                             <th>
@@ -76,37 +82,36 @@ CrudAsset::register($this);
                             <th>Действия</th>                   
                         </tr>
                     </thead>
-                    <tbody id="myTableClassroom">
-                          <?php
-                              foreach ($models as $value) {
-                                  echo "<tr>
-                            <td><input type='checkbox' id='1' name='check".$value->id."'></td>     
-                            <td>".$value->id."</td>";
-                            if($session['Classroom[name]'] === null || $session['Classroom[name]'] == 1)
-                            echo "<td>".$value->name."</td>";
-                            if(Yii::$app->user->identity->company->type == 1){
-                            if($session['Classroom[company_id]'] === null || $session['Classroom[company_id]'] == 1)
-                            echo "<td>".$value->company->name."</td>";}
-                            if(Yii::$app->user->identity->company->type == 1){
-                            if($session['Classroom[filial_id]'] === null || $session['Classroom[filial_id]'] == 1)
-                            echo "<td>".$value->filial->filial_name."</td>";}
-                            echo 
-                            "<td class='align-center' style='width: 100px;'>".
-                            Html::a('<i class="material-icons view-u">visibility</i>', ['view','id' => $value->id],['role' => 'modal-remote','title' => 'Просмотр']).
-                            Html::a('<i class="material-icons blue-u">mode_edit</i>', ['update','id' => $value->id],['role' => 'modal-remote','title' => 'Изменить']).
-                            Html::a('<i class="material-icons red-u">delete_forever</i>',
-                              ['delete','id' => $value->id],
-                              ['role' => 'modal-remote','title' => 'Удалить', 
-                                      'data-confirm' => false, 'data-method' => false,
-                                      'data-request-method' => 'post',
-                                      'data-toggle' => 'tooltip',
-                                      'data-confirm-title' => 'Подтвердите действие',
-                                      'data-confirm-message' => 'Вы уверены что хотите удалить этого элемента?'])."
+                        <tr>
+                              <?php $form= ActiveForm::begin(['options' => ['id' => 'searchForm2']])?>
+                            <td></td>
+                            <td>
+                              <?=$form->field($searchModel,'search')->hiddenInput(['class'=>'search','style'=>'padding-bottom:14px;','form'=>'searchForm2','value'=>'1'])->label(false)?>
                             </td>
-                          </tr>";  
-                              }
-                        ?>  
-                    </tbody>
+                              <?php if($session['Classroom[name]'] === null || $session['Classroom[name]'] == 1){ ?>
+                            <td>
+                              <?=$form->field($searchModel,'name')->textInput(['class'=>'search',
+                                'style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;','form'=>'searchForm2'])->label(false)?>  
+                            </td>
+                              <?php }?>     
+                              <?php if(Yii::$app->user->identity->company->type == 1){ ?>
+                              <?php if($session['Classroom[company_id]'] === null || $session['Classroom[company_id]'] == 1){ ?>
+                            <td>
+                              <?=$form->field($searchModel,'company_id')->textInput(['class'=>'search','style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;','form'=>'searchForm2'])->label(false)?>
+                            </td>
+                              <?php }?> 
+                              <?php if($session['Classroom[filial_id]'] === null || $session['Classroom[filial_id]'] == 1){ ?> 
+                            <td>
+                              <?=$form->field($searchModel,'filial_id')->textInput(['class'=>'search','style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;','form'=>'searchForm2'])->label(false)?>
+                            </td> 
+                              <?php }?>
+                              <?php }?>
+                            <td></td>
+                              <?php ActiveForm::end()?>
+                        </tr>
+                        <tbody id="myTableclassroom">
+                              <?=$this->render('tbody',['dataProvider'=>$dataProvider])?>
+                        </tbody>
                   </table>
                 </div>
             </div>
@@ -129,12 +134,25 @@ $(document).ready(function(){
   $("#showSearchclassroom").click(function(){
     $("#searchclassroom").slideToggle("slow");
   });
-  s$("#searchclassroom").on("keyup", function() {
+$("#searchclassroom").on("keyup", function() {
     var value = $(this).val().toLowerCase();
   $("#myTableclassroom tr").filter(function() {
   $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
     });
   });
+$("[class='search']").blur(function(){
+    $.post("/classroom/index", $('#searchForm2').serialize() ,function(data){
+        document.getElementById('myTableclassroom').innerHTML = data;
+    });
+  });
+});
+
+$(document).on('pjax:complete', function() {
+    $("[class='search']").blur(function( event ){
+        $.post("/classroom/index", $('#searchForm2').serialize() ,function(data){
+        document.getElementById('myTableclassroom').innerHTML = data;
+        });
+      });
 });
 JS
 );

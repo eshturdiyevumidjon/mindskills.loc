@@ -7,6 +7,8 @@ use kartik\grid\GridView;
 use johnitvn\ajaxcrud\CrudAsset; 
 use johnitvn\ajaxcrud\BulkButtonWidget;
 use backend\models\ScheduleGraph;
+use kartik\date\DatePicker; 
+use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\ScheduleGraphSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -18,6 +20,11 @@ $session = Yii::$app->session;
 CrudAsset::register($this);
 
 ?>
+<style type="text/css">
+  .search{
+    text-align: center;
+  }
+</style>
 <div class="ScheduleGraph-index">
     <div id="ajaxCrudDatatable">
 
@@ -79,37 +86,64 @@ CrudAsset::register($this);
                             <th>Действия</th>                   
                         </tr>
                     </thead>
-                    <tbody id="myTableScheduleGraph">
-                          <?php
-                              foreach ($models as $value) {
-                                  echo "<tr>
-                            <td><input type='checkbox' name='check".$value->id."'></td>     
-                            <td>".$value->id."</td>";
-                            if($session['ScheduleGraph[schedule_id]'] === null || $session['ScheduleGraph[schedule_id]'] == 1)
-                            echo "<td>".$value->schedule->name."</td>";
-                            if($session['ScheduleGraph[classroom_id]'] === null || $session['ScheduleGraph[classroom_id]'] == 1)
-                            echo "<td>".$value->classroom->name."</td>";
-                            if($session['ScheduleGraph[begin_date]'] === null || $session['ScheduleGraph[begin_date]'] == 1)
-                            echo "<td>".ScheduleGraph::getDate($value->begin_date)."</td>";
-                            if($session['ScheduleGraph[end_date]'] === null || $session['ScheduleGraph[end_date]'] == 1)
-                            echo "<td>".ScheduleGraph::getDate($value->end_date)."</td>";
-                            echo 
-                            "<td class='align-center' style='width: 100px;'>".
-                            Html::a('<i class="material-icons view-u">visibility</i>', ['view','id' => $value->id],['role' => 'modal-remote',
-                              'title' => 'Просмотр']).
-                            Html::a('<i class="material-icons blue-u">mode_edit</i>', ['update','id' => $value->id],['role' => 'modal-remote',
-                              'title' => 'Изменить']).
-                            Html::a('<i class="material-icons red-u">delete_forever</i>', ['delete','id' => $value->id],['role' => 'modal-remote',
-                              'title' => 'Удалить', 
-                                      'data-confirm' => false, 'data-method' => false,
-                                      'data-request-method' => 'post',
-                                      'data-toggle' => 'tooltip',
-                                      'data-confirm-title' => 'Подтвердите действие',
-                                      'data-confirm-message' => 'Вы уверены что хотите удалить этого элемента?'])."
+                        <tr>
+                              <?php $form= ActiveForm::begin(['options' => ['id' => 'searchForm2']])?>
+                            <td></td>
+                            <td>
+                             <?=$form->field($searchModel,'search')->hiddenInput(['class'=>'search','style'=>'padding-bottom:14px;','form'=>'searchForm2','value'=>'1'])->label(false)?>
                             </td>
-                          </tr>";  
-                              }
-                          ?>  
+                              <?php if($session['ScheduleGraph[schedule_id]'] === null || $session['ScheduleGraph[schedule_id]'] == 1){ ?>
+                            <td>
+                              <?=$form->field($searchModel,'schedule_id')->textInput(['class'=>'search',
+                                'style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;','form'=>'searchForm2'])->label(false)?>  
+                            </td>
+                              <?php }?>
+                              <?php if($session['ScheduleGraph[classroom_id]'] === null || $session['ScheduleGraph[classroom_id]'] == 1){ ?>       
+                            <td>
+                              <?=$form->field($searchModel,'classroom_id')->textInput(['class'=>'search','style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;','form'=>'searchForm2'])->label(false)?>
+                            </td>
+                              <?php }?>
+                              <?php if($session['ScheduleGraph[begin_date]'] === null || $session['ScheduleGraph[begin_date]'] == 1){ ?>
+                            <td>
+                              <?=$form->field($searchModel,'begin_date')->widget(DatePicker::className(), [
+                                    'language' => 'ru',
+                                    'size' => 'sm', 
+                                    'type'=> DatePicker::TYPE_INPUT,
+                                    'pluginOptions' => [
+                                    'todayHighlight' => true,
+                                    'format'=>'dd.mm.yyyy',
+                                    ],
+                                    'options'=>[
+                                      'id'=>'begin_date',
+                                      'form'=>'searchForm2',
+                                      'style'=>'padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;'
+                                    ]
+                                ])->label(false) ?>
+                            </td>
+                              <?php }?>
+                              <?php if($session['ScheduleGraph[end_date]'] === null || $session['ScheduleGraph[end_date]'] == 1){ ?>
+                            <td>
+                                <?=$form->field($searchModel,'end_date')->widget(DatePicker::className(), [
+                                      'language' => 'ru',
+                                      'size' => 'sm', 
+                                      'type'=> DatePicker::TYPE_INPUT,
+                                      'pluginOptions' => [
+                                      'todayHighlight' => true,
+                                      'format'=>'dd.mm.yyyy',
+                                      ],
+                                      'options'=>[
+                                        'id'=>'end_date',
+                                        'form'=>'searchForm2',
+                                        'style'=>'padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;text-align:center !important;'
+                                      ]
+                                  ])->label(false) ?>
+                            </td>
+                              <?php }?>
+                            <td></td>
+                                <?php ActiveForm::end()?>
+                        </tr>
+                    <tbody id="myTableschedulegraph">
+                            <?=$this->render('tbody',['dataProvider'=>$dataProvider])?>
                     </tbody>
                   </table>
                 </div>
@@ -131,14 +165,55 @@ CrudAsset::register($this);
 $this->registerJs(<<<JS
 $(document).ready(function(){
   $("#showSearchschedulegraph").click(function(){
-    $("#searchschedulegraph").slideToggle("slow");
+  $("#searchschedulegraph").slideToggle("slow");
   });
 $("#searchschedulegraph").on("keyup", function() {
     var value = $(this).val().toLowerCase();
-    $("#myTableschedule_graph tr").filter(function() {
-      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    $("#myTableschedulegraph tr").filter(function() {
+    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
     });
-  });
+});
+
+$("[class='search']").blur(function(){
+$.post("/schedule-graph/index", $('#searchForm2').serialize() ,function(data){
+    document.getElementById('myTableschedulegraph').innerHTML = data;
+});
+});
+
+  $("#begin_date").change(function(){
+        $.post("/schedule-graph/index", $('#searchForm2').serialize() ,function(data){
+        document.getElementById('myTableschedulegraph').innerHTML = data;
+    });
+    });
+
+
+  $("#end_date").change(function(){
+        $.post("/schedule-graph/index", $('#searchForm2').serialize() ,function(data){
+        document.getElementById('myTableschedulegraph').innerHTML = data;
+    });
+    });
+
+});
+
+$(document).on('pjax:complete', function() {
+    $("[class='search']").blur(function( event ){
+        $.post("/schedule-graph/index", $('#searchForm2').serialize() ,function(data){
+        document.getElementById('myTableschedulegraph').innerHTML = data;
+        });
+      });
+
+      $("#begin_date").change(function( event ){
+        $.post("/schedule-graph/index", $('#searchForm2').serialize() ,function(data){
+        document.getElementById('myTableschedulegraph').innerHTML = data;
+    });
+     });
+
+      $("#end_date").change(function( event ){
+        $.post("/schedule-graph/index", $('#searchForm2').serialize() ,function(data){
+        document.getElementById('myTableschedulegraph').innerHTML = data;
+    });
+     });
+
 });
 JS
 );

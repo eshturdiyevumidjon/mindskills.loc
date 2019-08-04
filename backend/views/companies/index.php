@@ -8,6 +8,8 @@ use johnitvn\ajaxcrud\CrudAsset;
 use johnitvn\ajaxcrud\BulkButtonWidget;
 use backend\models\Companies;
 use backend\models\Tarifs;
+use yii\widgets\ActiveForm;
+
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\CompaniesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -18,6 +20,11 @@ $session = Yii::$app->session;
 CrudAsset::register($this);
 
 ?>
+<style type="text/css">
+  .search{
+    text-align: center;
+  }
+</style>
 <div class="companies-index">
     <div id="ajaxCrudDatatable">
         <div class="row">
@@ -59,41 +66,39 @@ CrudAsset::register($this);
               <div class="col s11" style="margin:  20px 40px 20px 40px">
                   <table class="bordered highlight centered" cellspacing="0" width="100%">
                     <thead>
-                    <tr style="font-size: 14px;">
-                          <th>ID</th>
-                          <?php if($session['Companies[name]'] === null || $session['Companies[name]'] == 1){ ?>
-                          <th>Наименование</th>
-                          <?php }?>
-                          <?php if($session['Companies[Companiesname]'] === null || $session['Companies[tarif_id]'] == 1){ ?>
-                          <th>Тариф</th>
-                          <?php }?>
-                          <th>Действия</th>
-                    </tr>
+                        <tr style="font-size: 14px;">
+                              <th>ID</th>
+                              <?php if($session['Companies[name]'] === null || $session['Companies[name]'] == 1){ ?>
+                              <th>Наименование</th>
+                              <?php }?>
+                              <?php if($session['Companies[tarif_id]'] === null || $session['Companies[tarif_id]'] == 1){ ?>
+                              <th>Тариф</th>
+                              <?php }?>
+                              <th>Действия</th>
+                        </tr>
                     </thead>
-                    <tbody id="myTablecompany">
-                        <?php
-                            foreach ($models as $value) {
-                          echo "<tr><td>".$value->id."</td>";
-                          if($session['Companies[name]'] === null || $session['Companies[name]'] == 1)
-                          echo "<td>".$value->name."</td>";
-                          if($session['Companies[tarif_id]'] === null || $session['Companies[tarif_id]'] == 1)
-                          echo "<td>".$value->tarifs->name."</td>";
-                          echo "<td class='align-center' style='width: 100px;'>".
-                          Html::a('<i class="material-icons view-u">visibility</i>', ['view','id' => $value->id],['role' => 'modal-remote','title' => 'Просмотр']).
-                          Html::a('<i class="material-icons blue-u">mode_edit</i>', ['update','id' => $value->id],['role' => 'modal-remote','title' => 'Изменить']).
-                          Html::a('<i class="material-icons red-u">delete_forever</i>',
-                                 ['delete','id' => $value->id],
-                                 ['role' => 'modal-remote','title' => 'Удалить', 
-                                            'data-confirm' => false, 'data-method' => false,
-                                            'data-request-method' => 'post',
-                                            'data-toggle' => 'tooltip',
-                                            'data-confirm-title' => 'Подтвердите действие',
-                                            'data-confirm-message' => 'Вы уверены что хотите удалить этого элемента?'])."
-                          </td>
-                          </tr>";  
-                            }
-                        ?>  
-                    </tbody>
+                        <tr>
+                                <?php $form= ActiveForm::begin(['options' => ['id' => 'searchForm2']])?>
+                            <td>
+                                <?=$form->field($searchModel,'search')->hiddenInput(['class'=>'search','style'=>'padding-bottom:14px;','form'=>'searchForm2','value'=>'1'])->label(false)?>
+                            </td>
+                                <?php if($session['Companies[name]'] === null || $session['Companies[name]'] == 1){ ?>
+                            <td>
+                                <?=$form->field($searchModel,'name')->textInput(['class'=>'search',
+                                'style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;','form'=>'searchForm2'])->label(false)?>  
+                            </td>
+                                <?php }?>
+                                <?php if($session['Companies[tarif_id]'] === null || $session['Companies[tarif_id]'] == 1){ ?>                            
+                            <td>
+                                <?=$form->field($searchModel,'tarif_id')->textInput(['class'=>'search','style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;','form'=>'searchForm2'])->label(false)?>
+                            </td>
+                                <?php }?>
+                            <td></td>
+                                <?php ActiveForm::end()?>
+                        </tr>
+                        <tbody id="myTablecompanies">
+                            <?=$this->render('tbody',['dataProvider'=>$dataProvider])?>
+                        </tbody>
                   </table>
               </div>
           </div>
@@ -121,10 +126,23 @@ $(document).ready(function(){
   });
 $("#searchcompany").on("keyup", function() {
     var value = $(this).val().toLowerCase();
-  $("#myTablecompany tr").filter(function() {
+  $("#myTablecompanies tr").filter(function() {
   $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
     });
   });
+  $("[class='search']").blur(function(){
+    $.post("/companies/index", $('#searchForm2').serialize() ,function(data){
+        document.getElementById('myTablecompanies').innerHTML = data;
+    });
+  });
+});
+
+$(document).on('pjax:complete', function() {
+    $("[class='search']").blur(function( event ){
+        $.post("/companies/index", $('#searchForm2').serialize() ,function(data){
+        document.getElementById('myTablecompanies').innerHTML = data;
+        });
+      });
 });
 JS
 );

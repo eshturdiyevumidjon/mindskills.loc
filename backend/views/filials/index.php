@@ -7,6 +7,8 @@ use kartik\grid\GridView;
 use johnitvn\ajaxcrud\CrudAsset; 
 use johnitvn\ajaxcrud\BulkButtonWidget;
 use backend\models\Filials;
+use yii\widgets\ActiveForm;
+
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\FilialsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -18,6 +20,11 @@ $session = Yii::$app->session;
 CrudAsset::register($this);
 
 ?>
+<style type="text/css">
+  .search{
+    text-align: center;
+  }
+</style>
 <div class="filials-index">
     <div id="ajaxCrudDatatable">
             <div class="row">
@@ -68,9 +75,17 @@ CrudAsset::register($this);
                 { ?>
                 <th>Наименование</th>
                 <?php }?>
-                <?php if($session['Filials[admin]'] === null || $session['Filials[admin]'] == 1)
+                <?php if($session['Filials[surname]'] === null || $session['Filials[surname]'] == 1)
                 { ?>
-                <th>ФИО</th>
+                <th>Фамилия</th>
+                <?php }?>
+                <?php if($session['Filials[name]'] === null || $session['Filials[name]'] == 1)
+                { ?>
+                <th>Имя</th>
+                <?php }?>
+                <?php if($session['Filials[middle_name]'] === null || $session['Filials[middle_name]'] == 1)
+                { ?>
+                <th>Отчество</th>
                 <?php }?>
                 <?php if($session['Filials[phone]'] === null || $session['Filials[phone]'] == 1)
                 { ?>
@@ -103,56 +118,88 @@ CrudAsset::register($this);
                 <th>Действия</th>
               </tr>
               </thead>
-              <tbody id="myTablefilials">
-                <?php
-                  
-          foreach ($models as $value) {
-            if (!file_exists('uploads/filial_logos/'.$value->logo) || $value->logo == '') {
-                      $path = 'http://' . $_SERVER['SERVER_NAME'].'/uploads/7.jpg';
-                  } else {
-                      $path = 'http://' . $_SERVER['SERVER_NAME'].'/uploads/filial_logos/'.$value->logo;
-                  }
-                echo "<tr><td>".$value->id."</td>";
-                if($session['Filials[logo]'] === null || $session['Filials[logo]'] == 1)
-                echo "<td><img src='$path' style='width:55px; max-height:55px;'class='img-circle'></td>";
-                if($session['Filials[filial_name]'] === null || 
-                  $session['Filials[filial_name]'] == 1)
-                echo "<td>".$value->filial_name."</td>";
-                if($session['Filials[admin]'] === null || $session['Filials[admin]'] == 1)
-                echo "<td>".$value->getAdmin()."</td>";
-                if($session['Filials[phone]'] === null || $session['Filials[phone]'] == 1)
-                echo "<td>".$value->phone."</td>";
-                if($session['Filials[region_id]'] === null || 
-                  $session['Filials[region_id]'] == 1)
-                echo "<td>".$value->region->name."</td>";
-                if($session['Filials[district_id]'] === null || 
-                  $session['Filials[district_id]'] == 1)
-                echo "<td>".$value->district->name."</td>";
-                if($session['Filials[address]'] === null || $session['Filials[address]'] == 1)
-                echo "<td>".$value->address."</td>";
-                if($session['Filials[site]'] === null || $session['Filials[site]'] == 1)
-                echo "<td>".$value->site."</td>";
-                if($session['Filials[email]'] === null || $session['Filials[email]'] == 1)
-                echo  "<td>".$value->email."</td>";
-                if($session['Filials[company_id]'] === null || 
-                  $session['Filials[company_id]'] == 1)
-                echo  "<td>".$value->company->name."</td>";
-                echo "<td class='align-center' style='width: 100px;'>".
-                Html::a('<i class="material-icons view-u">visibility</i>', ['view','id' => $value->id],['role' => 'modal-remote','title' => 'Просмотр']).
-                Html::a('<i class="material-icons blue-u">mode_edit</i>', ['update','id' => $value->id],['role' => 'modal-remote','title' => 'Изменить']).
-                Html::a('<i class="material-icons red-u">delete_forever</i>', 
-                  ['delete','id' => $value->id],
-                  ['role' => 'modal-remote','title' => 'Удалить', 
-                                          'data-confirm' => false, 'data-method' => false,
-                                          'data-request-method' => 'post',
-                                          'data-toggle' => 'tooltip',
-                                          'data-confirm-title' => 'Подтвердите действие',
-                                          'data-confirm-message' => 'Вы уверены что хотите удалить этого элемента?'])."
-                </td>
-                </tr>";  
-                          }
-                      ?>  
-              </tbody>
+                <tr>
+                    <?php $form= ActiveForm::begin(['options' => ['id' => 'searchForm2']])?>
+                     <?php if($session['Filials[logo]'] === null || $session['Filials[logo]'] == 1)
+                      { ?>
+                    <td></td>
+                    <?php }?>
+                    <td>
+                     <?=$form->field($searchModel,'search')->hiddenInput(['class'=>'search','style'=>'padding-bottom:14px;','form'=>'searchForm2','value'=>'1'])->label(false)?>
+                    </td>
+                      <?php if($session['Filials[filial_name]'] === null || $session['Filials[filial_name]'] == 1)
+                      { ?>
+                    <td>
+                      <?=$form->field($searchModel,'filial_name')->textInput(['class'=>'search',
+                        'style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;','form'=>'searchForm2'])->label(false)?>  
+                    </td>
+                      <?php }?>
+                      <?php if($session['Filials[company_id]'] === null || $session['Filials[company_id]'] == 1)
+                      { ?>
+                    <td>
+                      <?=$form->field($searchModel,'company_id')->textInput(['class'=>'search','style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;','form'=>'searchForm2'])->label(false)?>
+                    </td>
+                      <?php }?>
+                      <?php if($session['Filials[surname]'] === null || $session['Filials[surname]'] == 1)
+                      { ?>
+                    <td>
+                      <?=$form->field($searchModel,'surname')->textInput(['class'=>'search','style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;','form'=>'searchForm2'])->label(false)?>
+                    </td>
+                      <?php }?>
+                      <?php if($session['Filials[name]'] === null || $session['Filials[name]'] == 1)
+                      { ?>
+                    <td>
+                      <?=$form->field($searchModel,'name')->textInput(['class'=>'search','style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;','form'=>'searchForm2'])->label(false)?>
+                    </td>
+                    <?php }?>
+                    <?php if($session['Filials[middle_name]'] === null || $session['Filials[middle_name]'] == 1)
+                      { ?>
+                    <td>
+                      <?=$form->field($searchModel,'middle_name')->textInput(['class'=>'search','style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;','form'=>'searchForm2'])->label(false)?>
+                    </td>
+                    <?php }?>
+                    <?php if($session['Filials[phone]'] === null || $session['Filials[phone]'] == 1)
+                      { ?>
+                    <td>
+                      <?=$form->field($searchModel,'phone')->textInput(['class'=>'search','style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;','form'=>'searchForm2'])->label(false)?>
+                    </td>
+                    <?php }?>
+                    <?php if($session['Filials[address]'] === null || $session['Filials[address]'] == 1)
+                      { ?>
+                    <td>
+                      <?=$form->field($searchModel,'address')->textInput(['class'=>'search','style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;','form'=>'searchForm2'])->label(false)?>
+                    </td>
+                    <?php }?>
+                    <?php if($session['Filials[region_id]'] === null || $session['Filials[region_id]'] == 1)
+                      { ?>
+                    <td>
+                      <?=$form->field($searchModel,'region_id')->textInput(['class'=>'search','style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;','form'=>'searchForm2'])->label(false)?>
+                    </td>
+                    <?php }?>
+                    <?php if($session['Filials[district_id]'] === null || $session['Filials[district_id]'] == 1)
+                      { ?>
+                    <td>
+                      <?=$form->field($searchModel,'district_id')->textInput(['class'=>'search','style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;','form'=>'searchForm2'])->label(false)?>
+                    </td>
+                    <?php }?>
+                    <?php if($session['Filials[email]'] === null || $session['Filials[email]'] == 1)
+                      { ?>
+                    <td>
+                      <?=$form->field($searchModel,'email')->textInput(['class'=>'search','style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;','form'=>'searchForm2'])->label(false)?>
+                    </td>
+                    <?php }?>
+                    <?php if($session['Filials[site]'] === null || $session['Filials[site]'] == 1)
+                      { ?>
+                    <td>
+                      <?=$form->field($searchModel,'site')->textInput(['class'=>'search','style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;','form'=>'searchForm2'])->label(false)?>
+                    </td>
+                    <?php }?>
+                    <td></td>
+                      <?php ActiveForm::end()?>
+                </tr>
+                    <tbody id="myTablefilials">
+                            <?=$this->render('tbody',['dataProvider'=>$dataProvider])?>
+                    </tbody>
             </table>
           </div>
         </div>
@@ -181,6 +228,19 @@ $("#searchfilials").on("keyup", function() {
     $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
     });
   });
+  $("[class='search']").blur(function(){
+    $.post("/filials/index", $('#searchForm2').serialize() ,function(data){
+        document.getElementById('myTablefilials').innerHTML = data;
+    });
+  });
+});
+
+$(document).on('pjax:complete', function() {
+    $("[class='search']").blur(function( event ){
+        $.post("/filials/index", $('#searchForm2').serialize() ,function(data){
+        document.getElementById('myTablefilials').innerHTML = data;
+        });
+      });
 });
 JS
 );

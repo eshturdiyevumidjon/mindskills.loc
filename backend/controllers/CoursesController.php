@@ -11,6 +11,8 @@ use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
 use common\models\User;
+use yii\data\ActiveDataProvider;
+
 /**
  * CoursesController implements the CRUD actions for Courses model.
  */
@@ -38,25 +40,63 @@ class CoursesController extends Controller
      */
     public function actionIndex()
     {    
-        $searchModel = new CoursesSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        // $events = Courses::find()->all();
-        //$tasks = [];
+         if(Yii::$app->request->isAjax && $_POST['CoursesSearch']['search'] == '1')
+       {    
+        
+            $query = Courses::find();
+            $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            ]);
+            $name=$_POST['CoursesSearch']['name'];
+            $subject_id=$_POST['CoursesSearch']['subject_id'];
+            $user_id=$_POST['CoursesSearch']['user_id'];
+            $company_id=$_POST['CoursesSearch']['company_id'];
+            $begin_date=($_POST['CoursesSearch']['begin_date'])?\Yii::$app->formatter->asDate($_POST['CoursesSearch']['begin_date'], 'php:Y-m-d'):"";;
+            $end_date=($_POST['CoursesSearch']['end_date'])?\Yii::$app->formatter->asDate($_POST['CoursesSearch']['end_date'], 'php:Y-m-d'):"";;
+            $prosent_for_teacher=$_POST['CoursesSearch']['prosent_for_teacher'];
+            $cost=$_POST['CoursesSearch']['cost'];
+            $filial_id=$_POST['CoursesSearch']['filial_id'];
+           
 
-        // foreach ($events as $eve)
-        // {
-             
-        //       $event->name = $eve->name;
-        //       $tasks[] = $event;
-        // }
-        return $this->render('index', [
-            'searchModel' => $searchModel,
+            if(isset($name) || isset($subject_id) || isset($user_id) || isset($company_id)
+                || isset($begin_date) || isset($end_date) || isset($prosent_for_teacher) || isset($cost) ||isset($filial_id) ||isset($user_id))
+            {
+                $query->joinWith('company');                
+                $query->joinWith('subject');
+                $query->joinWith('filial');
+                $query->joinWith('user');
+
+                $query->andFilterWhere(['like', 'courses.name', $name])
+                        ->andFilterWhere(['like', 'subjects.name', $subject_id])
+                        ->andFilterWhere(['like', 'user.fio', $user_id])
+                        ->andFilterWhere(['like', 'courses.begin_date', $begin_date])
+                        ->andFilterWhere(['like', 'courses.end_date', $end_date])
+                        ->andFilterWhere(['like', 'courses.prosent_for_teacher', $prosent_for_teacher])
+                        ->andFilterWhere(['like', 'courses.cost', $cost])
+                        ->andFilterWhere(['like', 'filials.filial_name', $filial_id])
+                        ->andFilterWhere(['like', 'companies.name', $company_id]);
+
+                    return $this->renderAjax('tbody', [
+                    'dataProvider' => $dataProvider,
+                    'searchModel'=>$searchModel,
+                ]);
+            }
+            else
+            return $this->renderAjax('tbody', [
             'dataProvider' => $dataProvider,
-            // $tasks[] = $event;
+            'searchModel'=>$searchModel,
+        ]); 
+        }
+        $searchModel=new CoursesSearch();
+        $query = Courses::find();
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+        return  $this->render('index',[
+            'searchModel'=>$searchModel,
+            'dataProvider' => $dataProvider,
         ]);
     }
-
-
     /**
      * Displays a single Courses model.
      * @param integer $id
@@ -70,10 +110,12 @@ class CoursesController extends Controller
             return [
                     'title'=> "Курсы ",
                     'content'=>$this->renderAjax('view', [
-                        'model' => $this->findModel($id),
+                    'model' => $this->findModel($id),
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Зарегистрируйтесь!',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                                'data-dismiss'=>"modal"]).
+                            Html::a('Зарегистрируйтесь!',['update','id'=>$id],['class'=>'btn btn-primary',
+                                'role'=>'modal-remote'])
                 ];    
         }else{
             return $this->render('view', [
@@ -102,9 +144,10 @@ class CoursesController extends Controller
                 'title'=> "Сортировка с колонок",
                 'size' => 'large',
                 'content'=>$this->renderAjax('columns', [
-                    'session' => $session,
+                'session' => $session,
                 ]),
-                'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                    'data-dismiss'=>"modal"]).
                            Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
             ];         
         }       
@@ -134,8 +177,10 @@ class CoursesController extends Controller
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "Курсы",
                     'content'=>'<span class="text-success">Успешно выполнено</span>',
-                    'footer'=> Html::button('Ок',['class'=>'btn btn-primary pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Создать ещё',['create'],['class'=>'btn btn-info','role'=>'modal-remote'])
+                    'footer'=> Html::button('Ок',['class'=>'btn btn-primary pull-left',
+                        'data-dismiss'=>"modal"]).
+                            Html::a('Создать ещё',['create'],['class'=>'btn btn-info',
+                                'role'=>'modal-remote'])
                 ];
                 // return [
                 //     'forceReload'=>'#crud-datatable-pjax',
@@ -147,7 +192,9 @@ class CoursesController extends Controller
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                        'data-dismiss'=>"modal"]).
+                                Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
         ];         
             }
         }else{
@@ -189,16 +236,21 @@ class CoursesController extends Controller
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                        'data-dismiss'=>"modal"]).Html::button('Сохранить',['class'=>'btn btn-primary',
+                        'type'=>"submit"])
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "Курсы #".$id,
                     'content'=>$this->renderAjax('view', [
-                        'model' => $model,
+                    'model' => $model,
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).Html::a('Изменить',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                        'data-dismiss'=>"modal"]).
+                                Html::a('Изменить',['update','id'=>$id],['class'=>'btn btn-primary',
+                        'role'=>'modal-remote'])
                 ];    
             }else{
                  return [
@@ -206,7 +258,9 @@ class CoursesController extends Controller
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                                            'data-dismiss'=>"modal"]).
+                                Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
                 ];        
             }
         }else{

@@ -12,6 +12,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
+use yii\data\ActiveDataProvider;
 
 /**
  * CompaniesController implements the CRUD actions for Companies model.
@@ -40,16 +41,46 @@ class CompaniesController extends Controller
      */
     public function actionIndex()
     {    
-        $searchModel = new CompaniesSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        
+        if(Yii::$app->request->isAjax && $_POST['CompaniesSearch']['search'] == '1')
+       {    
+       
+            $query = Companies::find();
+            $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            ]);
+            $name=$_POST['CompaniesSearch']['name'];
+            $tarif_id=$_POST['CompaniesSearch']['tarif_id'];
+            
+            if(isset($name) || isset($tarif_id))
+            {
+                $query->joinWith('tarifs');
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
+                $query->andFilterWhere(['like', 'tarifs.name', $tarif_id])
+                        ->andFilterWhere(['like', 'companies.name', $name]);
+                       
+
+                    return $this->renderAjax('tbody', [
+                    'dataProvider' => $dataProvider,
+                    'searchModel'=>$searchModel,
+                ]);
+            }
+            else
+                    return $this->renderAjax('tbody', [
+                    'dataProvider' => $dataProvider,
+                    'searchModel'=>$searchModel,
+        ]); 
+        }
+        $searchModel=new CompaniesSearch();
+        $query = Companies::find();
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+        return  $this->render('index',[
+            'searchModel'=>$searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
-
-
     /**
      * Displays a single Companies model.
      * @param integer $id
@@ -65,8 +96,10 @@ class CompaniesController extends Controller
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Изменить',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                                'data-dismiss'=>"modal"]).
+                            Html::a('Изменить',['update','id'=>$id],['class'=>'btn btn-primary',
+                                'role'=>'modal-remote'])
                 ];    
         }else{
             return $this->render('view', [
@@ -96,8 +129,10 @@ class CompaniesController extends Controller
                 'content'=>$this->renderAjax('columns', [
                 'session' => $session,
                 ]),
-                'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                           Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
+                'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                            'data-dismiss'=>"modal"]).
+                           Html::button('Сохранить',['class'=>'btn btn-primary',
+                            'type'=>"submit"])
             ];         
         }       
     }
@@ -133,7 +168,6 @@ class CompaniesController extends Controller
                 $user->type=1;
                 $user->save();
                 Yii::$app->db->createCommand()->update('user', ['company_id' => $model->id,'filial_id'=>$filial->id ], [ 'id' => $user->id ])->execute();
-
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "Компания",
@@ -152,9 +186,10 @@ class CompaniesController extends Controller
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
-        
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                                    'data-dismiss'=>"modal"]).
+                                Html::button('Сохранить',['class'=>'btn btn-primary',
+                                    'type'=>"submit"])
                 ];         
             }
         }else{
@@ -194,8 +229,10 @@ class CompaniesController extends Controller
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                                    'data-dismiss'=>"modal"]).
+                                Html::button('Сохранить',['class'=>'btn btn-primary',
+                                    'type'=>"submit"])
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
@@ -204,8 +241,10 @@ class CompaniesController extends Controller
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Изменить',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                                'data-dismiss'=>"modal"]).
+                            Html::a('Изменить',['update','id'=>$id],['class'=>'btn btn-primary',
+                                'role'=>'modal-remote'])
                 ];    
             }else{
                  return [
@@ -213,8 +252,10 @@ class CompaniesController extends Controller
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                                    'data-dismiss'=>"modal"]).
+                                Html::button('Сохранить',['class'=>'btn btn-primary',
+                                    'type'=>"submit"])
                 ];        
             }
         }else{
@@ -255,8 +296,6 @@ class CompaniesController extends Controller
             */
             return $this->redirect(['index']);
         }
-
-
     }
 
      /**

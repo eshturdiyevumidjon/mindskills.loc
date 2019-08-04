@@ -54,15 +54,12 @@ class SubjectsSearch extends Subjects
             // $query->where('0=1');
             return $dataProvider;
         }
-
         $query->andFilterWhere([
             'id' => $this->id,
             'company_id' => $this->company_id,
             'filial_id' => $this->filial_id,
         ]);
-
         $query->andFilterWhere(['like', 'name', $this->name]);
-
         return $dataProvider;
     }
 }

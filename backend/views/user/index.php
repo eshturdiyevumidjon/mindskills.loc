@@ -37,6 +37,20 @@ $models = $dataProvider->getModels();
 $session = Yii::$app->session;
 CrudAsset::register($this);
 ?>
+<style type="text/css">
+  .search{
+    text-align: center;
+  }
+  .drop{
+    padding-bottom:-10px;
+    border:1px solid gray !important;
+    border-radius: 0.5em;
+    height:40px !important;
+  }
+  #statuslist{
+    display:none;
+  }
+</style>
 <div class="user-index">
   <div id="ajaxCrudDatatable">
     <div class="row">
@@ -78,7 +92,7 @@ CrudAsset::register($this);
      <div id="row-grouping" class="section">
         <div class="row">
             <div class="col s11" style="margin:  20px 40px 20px 40px">
-              <table class="bordered highlight centered" cellspacing="0" id="MyTableuser" width="100%">  
+              <table class="bordered highlight centered" cellspacing="0" id="MyTableuser" width="100%">
                  <thead>
                   <div class="row">
                     <tr style="font-size: 14px;">
@@ -98,11 +112,6 @@ CrudAsset::register($this);
                     <?php if($session['User[username]'] === null || $session['User[username]'] == 1){ ?>
                       <div class="col s1 m1 l1 xl1">
                         <th>Имя пользователа</th>
-                      </div>
-                    <?php }?>
-                    <?php if($session['User[type]'] === null || $session['User[type]'] == 1){ ?>
-                      <div class="col s1 m1 l1 xl1">
-                        <th>Тип</th>
                       </div>
                     <?php }?>
                     <?php if($session['User[status]'] === null || $session['User[status]'] == 1){ ?>
@@ -146,25 +155,29 @@ CrudAsset::register($this);
                   </div>
                   <tr>
                       <?php $form= ActiveForm::begin(['options' => ['id' => 'searchForm']])?>
-                      
-                    <td>№</td>
+                      <?php if($session['User[image]'] === null || $session['User[image]'] == 1){ ?>
+                    <td></td>
+                      <?php } ?>
                     <td>
                       <?=$form->field($searchModel,'search')->hiddenInput(['class'=>'search','style'=>'padding-bottom:14px;','form'=>'searchForm','value'=>'1'])->label(false)?>
                     </td>
-                      
-                    <td><?=$form->field($searchModel,'fio')->textInput(['class'=>'search','style'=>'padding-bottom:14px;','form'=>'searchForm'])->label(false)?></td>
-                    <td><?=$form->field($searchModel,'username')->textInput(['class'=>'search','style'=>'padding-bottom:14px;','form'=>'searchForm'])->label(false)?></td>
-                    <td></td>
+                      <?php if($session['User[fio]'] === null || $session['User[fio]'] == 1){ ?>
                     <td>
-                      <select name="status" form="searchForm">
-                        <option></option>
-                        <?php foreach (User::getStatus() as $key => $value) {
-                         
-                          echo "<option value='$key'>$value</option>";
-                        }
-                        ?>
-                      </select>
+                      <?=$form->field($searchModel,'fio')->textInput(['class'=>'search','style'=>'padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;','form'=>'searchForm'])->label(false)?>
                     </td>
+                      <?php }?>
+                      <?php if($session['User[username]'] === null || $session['User[username]'] == 1){ ?>
+                    <td>
+                      <?=$form->field($searchModel,'username')->textInput(['class'=>'search','style'=>'padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;','form'=>'searchForm'])->label(false)?>
+                    </td>
+                      <?php }?>
+                      <?php if($session['User[status]'] === null || $session['User[status]'] == 1){ ?>
+                    <td>
+                      <?=$form->field($searchModel, 'status')->textInput(['class'=>'search','style'=>'padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;','form'=>'searchForm'])->label(false)?>
+                        
+                    </td>
+                      <?php }?>
+                      <?php if($session['User[birthday]'] === null || $session['User[birthday]'] == 1){ ?>
                     <td>
                       <?=$form->field($searchModel,'birthday')->widget(DatePicker::className(), [
                         'language' => 'ru',
@@ -177,42 +190,40 @@ CrudAsset::register($this);
                         ],
                         'options'=>[
                           'id'=>'birtday',
-                          'form'=>'searchForm'
-                         
+                          'form'=>'searchForm',
+                          'style'=>'padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;'
                         ]
-                    ])->label(false) ?>
+                          ])->label(false) ?>
                     </td>
-                    <td><?=$form->field($searchModel,'phone')->textInput(['class'=>'search','style'=>'padding-bottom:14px;','form'=>'searchForm'])->label(false)?></td>
-                    <td><?=$form->field($searchModel,'balanc')->textInput(['class'=>'search','style'=>'padding-bottom:14px;','form'=>'searchForm'])->label(false)?></td>
+                      <?php }?>
+                      <?php if($session['User[phone]'] === null || $session['User[phone]'] == 1){ ?>
                     <td>
-						            <select name="company_id" form="searchForm">
-                        <option></option>
-                        <?php foreach (User::getCompanyList() as $key => $value) {
-                            if($key==$post['company_id'])
-                          echo "<option selected value='$key'>$value</option>";
-                          else
-                          echo "<option value='$key'>$value</option>";
-                        }
-                        ?>
-                      </select>
+                      <?=$form->field($searchModel,'phone')->textInput(['class'=>'search','style'=>'padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;','form'=>'searchForm'])->label(false)?>
                     </td>
+                      <?php }?>
+                      <?php if($session['User[balanc]'] === null || $session['User[balanc]'] == 1){ ?>
                     <td>
-						            <select name="filial_id" form="searchForm">
-                        <option></option>
-                        <?php foreach (User::getFilialsList() as $key => $value) {
-                            if($key==$post['filial_id'])
-                          echo "<option selected value='$key'>$value</option>";
-                          else
-                          echo "<option value='$key'>$value</option>";
-                        }
-                        ?>
-                      </select>
+                      <?=$form->field($searchModel,'balanc')->textInput(['class'=>'search','style'=>'padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;','form'=>'searchForm'])->label(false)?>
                     </td>
+                      <?php }?>  
+                      <?php if(Yii::$app->user->identity->company->type == 1){ ?>
+                      <?php if($session['User[company_id]'] === null || $session['User[company_id]'] == 1){ ?>                                                     
+                    <td>
+						            <?=$form->field($searchModel,'company_id')->textInput(['class'=>'search','style'=>'padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;','form'=>'searchForm'])->label(false)?>
+                    </td>
+                      <?php } ?>
+                      <?php } ?>  
+                      <?php if(Yii::$app->user->identity->company->type == 1){ ?>
+                      <?php if($session['User[filial_id]'] === null || $session['User[filial_id]'] == 1){ ?>
+                    <td>
+						           <?=$form->field($searchModel,'filial_id')->textInput(['class'=>'search','style'=>'padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;','form'=>'searchForm'])->label(false)?>
+                    </td>
+                      <?php } ?>
+                      <?php } ?>                      
+                    <td></td>
                       <?php ActiveForm::end()?>
-                    </tr>
+                  </tr>
                 </thead>
-                    
-              
                 <tbody id="myTableuser">
                   <?=$this->render('tbody',['dataProvider'=>$dataProvider])?>
                 </tbody>
@@ -249,7 +260,7 @@ $(document).ready(function(){
  
   
   $("[class='search']").blur(function(){
-     var type=$("#type").val();
+      var type=$("#type").val();
        if(type==1){
         $.post("/user/admin", $('#searchForm').serialize() ,function(data){
         document.getElementById('myTableuser').innerHTML = data;
@@ -266,26 +277,10 @@ $(document).ready(function(){
     });
        }
   });
-  $("select").change(function(){
-
-      var type=$("#type").val();
-       if(type==1){
-        $.post("/user/admin", $('#searchForm').serialize() ,function(data){
-        document.getElementById('myTableuser').innerHTML = data;
-       
-    });
-       }
-       if(type==2){
-        $.post("/user/teacher", $('#searchForm').serialize() ,function(data){
-        document.getElementById('myTableuser').innerHTML = data;
-    });
-       }
-       if(type==3){
-        $.post("/user/pupil", $('#searchForm').serialize() ,function(data){
-        document.getElementById('myTableuser').innerHTML = data;
-    });
-       }
-    });
+  $(".drop").on("click",function(){
+    alert();
+      $("#statuslist").css("display:block");
+  });
   $("#birtday").change(function(){
        var type=$("#type").val();
        if(type==1){
@@ -324,24 +319,7 @@ $(document).on('pjax:complete', function() {
     });
        }
     });
-  $("select").change(function( event ){
-      var type=$("#type").val();
-       if(type==1){
-        $.post("/user/admin", $('#searchForm').serialize() ,function(data){
-        document.getElementById('myTableuser').innerHTML = data;
-    });
-       }
-       if(type==2){
-        $.post("/user/teacher", $('#searchForm').serialize() ,function(data){
-        document.getElementById('myTableuser').innerHTML = data;
-    });
-       }
-       if(type==3){
-        $.post("/user/pupil", $('#searchForm').serialize() ,function(data){
-        document.getElementById('myTableuser').innerHTML = data;
-    });
-       }
-    });
+  
   $("#birtday").change(function( event ){
       var type=$("#type").val();
        if(type==1){

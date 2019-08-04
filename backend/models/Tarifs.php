@@ -14,6 +14,7 @@ use Yii;
  */
 class Tarifs extends \yii\db\ActiveRecord
 {
+    public $search;
     /**
      * {@inheritdoc}
      */
@@ -30,6 +31,7 @@ class Tarifs extends \yii\db\ActiveRecord
         return [
             [['days'], 'integer'],
             [['price'], 'number'],
+            [['search'], 'safe'],
             [['name'], 'string', 'max' => 255],
         ];
     }

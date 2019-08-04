@@ -33,6 +33,7 @@ use yii\web\ForbiddenHttpException;
 class Filials extends \yii\db\ActiveRecord
 {
     public $image;
+    public $search;
     /**
      * {@inheritdoc}
      */
@@ -115,6 +116,7 @@ class Filials extends \yii\db\ActiveRecord
         return [
             [['region_id', 'district_id', 'company_id'], 'integer'],
             [['address'], 'string'],
+            [['search'],'safe'],
             [['filial_name'],'required'],
             [['filial_name', 'logo', 'surname', 'name', 'middle_name', 'phone', 'site', 'email'], 'string', 'max' => 255],
             [['company_id'], 'exist', 'skipOnError' => true, 

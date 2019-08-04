@@ -10,6 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
+use yii\data\ActiveDataProvider;
 
 /**
  * FeadbackController implements the CRUD actions for Feadback model.
@@ -38,11 +39,43 @@ class FeadbackController extends Controller
      */
     public function actionIndex()
     {    
-        $searchModel = new FeadbackSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        
+        if(Yii::$app->request->isAjax && $_POST['FeadbackSearch']['search'] == '1')
+       {    
+       
+            $query = Feadback::find();
+            $dataProvider = new ActiveDataProvider([
+                'query' => $query,
+            ]);
+            $name=$_POST['FeadbackSearch']['name'];
+            $email=$_POST['FeadbackSearch']['email'];
+            $message=$_POST['FeadbackSearch']['message'];
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
+            if(isset($name) || isset($email) || isset($message))
+            {
+
+                $query->andFilterWhere(['like', 'feadback.name', $name])
+                        ->andFilterWhere(['like', 'feadback.email', $email])
+                        ->andFilterWhere(['like', 'feadback.message', $message]);
+
+                    return $this->renderAjax('tbody', [
+                    'dataProvider' => $dataProvider,
+                    'searchModel'=>$searchModel,
+                ]);
+            }
+            else
+                    return $this->renderAjax('tbody', [
+                    'dataProvider' => $dataProvider,
+                    'searchModel'=>$searchModel,
+        ]); 
+        }
+        $searchModel=new FeadbackSearch();
+        $query = Feadback::find();
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+        return  $this->render('index',[
+            'searchModel'=>$searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
@@ -63,8 +96,10 @@ class FeadbackController extends Controller
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Изменить',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                        'data-dismiss'=>"modal"]).
+                            Html::a('Изменить',['update','id'=>$id],['class'=>'btn btn-primary',
+                                'role'=>'modal-remote'])
                 ];    
         }else{
             return $this->render('view', [
@@ -94,9 +129,10 @@ class FeadbackController extends Controller
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "Обратная связи",
                     'content'=>'<span class="text-success">Успешно выполнено</span>',
-                    'footer'=> Html::button('Ок',['class'=>'btn btn-primary pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Создать ещё',['create'],['class'=>'btn btn-info','role'=>'modal-remote'])
-        
+                    'footer'=> Html::button('Ок',['class'=>'btn btn-primary pull-left',
+                        'data-dismiss'=>"modal"]).
+                            Html::a('Создать ещё',['create'],['class'=>'btn btn-info',
+                                'role'=>'modal-remote'])
                 ];         
             }else{           
                 return [
@@ -104,9 +140,9 @@ class FeadbackController extends Controller
                     'content'=>$this->renderAjax('create', [
                     'model' => $model,
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                    'data-dismiss'=>"modal"]).
                                 Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
-        
                 ];         
             }
         }else{
@@ -143,9 +179,10 @@ class FeadbackController extends Controller
                 'title'=> "Сортировка с колонок",
                 'size' => 'large',
                 'content'=>$this->renderAjax('columns', [
-                    'session' => $session,
+                'session' => $session,
                 ]),
-                'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                    'data-dismiss'=>"modal"]).
                            Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
             ];         
         }       
@@ -173,7 +210,8 @@ class FeadbackController extends Controller
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                        'data-dismiss'=>"modal"]).
                                 Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
                 ];         
             }else if($model->load($request->post()) && $model->save()){
@@ -183,16 +221,18 @@ class FeadbackController extends Controller
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                        'data-dismiss'=>"modal"]).
                             Html::a('Изменить',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
             }else{
                  return [
                     'title'=> "Изменить",
                     'content'=>$this->renderAjax('update', [
-                        'model' => $model,
+                    'model' => $model,
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                        'data-dismiss'=>"modal"]).
                                 Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
                 ];        
             }
@@ -234,10 +274,7 @@ class FeadbackController extends Controller
             */
             return $this->redirect(['index']);
         }
-
-
     }
-
      /**
      * Delete multiple existing Feadback model.
      * For ajax request will return json object
@@ -253,7 +290,6 @@ class FeadbackController extends Controller
             $model = $this->findModel($pk);
             $model->delete();
         }
-
         if($request->isAjax){
             /*
             *   Process for ajax request
@@ -266,7 +302,6 @@ class FeadbackController extends Controller
             */
             return $this->redirect(['index']);
         }
-       
     }
 
     /**

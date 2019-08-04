@@ -10,6 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
+use yii\data\ActiveDataProvider;
 
 /**
  * ScheduleGraphController implements the CRUD actions for ScheduleGraph model.
@@ -38,15 +39,50 @@ class ScheduleGraphController extends Controller
      */
     public function actionIndex()
     {    
-        $searchModel = new ScheduleGraphSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        if(Yii::$app->request->isAjax && $_POST['ScheduleGraphSearch']['search'] == '1')
+       {    
+       
+            $query = ScheduleGraph::find();
+            $dataProvider = new ActiveDataProvider([
+                'query' => $query,
+            ]);
+            $schedule_id=$_POST['ScheduleGraphSearch']['schedule_id'];
+            $classroom_id=$_POST['ScheduleGraphSearch']['classroom_id'];
+            $begin_date=($_POST['ScheduleGraphSearch']['begin_date'])?\Yii::$app->formatter->asDate($_POST['ScheduleGraphSearch']['begin_date'], 'php:Y-m-d'):"";;
+            $end_date=($_POST['ScheduleGraphSearch']['end_date'])?\Yii::$app->formatter->asDate($_POST
+                ['ScheduleGraphSearch']['end_date'], 'php:Y-m-d'):"";;
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            if(isset($schedule_id) || isset($classroom_id) || isset($begin_date) || isset($end_date))
+            {
+                $query->joinWith('schedule');
+                $query->joinWith('classroom');
+
+                $query->andFilterWhere(['like', 'schedule.name', $schedule_id])
+                      ->andFilterWhere(['like', 'classroom.name', $classroom_id])
+                      ->andFilterWhere(['like', 'schedule_graph.begin_date', $begin_date])
+                      ->andFilterWhere(['like', 'schedule_graph.end_date', $end_date]);
+                       
+                return $this->renderAjax('tbody', [
+                'dataProvider' => $dataProvider,
+                'searchModel'=>$searchModel,
+                ]);
+            }
+            else
+                return $this->renderAjax('tbody', [
+                'dataProvider' => $dataProvider,
+                'searchModel'=>$searchModel,
+            ]); 
+        }
+        $searchModel=new ScheduleGraphSearch();
+        $query = ScheduleGraph::find();
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
         ]);
+                return  $this->render('index',[
+                    'searchModel'=>$searchModel,
+                    'dataProvider' => $dataProvider,
+                ]);
     }
-
 
     /**
      * Displays a single ScheduleGraph model.
@@ -63,8 +99,10 @@ class ScheduleGraphController extends Controller
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Изменить',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                        'data-dismiss'=>"modal"]).
+                            Html::a('Изменить',['update','id'=>$id],['class'=>'btn btn-primary',
+                                'role'=>'modal-remote'])
                 ];    
         }else{
             return $this->render('view', [
@@ -94,9 +132,10 @@ class ScheduleGraphController extends Controller
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "График занятийи",
                     'content'=>'<span class="text-success">Успешно выполнено</span>',
-                    'footer'=> Html::button('Ок',['class'=>'btn btn-primary pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Создать ещё',['create'],['class'=>'btn btn-info','role'=>'modal-remote'])
-        
+                    'footer'=> Html::button('Ок',['class'=>'btn btn-primary pull-left',
+                        'data-dismiss'=>"modal"]).
+                            Html::a('Создать ещё',['create'],['class'=>'btn btn-info',
+                                'role'=>'modal-remote'])
                 ];         
             }else{           
                 return [
@@ -104,9 +143,9 @@ class ScheduleGraphController extends Controller
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                        'data-dismiss'=>"modal"]).
                                 Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
-        
                 ];         
             }
         }else{
@@ -121,7 +160,6 @@ class ScheduleGraphController extends Controller
                 ]);
             }
         }
-       
     }
     public function actionColumns()
     {
@@ -145,7 +183,8 @@ class ScheduleGraphController extends Controller
                 'content'=>$this->renderAjax('columns', [
                     'session' => $session,
                 ]),
-                'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                    'data-dismiss'=>"modal"]).
                            Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
             ];         
         }       
@@ -173,7 +212,8 @@ class ScheduleGraphController extends Controller
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                        'data-dismiss'=>"modal"]).
                                 Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
                 ];         
             }else if($model->load($request->post()) && $model->save()){
@@ -183,7 +223,8 @@ class ScheduleGraphController extends Controller
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                        'data-dismiss'=>"modal"]).
                             Html::a('Изменить',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
             }else{
@@ -192,7 +233,8 @@ class ScheduleGraphController extends Controller
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                        'data-dismiss'=>"modal"]).
                                 Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
                 ];        
             }
@@ -234,8 +276,6 @@ class ScheduleGraphController extends Controller
             */
             return $this->redirect(['index']);
         }
-
-
     }
 
      /**
@@ -266,7 +306,6 @@ class ScheduleGraphController extends Controller
             */
             return $this->redirect(['index']);
         }
-       
     }
 
     /**

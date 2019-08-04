@@ -10,6 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
+use yii\data\ActiveDataProvider;
 
 /**
  * TarifsController implements the CRUD actions for Tarifs model.
@@ -38,15 +39,44 @@ class TarifsController extends Controller
      */
     public function actionIndex()
     {    
-        $searchModel = new TarifsSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+       if(Yii::$app->request->isAjax && $_POST['TarifsSearch']['search'] == '1')
+       {    
+       
+            $query = Tarifs::find();
+            $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            ]);
+            $name=$_POST['TarifsSearch']['name'];
+            $days=$_POST['TarifsSearch']['days'];
+            $price=$_POST['TarifsSearch']['price'];
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
+            if(isset($name) || isset($days) || isset($price))
+            {
+            $query->andFilterWhere(['like', 'tarifs.name', $name])
+                  ->andFilterWhere(['like', 'tarifs.days', $days])
+                  ->andFilterWhere(['like', 'tarifs.price', $price]);
+                       
+                return $this->renderAjax('tbody', [
+                'dataProvider' => $dataProvider,
+                'searchModel'=>$searchModel,
+                ]);
+            }
+            else
+                return $this->renderAjax('tbody', [
+                'dataProvider' => $dataProvider,
+                'searchModel'=>$searchModel,
+                 ]); 
+        }
+        $searchModel=new TarifsSearch();
+        $query = Tarifs::find();
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+        return  $this->render('index',[
+            'searchModel'=>$searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
-
 
     /**
      * Displays a single Tarifs model.
@@ -63,8 +93,10 @@ class TarifsController extends Controller
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Изменить',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                        'data-dismiss'=>"modal"]).
+                            Html::a('Изменить',['update','id'=>$id],['class'=>'btn btn-primary',
+                                'role'=>'modal-remote'])
                 ];    
         }else{
             return $this->render('view', [
@@ -94,9 +126,9 @@ class TarifsController extends Controller
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "Тарифы",
                     'content'=>'<span class="text-success">Успешно выполнено</span>',
-                    'footer'=> Html::button('Ок',['class'=>'btn btn-primary pull-left','data-dismiss'=>"modal"]).
+                    'footer'=> Html::button('Ок',['class'=>'btn btn-primary pull-left',
+                        'data-dismiss'=>"modal"]).
                             Html::a('Создать ещё',['create'],['class'=>'btn btn-info','role'=>'modal-remote'])
-        
                 ];         
             }else{           
                 return [
@@ -104,7 +136,9 @@ class TarifsController extends Controller
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
-                     'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
+                     'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                        'data-dismiss'=>"modal"]).
+                     Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
                 ];         
             }
         }else{
@@ -143,7 +177,8 @@ class TarifsController extends Controller
                 'content'=>$this->renderAjax('columns', [
                     'session' => $session,
                 ]),
-                'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                    'data-dismiss'=>"modal"]).
                            Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
             ];         
         }       
@@ -172,7 +207,9 @@ class TarifsController extends Controller
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                        'data-dismiss'=>"modal"]).
+                    Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
@@ -181,7 +218,9 @@ class TarifsController extends Controller
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).Html::a('Изменить',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                        'data-dismiss'=>"modal"]).
+                    Html::a('Изменить',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
             }else{
                  return [
@@ -189,7 +228,9 @@ class TarifsController extends Controller
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                        'data-dismiss'=>"modal"]).
+                    Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
                 ];        
             }
         }else{
@@ -230,8 +271,6 @@ class TarifsController extends Controller
             */
             return $this->redirect(['index']);
         }
-
-
     }
 
      /**
@@ -262,7 +301,6 @@ class TarifsController extends Controller
             */
             return $this->redirect(['index']);
         }
-       
     }
 
     /**

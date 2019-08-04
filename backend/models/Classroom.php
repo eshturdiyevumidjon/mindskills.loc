@@ -16,6 +16,7 @@ use Yii;
  */
 class Classroom extends \yii\db\ActiveRecord
 {
+    public $search;
     /**
      * {@inheritdoc}
      */
@@ -32,6 +33,7 @@ class Classroom extends \yii\db\ActiveRecord
         return [
             [['company_id', 'filial_id'], 'integer'],
             [['name'], 'string', 'max' => 255],
+            [['search'],'safe'],
             [['company_id'], 'exist', 'skipOnError' => true, 
             'targetClass' => Companies::className(), 'targetAttribute' => ['company_id' => 'id']],
         ];

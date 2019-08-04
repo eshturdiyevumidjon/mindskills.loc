@@ -68,10 +68,10 @@ class InboxController extends Controller
         ]);
 
         $inbox = Inbox::find()
-            ->where(['to' => $userId,])
-            ->andWhere(['not', ['deleted' => 1]])
-            ->andWhere(['not', ['is_read' => 1]])
-            ->count();
+                ->where(['to' => $userId,])
+                ->andWhere(['not', ['deleted' => 1]])
+                ->andWhere(['not', ['is_read' => 1]])
+                ->count();
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
@@ -86,19 +86,19 @@ class InboxController extends Controller
         if($date_cr !== null)
         {
             $query = Inbox::find()
-                ->where(['starred' => 1, 'deleted' => 0,])
-                ->andWhere(['or',
-                   ['LIKE', 'from', $userId],
-                   ['LIKE', 'to', $userId],
-                ])
+                    ->where(['starred' => 1, 'deleted' => 0,])
+                    ->andWhere(['or',
+                       ['LIKE', 'from', $userId],
+                       ['LIKE', 'to', $userId],
+                    ])
                 ->andFilterWhere(['between', 'date_cr', $date_cr . ' 00:00:00', $date_cr . ' 23:59:59' ]);
         }
         else $query = Inbox::find()
-            ->where(['starred' => 1,'deleted' => 0])
-            ->andWhere(['or',
-               ['LIKE', 'from', $userId],
-               ['LIKE', 'to', $userId],
-            ]);
+                ->where(['starred' => 1,'deleted' => 0])
+                ->andWhere(['or',
+                   ['LIKE', 'from', $userId],
+                   ['LIKE', 'to', $userId],
+                ]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -107,10 +107,10 @@ class InboxController extends Controller
         ]);
 
         $inbox = Inbox::find()
-            ->where(['to' => $userId,])
-            ->andWhere(['not', ['deleted' => 1]])
-            ->andWhere(['not', ['is_read' => 1]])
-            ->count();
+                ->where(['to' => $userId,])
+                ->andWhere(['not', ['deleted' => 1]])
+                ->andWhere(['not', ['is_read' => 1]])
+                ->count();
 
         return $this->render('favorites', [
             'dataProvider' => $dataProvider,
@@ -137,10 +137,10 @@ class InboxController extends Controller
         ]);
 
         $inbox = Inbox::find()
-            ->where(['to' => $userId,])
-            ->andWhere(['not', ['deleted' => 1]])
-            ->andWhere(['not', ['is_read' => 1]])
-            ->count();
+                ->where(['to' => $userId,])
+                ->andWhere(['not', ['deleted' => 1]])
+                ->andWhere(['not', ['is_read' => 1]])
+                ->count();
 
         return $this->render('sends', [
             'dataProvider' => $dataProvider,
@@ -165,12 +165,12 @@ class InboxController extends Controller
                 ->andFilterWhere(['between', 'date_cr', $date_cr . ' 00:00:00', $date_cr . ' 23:59:59' ]);
         }
         else $query = Inbox::find()
-            ->where(['deleted' => 1,])
-            ->andWhere(
-            ['or',
-               ['LIKE', 'from', $userId],
-               ['LIKE', 'to', $userId],
-            ]);
+                ->where(['deleted' => 1,])
+                ->andWhere(
+                ['or',
+                   ['LIKE', 'from', $userId],
+                   ['LIKE', 'to', $userId],
+                ]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -210,9 +210,9 @@ class InboxController extends Controller
                     'content'=>$this->renderAjax('view', [
                         'model' =>$model ,
                     ]),
-                    'footer'=> Html::button('Закрыть',['class'=>'btn btn-info pull-left','data-dismiss'=>"modal"]).Html::a('Ответить',['reply','user'=>$model->from,'type'=>$type],['class'=>'btn btn-info pull-right','role'=>'modal-remote'])
-                    
-                            
+                    'footer'=> Html::button('Закрыть',['class'=>'btn btn-info pull-left',
+                        'data-dismiss'=>"modal"]).
+                    Html::a('Ответить',['reply','user'=>$model->from,'type'=>$type],['class'=>'btn btn-info pull-right','role'=>'modal-remote'])
                 ];  
         
         }else{
@@ -238,23 +238,23 @@ class InboxController extends Controller
                         [ 'id' => $model->id ])
                     ->execute();
                 }    
-                 return ['forceClose'=>true];
+               return ['forceClose'=>true];
             } else 
                return [
                     'title'=> "Сообщения",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                        'data-dismiss'=>"modal"]).
                                 Html::button('Отправить',['class'=>'btn btn-primary','type'=>"submit"])
                 ]; 
             } 
-       
         else
         {
-           return $this->render('create', [
-                    'model' => $model,
-                ]); 
+               return $this->render('create', [
+                        'model' => $model,
+                    ]); 
         }
     }
     public function actionView1($id,$type)
@@ -315,11 +315,11 @@ class InboxController extends Controller
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                        'data-dismiss'=>"modal"]).
                                 Html::button('Отправить',['class'=>'btn btn-primary','type'=>"submit"])
                 ]; 
             } 
-       
         else
         {
            return $this->render('create', [
@@ -361,7 +361,8 @@ class InboxController extends Controller
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                        'data-dismiss'=>"modal"]).
                             Html::a('Изменить',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
             }else{
@@ -370,7 +371,8 @@ class InboxController extends Controller
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                        'data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"Сохранить"])
                 ];        
             }

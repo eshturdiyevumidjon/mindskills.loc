@@ -12,8 +12,6 @@ use yii\web\UploadedFile;
 use \yii\web\Response;
 use yii\helpers\Html;
 use yii\data\ActiveDataProvider;
-
-
 /**
  * UserController implements the CRUD actions for User model.
  */
@@ -45,57 +43,56 @@ class UserController extends Controller
     }
     public function actionTeacher()
     {    
-        if(Yii::$app->request->isAjax && $_POST['search'] == '1')
+        if(Yii::$app->request->isAjax && $_POST['UserSearch']['search'] == '1')
        {    
-            $query = User::find()->where(['type'=>2]);
+            $query = User::find();
             $dataProvider = new ActiveDataProvider([
                 'query' => $query,
             ]);
             $birthday=($_POST['UserSearch']['birthday'])?\Yii::$app->formatter->asDate($_POST['UserSearch']['birthday'], 'php:Y-m-d'):"";
-            $filial_id=$_POST['filial_id'];
-            $company_id=$_POST['company_id'];
+            $filial_id=$_POST['UserSearch']['filial_id'];
+            $company_id=$_POST['UserSearch']['company_id'];
             $fio=$_POST['UserSearch']['fio'];
             $username=$_POST['UserSearch']['username'];
             $phone=$_POST['UserSearch']['phone'];
-            $status=$_POST['status'];
             $balanc=$_POST['UserSearch']['balanc'];
+
+            if($_POST['UserSearch']['status']) 
+                if($_POST['UserSearch']['status']=="Активен")$status=0;     
+                if($_POST['UserSearch']['status']=="Не активен")$status=10;
            
             if(isset($birthday) || isset($status) || isset($filial_id) || isset($company_id)
                 || isset($fio) || isset($username) ||isset($phone) || isset($balanc))
             {
-                    $query->andFilterWhere([
-                         
-                        'balanc' => $balanc,
-                        'status' => $status,
-                        'filial_id' => $filial_id,
-                        'company_id' => $company_id
+                $query->andFilterWhere([
+                        'user.type' => 2,
+                        'user.balanc' => $balanc,
+                        'user.status' => $status
                     ]);
+                $query->joinWith('company');
+                $query->joinWith('filial');
 
-                    $query->andFilterWhere(['like', 'fio', $fio])
-                            ->andFilterWhere(['like', 'username', $username])
-                            ->andFilterWhere(['like', 'birthday', $birthday])
-                        ->andFilterWhere(['like', 'phone', $phone]);
+                $query->andFilterWhere(['like', 'fio', $fio])
+                      ->andFilterWhere(['like', 'username', $username])
+                      ->andFilterWhere(['like', 'birthday', $birthday])
+                      ->andFilterWhere(['like', 'companies.name', $company_id])
+                      ->andFilterWhere(['like', 'filials.filial_name', $filial_id])
+                      ->andFilterWhere(['like', 'user.status', $status])
+                      ->andFilterWhere(['like', 'user.phone', $phone]);
                        
-                     
-                     return $this->renderAjax('tbody', [
-                    'type'=>2,
-                    'dataProvider' => $dataProvider,
-                    
-                    'searchModel'=>$searchModel,
-
+                 return $this->renderAjax('tbody', [
+                'type'=>2,
+                'dataProvider' => $dataProvider,
+                'searchModel'=>$searchModel,
                 ]);
             }
             else
-            return $this->renderAjax('tbody', [
-            'type'=>2,
-            'dataProvider' => $dataProvider,
-            
-            'searchModel'=>$searchModel,
-
-        ]); 
+                return $this->renderAjax('tbody', [
+                'type'=>2,
+                'dataProvider' => $dataProvider,
+                'searchModel'=>$searchModel,
+                ]); 
         }
-
-
         $searchModel=new UserSearch();
         $query = User::find()->where(['type'=>2]);
         $dataProvider = new ActiveDataProvider([
@@ -112,38 +109,43 @@ class UserController extends Controller
        
         if(Yii::$app->request->isAjax && $_POST['UserSearch']['search'] == '1')
        {    
-            
-            $query = User::find()->where(['type'=>1]);
+            $query = User::find();
             $dataProvider = new ActiveDataProvider([
                 'query' => $query,
             ]);
             $birthday=($_POST['UserSearch']['birthday'])?\Yii::$app->formatter->asDate($_POST['UserSearch']['birthday'], 'php:Y-m-d'):"";
-            $filial_id=$_POST['filial_id'];
-            $company_id=$_POST['company_id'];
+            $filial_id=$_POST['UserSearch']['filial_id'];
+            $company_id=$_POST['UserSearch']['company_id'];
             $fio=$_POST['UserSearch']['fio'];
             $username=$_POST['UserSearch']['username'];
             $phone=$_POST['UserSearch']['phone'];
-            $status=$_POST['status'];
             $balanc=$_POST['UserSearch']['balanc'];
+
+            if($_POST['UserSearch']['status']) 
+                if($_POST['UserSearch']['status']=="Активен")$status=0;     
+                if($_POST['UserSearch']['status']=="Не активен")$status=10;
            
             if(isset($birthday) || isset($status) || isset($filial_id) || isset($company_id)
                 || isset($fio) || isset($username) ||isset($phone) || isset($balanc))
             {
-                    $query->andFilterWhere([
-                         
-                        'balanc' => $balanc,
-                        'status' => $status,
-                        'filial_id' => $filial_id,
-                        'company_id' => $company_id
-                    ]);
+                
+                $query->andFilterWhere([
+                    'user.type' => 1,
+                    'user.balanc' => $balanc,
+                    'user.status' => $status
+                ]);
+                $query->joinWith('company');
+                $query->joinWith('filial');
 
-                    $query->andFilterWhere(['like', 'fio', $fio])
-                            ->andFilterWhere(['like', 'username', $username])
-                            ->andFilterWhere(['like', 'birthday', $birthday])
-                        ->andFilterWhere(['like', 'phone', $phone]);
+                $query->andFilterWhere(['like', 'fio', $fio])
+                        ->andFilterWhere(['like', 'username', $username])
+                        ->andFilterWhere(['like', 'birthday', $birthday])
+                        ->andFilterWhere(['like', 'companies.name', $company_id])
+                        ->andFilterWhere(['like', 'filials.filial_name', $filial_id])
+                        ->andFilterWhere(['like', 'user.status', $status])
+                        ->andFilterWhere(['like', 'user.phone', $phone]);
                        
-                     
-                     return $this->renderAjax('tbody', [
+                    return $this->renderAjax('tbody', [
                     'type'=>1,
                     'dataProvider' => $dataProvider,
                     'searchModel'=>$_POST['UserSearch'],
@@ -151,62 +153,65 @@ class UserController extends Controller
                 ]);
             }
             else
-            return $this->renderAjax('tbody', [
-            'type'=>1,
-            'dataProvider' => $dataProvider,
-            'post'=>$_POST,
-            'searchModel'=>$_POST['UserSearch'],
-
-        ]); 
+                    return $this->renderAjax('tbody', [
+                    'type'=>1,
+                    'dataProvider' => $dataProvider,
+                    'post'=>$_POST,
+                    'searchModel'=>$_POST['UserSearch'],
+                ]); 
         }
-
-
         $searchModel=new UserSearch();
         $query = User::find()->where(['type'=>1]);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-        return  $this->render('index',[
-            'type' => 1,
-            'searchModel'=>$searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+                    return  $this->render('index',[
+                        'type' => 1,
+                        'searchModel'=>$searchModel,
+                        'dataProvider' => $dataProvider,
+                ]);
     }
    
     public function actionPupil()
     {    
-        if(Yii::$app->request->isAjax && $_POST['search'] == '1')
+        if(Yii::$app->request->isAjax && $_POST['UserSearch']['search'] == '1')
        {    
-            $query = User::find()->where(['type'=>3]);
+            $query = User::find();
             $dataProvider = new ActiveDataProvider([
                 'query' => $query,
             ]);
             $birthday=($_POST['UserSearch']['birthday'])?\Yii::$app->formatter->asDate($_POST['UserSearch']['birthday'], 'php:Y-m-d'):"";
-            $filial_id=$_POST['filial_id'];
-            $company_id=$_POST['company_id'];
+            $filial_id=$_POST['UserSearch']['filial_id'];
+            $company_id=$_POST['UserSearch']['company_id'];
             $fio=$_POST['UserSearch']['fio'];
             $username=$_POST['UserSearch']['username'];
             $phone=$_POST['UserSearch']['phone'];
-            $status=$_POST['status'];
             $balanc=$_POST['UserSearch']['balanc'];
            
+            if($_POST['UserSearch']['status']) 
+                if($_POST['UserSearch']['status']=="Активен")$status=0;     
+                if($_POST['UserSearch']['status']=="Не активен")$status=10;
+
             if(isset($birthday) || isset($status) || isset($filial_id) || isset($company_id)
                 || isset($fio) || isset($username) ||isset($phone) || isset($balanc))
             {
-                    $query->andFilterWhere([
-                         
-                        'balanc' => $balanc,
-                        'status' => $status,
-                        'filial_id' => $filial_id,
-                        'company_id' => $company_id
-                    ]);
+                
+                $query->andFilterWhere([
+                    'user.type' => 3,
+                    'user.balanc' => $balanc,
+                    'user.status' => $status
+                ]);
+                $query->joinWith('company');
+                $query->joinWith('filial');
 
                     $query->andFilterWhere(['like', 'fio', $fio])
                             ->andFilterWhere(['like', 'username', $username])
                             ->andFilterWhere(['like', 'birthday', $birthday])
-                        ->andFilterWhere(['like', 'phone', $phone]);
+                            ->andFilterWhere(['like', 'companies.name', $company_id])
+                            ->andFilterWhere(['like', 'filials.filial_name', $filial_id])
+                            ->andFilterWhere(['like', 'user.status', $status])
+                            ->andFilterWhere(['like', 'user.phone', $phone]);
                        
-                     
                      return $this->renderAjax('tbody', [
                     'type'=>3,
                     'dataProvider' => $dataProvider,
@@ -215,25 +220,22 @@ class UserController extends Controller
                 ]);
             }
             else
-            return $this->renderAjax('tbody', [
-            'type'=>3,
-            'dataProvider' => $dataProvider,
-            'searchModel'=>$searchModel,
-
+                    return $this->renderAjax('tbody', [
+                    'type'=>3,
+                    'dataProvider' => $dataProvider,
+                    'searchModel'=>$searchModel,
         ]); 
         }
-
-
         $searchModel=new UserSearch();
         $query = User::find()->where(['type'=>3]);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-        return  $this->render('index',[
-            'type' => 3,
-            'searchModel'=>$searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+                    return  $this->render('index',[
+                        'type' => 3,
+                        'searchModel'=>$searchModel,
+                        'dataProvider' => $dataProvider,
+                    ]);
     }
     public function actionChange($id)
     {
@@ -275,7 +277,8 @@ class UserController extends Controller
                     'content'=>$this->renderAjax('change', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-primary pull-left','data-dismiss'=>"modal"]).
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-primary pull-left',
+                        'data-dismiss'=>"modal"]).
                                 Html::button('Сохранить',['class'=>'btn btn-info','type'=>"submit"])
                 ];        
             }
@@ -300,7 +303,8 @@ class UserController extends Controller
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                        'data-dismiss'=>"modal"]).
                             Html::a('Изменить',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
         }else{
@@ -341,8 +345,10 @@ class UserController extends Controller
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "Пользователь",
                     'content'=>'<span class="text-success">Успешно выполнено</span>',
-                    'footer'=> Html::button('Ок',['class'=>'btn btn-primary pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Создать ещё',['create','type'=>$type],['class'=>'btn btn-info','role'=>'modal-remote'])
+                    'footer'=> Html::button('Ок',['class'=>'btn btn-primary pull-left',
+                                        'data-dismiss'=>"modal"]).
+                            Html::a('Создать ещё',['create','type'=>$type],['class'=>'btn btn-info',
+                                        'role'=>'modal-remote'])
                 ]; 
                 // return [
                 //     'forceReload'=>'#crud-datatable-pjax',
@@ -355,9 +361,9 @@ class UserController extends Controller
                     'content'=>$this->renderAjax('create', [
                     'model' => $model,
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                                            'data-dismiss'=>"modal"]).
                                 Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
-        
                 ];         
             }
         }else{
@@ -386,7 +392,6 @@ class UserController extends Controller
             $post = $request->post();
             User::ColumnsUser($post);
             return [
-             
                 'forceReload'=>'#crud-datatable-pjax',
                 'forceClose'=>true,
             ];          
@@ -399,7 +404,8 @@ class UserController extends Controller
                 'content'=>$this->renderAjax('columns', [
                     'session' => $session,
                 ]),
-                'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                    'data-dismiss'=>"modal"]).
                            Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
             ];         
         }       
@@ -445,7 +451,8 @@ class UserController extends Controller
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                        'data-dismiss'=>"modal"]).
                             Html::a('Изменить',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
             }else{
@@ -455,7 +462,8 @@ class UserController extends Controller
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                        'data-dismiss'=>"modal"]).
                                 Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
                 ];        
             }
@@ -504,8 +512,6 @@ class UserController extends Controller
             */
             return $this->redirect(['index']);
         }
-
-
     }
 
      /**
@@ -543,7 +549,6 @@ class UserController extends Controller
             */
             return $this->redirect(['index']);
         }
-       
     }
 
     /**

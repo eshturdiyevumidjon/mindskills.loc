@@ -39,66 +39,46 @@ class SubjectsController extends Controller
      */
     public function actionIndex()
     {  
-        if(Yii::$app->request->isAjax && $_POST['search'] == '1')
+        if(Yii::$app->request->isAjax && $_POST['SubjectsSearch']['search'] == '1')
        {    
        
-            $query = User::find();
+            $query = Subjects::find();
             $dataProvider = new ActiveDataProvider([
                 'query' => $query,
             ]);
-            $birthday=($_POST['UserSearch']['birthday'])?\Yii::$app->formatter->asDate($_POST['UserSearch']['birthday'], 'php:Y-m-d'):"";
-            $filial_id=$_POST['UserSearch']['filial_id'];
-            $company_id=$_POST['UserSearch']['company_id'];
-            $fio=$_POST['UserSearch']['fio'];
-            $username=$_POST['UserSearch']['username'];
-            $phone=$_POST['UserSearch']['phone'];
-            $status=$_POST['status'];
-            $balanc=$_POST['UserSearch']['balanc'];
-           
-            if(isset($birthday) || isset($status) || isset($filial_id) || isset($company_id)
-                || isset($fio) || isset($username) ||isset($phone) || isset($balanc))
+            $name=$_POST['SubjectsSearch']['name'];
+            $filial_id=$_POST['SubjectsSearch']['filial_id'];
+            $company_id=$_POST['SubjectsSearch']['company_id'];
+
+            if(isset($filial_id) || isset($company_id) || isset($name))
             {
-                    $query->andFilterWhere([
-                         
-                        'balanc' => $balanc,
-                        'status' => $status,
-                        'filial_id' => $filial_id,
-                        'company_id' => $company_id
-                    ]);
+                $query->joinWith('company');
+                $query->joinWith('filial');
 
-                    $query->andFilterWhere(['like', 'fio', $fio])
-                            ->andFilterWhere(['like', 'username', $username])
-                            ->andFilterWhere(['like', 'birthday', $birthday])
-                        ->andFilterWhere(['like', 'phone', $phone]);
+                $query->andFilterWhere(['like', 'companies.name', $company_id])
+                      ->andFilterWhere(['like', 'filials.filial_name', $filial_id])
+                      ->andFilterWhere(['like', 'subjects.name', $name]);
                        
-                     
-                     return $this->renderAjax('tbody', [
-                  
-                    'dataProvider' => $dataProvider,
-                    
-                    'searchModel'=>$searchModel,
-
+                return $this->renderAjax('tbody', [
+                'dataProvider' => $dataProvider,
+                'searchModel'=>$searchModel,
                 ]);
             }
             else
-            return $this->renderAjax('tbody', [
-            'dataProvider' => $dataProvider,
-            
-            'searchModel'=>$searchModel,
-
-        ]); 
+                return $this->renderAjax('tbody', [
+                'dataProvider' => $dataProvider,
+                'searchModel'=>$searchModel,
+                ]); 
         }
-
-
         $searchModel=new SubjectsSearch();
         $query = Subjects::find();
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-        return  $this->render('index',[
-            'searchModel'=>$searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+                return  $this->render('index',[
+                    'searchModel'=>$searchModel,
+                    'dataProvider' => $dataProvider,
+                ]);
     }
     /**
      * Displays a single Subjects model.
@@ -115,8 +95,10 @@ class SubjectsController extends Controller
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Изменить',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                        'data-dismiss'=>"modal"]).
+                            Html::a('Изменить',['update','id'=>$id],['class'=>'btn btn-primary',
+                                'role'=>'modal-remote'])
                 ];    
         }else{
             return $this->render('view', [
@@ -145,8 +127,10 @@ class SubjectsController extends Controller
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "Предметы",
                     'content'=>'<span class="text-success">Успешно выполнено</span>',
-                    'footer'=> Html::button('Ок',['class'=>'btn btn-primary pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Создать ещё',['create'],['class'=>'btn btn-info','role'=>'modal-remote'])
+                    'footer'=> Html::button('Ок',['class'=>'btn btn-primary pull-left',
+                        'data-dismiss'=>"modal"]).
+                            Html::a('Создать ещё',['create'],['class'=>'btn btn-info',
+                                'role'=>'modal-remote'])
                 ];
                 // return [
                 //     'forceReload'=>'#crud-datatable-pjax',
@@ -158,9 +142,9 @@ class SubjectsController extends Controller
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                        'data-dismiss'=>"modal"]).
                                 Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
-        
                 ];         
             }
         }else{
@@ -175,7 +159,6 @@ class SubjectsController extends Controller
                 ]);
             }
         }
-       
     }
      public function actionColumns()
     {
@@ -197,9 +180,10 @@ class SubjectsController extends Controller
                 'title'=> "Сортировка с колонок",
                 'size' => 'large',
                 'content'=>$this->renderAjax('columns', [
-                    'session' => $session,
+                'session' => $session,
                 ]),
-                'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                    'data-dismiss'=>"modal"]).
                            Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
             ];         
         }       
@@ -228,7 +212,8 @@ class SubjectsController extends Controller
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                        'data-dismiss'=>"modal"]).
                                 Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
                 ];         
             }else if($model->load($request->post()) && $model->save()){
@@ -238,7 +223,8 @@ class SubjectsController extends Controller
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                        'data-dismiss'=>"modal"]).
                             Html::a('Изменить',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
             }else{
@@ -247,7 +233,8 @@ class SubjectsController extends Controller
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                        'data-dismiss'=>"modal"]).
                                 Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
                 ];        
             }
@@ -289,8 +276,6 @@ class SubjectsController extends Controller
             */
             return $this->redirect(['index']);
         }
-
-
     }
 
      /**
@@ -321,7 +306,6 @@ class SubjectsController extends Controller
             */
             return $this->redirect(['index']);
         }
-       
     }
 
     /**

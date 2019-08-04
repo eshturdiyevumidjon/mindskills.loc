@@ -18,6 +18,7 @@ use Yii;
  */
 class ScheduleGraph extends \yii\db\ActiveRecord
 {
+    public $search;
     /**
      * {@inheritdoc}
      */
@@ -33,7 +34,7 @@ class ScheduleGraph extends \yii\db\ActiveRecord
     {
         return [
             [['schedule_id', 'classroom_id'], 'integer'],
-            [['begin_date', 'end_date'], 'safe'],
+            [['begin_date', 'end_date','search'], 'safe'],
             [['classroom_id'], 'exist', 'skipOnError' => true, 
             'targetClass' => Classroom::className(), 
             'targetAttribute' => ['classroom_id' => 'id']],
