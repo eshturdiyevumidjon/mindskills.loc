@@ -34,6 +34,7 @@ class Filials extends \yii\db\ActiveRecord
 {
     public $image;
     public $search;
+    public $admin;
     /**
      * {@inheritdoc}
      */
@@ -75,10 +76,10 @@ class Filials extends \yii\db\ActiveRecord
      */
     public static function find()
     {
-        if(Yii::$app->user->isGuest == false)
-        {
-            if(Yii::$app->user->identity->company->type === 2)
-            {
+        if(Yii::$app->user->isGuest == false){
+
+            if(Yii::$app->user->identity->company->type === 2){
+
                 $companyId = Yii::$app->user->identity->company_id;
             }
             else $companyId = null;
@@ -95,10 +96,8 @@ class Filials extends \yii\db\ActiveRecord
     public static function findOne($condition)
     {
         $model = parent::findOne($condition);
-        if(Yii::$app->user->isGuest == false) 
-        {
-            if(Yii::$app->user->identity->company->type === 2)
-            {
+        if(Yii::$app->user->isGuest == false){
+            if(Yii::$app->user->identity->company->type === 2){
                 $companyId = Yii::$app->user->identity->company_id;
                 if($model->company_id != $companyId){
                     throw new ForbiddenHttpException('Доступ запрещен');
@@ -184,7 +183,7 @@ class Filials extends \yii\db\ActiveRecord
     }
     public function getAdmin()
     {
-        return $this->name." ".$this->middle_name." ".$this->surname;
+        return $this->surname." ".$this->name." ".$this->middle_name;
     }
     public function getRegions()
     {

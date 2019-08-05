@@ -47,9 +47,11 @@ class Districts extends \yii\db\ActiveRecord
             'region_id' => 'Область',
         ];
     }
+    
     /**
      * @return \yii\db\ActiveQuery
      */
+
     public function getRegion()
     {
         return $this->hasOne(Regions::className(), ['id' => 'region_id']);

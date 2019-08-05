@@ -1,8 +1,8 @@
 <?php
+
 use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\bootstrap\Modal;
-
 use johnitvn\ajaxcrud\CrudAsset;
 use yii\widgets\Pjax;
 use yii\widgets\LinkPager;
@@ -12,11 +12,10 @@ $this->title = 'Чат';
 $this->params['breadcrumbs'][] = $this->title;
 
 CrudAsset::register($this);
-
 $user=Yii::$app->user->identity;
 
-if($user->image == null) $path = 'http://' . $_SERVER['SERVER_NAME'] . '/uploads/no-user.jpg';
-else $path = 'http://' . $_SERVER['SERVER_NAME'] . '/uploads/avatar/' . $user->image;
+  if($user->image == null) $path = 'http://' . $_SERVER['SERVER_NAME'] . '/uploads/no-user.jpg';
+  else $path = 'http://' . $_SERVER['SERVER_NAME'] . '/uploads/avatar/' . $user->image;
 
 $models=$dataProvider->getModels();
 ?>
@@ -220,8 +219,8 @@ $models=$dataProvider->getModels();
                   </div>
                   </div>
                </div>
-          </div>
-      </div>    
+            </div>
+        </div>    
     </div>
 </div>
 <?php Pjax::end() ?>

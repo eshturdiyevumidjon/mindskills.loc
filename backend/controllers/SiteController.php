@@ -42,6 +42,7 @@ class SiteController extends Controller
     /**
      * {@inheritdoc}
      */
+
     public function actions()
     {
            return [
@@ -71,6 +72,7 @@ class SiteController extends Controller
      *
      * @return string
      */ 
+
     public function actionIndex()
     {
          if (Yii::$app->user->isGuest) {
@@ -82,36 +84,33 @@ class SiteController extends Controller
     {
         $model = new Register();
       
-
-        if($model->load(Yii::$app->request->post()) && $model->register())
-        {
+        if($model->load(Yii::$app->request->post()) && $model->register()){
+            
                 $modelForm=new LoginForm();
                 $modelForm->username=$model->Companiesname;
                 $modelForm->password=$model->password;
                 $modelForm->login();
-            return $this->redirect(['/site/index']);
 
+            return $this->redirect(['/site/index']);
         }
         else
         {
-          
-              return $this->render('register', ['model' => $model]); 
+            return $this->render('register', ['model' => $model]); 
         }
           
     }
-
 
     /**
      * Login action.
      *
      * @return string
      */
+
     public function actionLogin()
     {
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
-
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             return $this->goBack();
@@ -131,6 +130,7 @@ class SiteController extends Controller
      *
      * @return string
      */
+    
     public function actionLogout()
     {
         Yii::$app->user->logout();

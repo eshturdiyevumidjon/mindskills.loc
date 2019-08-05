@@ -19,24 +19,24 @@ $fieldOptions2 = [
 ?>
 <!-- Start Page Loading -->
     <div id="loader-wrapper" >
-      <div id="loader"></div>
-      <div class="loader-section section-left"></div>
-      <div class="loader-section section-right"></div>
+        <div id="loader"></div>
+        <div class="loader-section section-left"></div>
+        <div class="loader-section section-right"></div>
     </div>
     <!-- End Page Loading -->
     <div id="login-page" class="row">
-      <div class="col s12 z-depth-4 card-panel" style="width: 26%;margin-left: 37%;margin-top: 3%;">
-          <?php $form = ActiveForm::begin([
-            'id' => 'login-form',
-            'layout' => 'horizontal',
-            'options' => [
-                'class' => 'login-form'
-             ],
-            'fieldConfig' => [
-                'template' => "{input}{error}",
-                'labelOptions' => ['class' => 'center-align'],
-            ],
-          ]); ?><br>
+        <div class="col s12 z-depth-4 card-panel" style="width: 26%;margin-left: 37%;margin-top: 3%;">
+              <?php $form = ActiveForm::begin([
+                'id' => 'login-form',
+                'layout' => 'horizontal',
+                'options' => [
+                    'class' => 'login-form'
+                 ],
+                'fieldConfig' => [
+                    'template' => "{input}{error}",
+                    'labelOptions' => ['class' => 'center-align'],
+                ],
+              ]); ?><br>
           <div class="row">
             <div class="input-field col s12 center" style="margin-left: 5%;">
               <p class="center login-form-text"><h5><?= Html::encode($this->title) ?></h5></p>
@@ -71,5 +71,5 @@ $fieldOptions2 = [
             </div>
           </div><br>
           <?php ActiveForm::end(); ?>
-      </div>
+        </div>
     </div>

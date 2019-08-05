@@ -1,12 +1,14 @@
 <?php
+
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use backend\models\Subjects;
+
 $model=new Subjects();
 ?>
 <div class="users-form" style="padding: 20px;">
     <?php $form = ActiveForm::begin(); ?>
-	<div class="row">
+		<div class="row">
 	    <div class="col-md-4">
 	        <label>
 	            <input type="checkbox" name="Subjects[name]" id="1" value="1" <?= ($session['Subjects[name]'] === null || $session['Subjects[name]'] == 1) ? 'checked = ""': '' ?> > 
@@ -26,10 +28,10 @@ $model=new Subjects();
 	        	<label for="3"><?=$model->getAttributeLabel('filial_id')?></label>
 	        </label>
 	    </div>
-	<?php }?>
-	</div>
-	<hr/>
-    <div class="row">
+		<?php }?>
+		</div>
+		<hr/>
+    	<div class="row">
         <div class="col-md-12">
         	<form>
 	        <label style="display:inline-block;padding-bottom: 5px;">
@@ -38,7 +40,7 @@ $model=new Subjects();
 	        </label>
 	       
         </div>
-    </div>
+    	</div>
     <?php ActiveForm::end(); ?>
 </div>     
 <?php 

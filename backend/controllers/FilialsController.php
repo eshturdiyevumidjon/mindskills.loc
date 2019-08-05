@@ -43,8 +43,7 @@ class FilialsController extends Controller
     public function actionIndex()
     {    
         
-        if(Yii::$app->request->isAjax && $_POST['FilialsSearch']['search'] == '1')
-       {    
+        if(Yii::$app->request->isAjax && $_POST['FilialsSearch']['search'] == '1'){    
        
             $query = Filials::find();
             $dataProvider = new ActiveDataProvider([
@@ -61,37 +60,34 @@ class FilialsController extends Controller
             $address=$_POST['FilialsSearch']['address'];
             $email=$_POST['FilialsSearch']['email'];
             $site=$_POST['FilialsSearch']['site'];
-           
 
             if(isset($filial_name) || isset($region_id) || isset($district_id) || isset($company_id)
-                || isset($surname) || isset($name) || isset($middle_name) || isset($phone) ||isset($address) || isset($email) || isset($site))
-            {
-                $query->joinWith('company');                
-                $query->joinWith('region');
-                $query->joinWith('district');
+                || isset($surname) || isset($name) || isset($middle_name) || isset($phone) ||isset($address) || isset($email) || isset($site)){
+            $query->joinWith('company');                
+            $query->joinWith('region');
+            $query->joinWith('district');
 
+            $query->andFilterWhere(['like', 'districts.name', $district_id])
+                  ->andFilterWhere(['like', 'regions.name', $region_id])
+                  ->andFilterWhere(['like', 'districts.name', $district_id])
+                  ->orFilterWhere(['like', 'filials.surname', $admin])
+                  ->orFilterWhere(['like', 'filials.name', $admin])
+                  ->orFilterWhere(['like', 'filials.middlename', $admin])
+                  ->andFilterWhere(['like', 'filials.phone', $phone])
+                  ->andFilterWhere(['like', 'filials.address', $address])
+                  ->andFilterWhere(['like', 'filials.email', $email])
+                  ->andFilterWhere(['like', 'filials.site', $site])
+                  ->andFilterWhere(['like', 'companies.name', $company_id]);
 
-                $query->andFilterWhere(['like', 'filials.filial_name', $filial_name])
-                        ->andFilterWhere(['like', 'regions.name', $region_id])
-                        ->andFilterWhere(['like', 'districts.name', $district_id])
-                        ->andFilterWhere(['like', 'filials.surname', $surname])
-                        ->andFilterWhere(['like', 'filials.name', $name])
-                        ->andFilterWhere(['like', 'filials.middle_name', $middle_name])
-                        ->andFilterWhere(['like', 'filials.phone', $phone])
-                        ->andFilterWhere(['like', 'filials.address', $address])
-                        ->andFilterWhere(['like', 'filials.email', $email])
-                        ->andFilterWhere(['like', 'filials.site', $site])
-                        ->andFilterWhere(['like', 'companies.name', $company_id]);
-
-                    return $this->renderAjax('tbody', [
-                    'dataProvider' => $dataProvider,
-                    'searchModel'=>$searchModel,
-                ]);
+        return $this->renderAjax('tbody', [
+            'dataProvider' => $dataProvider,
+            'searchModel'=>$searchModel,
+        ]);
             }
             else
-                    return $this->renderAjax('tbody', [
-                    'dataProvider' => $dataProvider,
-                    'searchModel'=>$searchModel,
+        return $this->renderAjax('tbody', [
+            'dataProvider' => $dataProvider,
+            'searchModel'=>$searchModel,
         ]); 
         }
         $searchModel=new FilialsSearch();
@@ -111,8 +107,10 @@ class FilialsController extends Controller
      * @param integer $id
      * @return mixed
      */
+
     public function actionView($id)
     {   
+
         $request = Yii::$app->request;
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
@@ -133,6 +131,7 @@ class FilialsController extends Controller
             ]);
         }
     }
+
      public function actionColumns()
     {
         $request = Yii::$app->request;
@@ -168,11 +167,12 @@ class FilialsController extends Controller
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
+
     public function actionCreate()
     {
         $request = Yii::$app->request;
         $model = new Filials();  
-        $model->company_id=Yii::$app->user->identity->company_id;
+        $model->company_id = Yii::$app->user->identity->company_id;
         if($request->isAjax){
             /*
             *   Process for ajax request
@@ -180,9 +180,8 @@ class FilialsController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
            if($model->load($request->post()) && $model->save()){
                 $model->image = UploadedFile::getInstance($model,'image');
-                if(!empty($model->image))
-                {
-                    
+
+                if(!empty($model->image)){
                 $model->image->saveAs('uploads/filial_logos/' . $model->id.'.'.$model->image->extension);
                 Yii::$app->db->createCommand()->update('filials', ['logo' => $model->id.'.'.$model->image->extension], [ 'id' => $model->id ])->execute();
                 }
@@ -224,7 +223,6 @@ class FilialsController extends Controller
                 ]);
             }
         }
-       
     }
 
     /**
@@ -234,6 +232,7 @@ class FilialsController extends Controller
      * @param integer $id
      * @return mixed
      */
+
     public function actionUpdate($id)
     {
         $request = Yii::$app->request;
@@ -246,8 +245,7 @@ class FilialsController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($model->load($request->post()) && $model->save()){
                 $model->image = UploadedFile::getInstance($model,'image');
-                if(!empty($model->image))
-                {
+                if(!empty($model->image)){
                     if($model->logo!=""&&$model->logo!=null)
                     {
                         unlink("uploads/filial_logos/" . $model->logo);
@@ -299,11 +297,12 @@ class FilialsController extends Controller
      * @param integer $id
      * @return mixed
      */
+
     public function actionDelete($id)
     {
         $request = Yii::$app->request;
-        if($id!=1)
-        {
+        if($id!=1){
+            
             $model=$this->findModel($id);
             if($model->logo!=""&&$model->logo!=null)
             {
@@ -324,9 +323,8 @@ class FilialsController extends Controller
             */
             return $this->redirect(['index']);
         }
-
-
     }
+
     public function actionDistricts($id)
     {  
         $datas = Regions::find()->where(['id' => $id])->one();
@@ -335,6 +333,7 @@ class FilialsController extends Controller
             echo "<option value = '".$value->id."'>".$value->name."</option>" ;            
         }
     }
+
      /**
      * Delete multiple existing Filials model.
      * For ajax request will return json object
@@ -342,16 +341,15 @@ class FilialsController extends Controller
      * @param integer $id
      * @return mixed
      */
+
     public function actionBulkDelete()
     {        
         $request = Yii::$app->request;
         $pks = explode(',', $request->post( 'pks' )); // Array or selected records primary keys
         foreach ( $pks as $pk ) {
-            if($pk!=1)
-            {
+            if($pk!=1){
                 $model = $this->findModel($pk);
-                if($model->logo!=""&&$model->logo!=null)
-                {
+                if($model->logo!=""&&$model->logo!=null){
                     unlink("uploads/filial_logos/" . $model->logo);
                 }
                 $model->delete();
@@ -370,7 +368,6 @@ class FilialsController extends Controller
             */
             return $this->redirect(['index']);
         }
-       
     }
 
     /**
@@ -380,6 +377,7 @@ class FilialsController extends Controller
      * @return Filials the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
+    
     protected function findModel($id)
     {
         if (($model = Filials::findOne($id)) !== null) {

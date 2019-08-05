@@ -103,8 +103,7 @@ class ScheduleUsers extends \yii\db\ActiveRecord
         $session['ScheduleUsers[payed]'] = 0;
         $session['ScheduleUsers[comment]'] = 0;
         $session['ScheduleUsers[unsubscribe]'] = 0;
-
-            
+  
         if( isset($post['ScheduleUsers']['schedule_id']) ) $session['ScheduleUsers[schedule_id]'] = 1;
         if( isset($post['ScheduleUsers']['pupil_id']) ) $session['ScheduleUsers[pupil_id]'] = 1;
         if( isset($post['ScheduleUsers']['payed']) ) $session['ScheduleUsers[payed]'] = 1;

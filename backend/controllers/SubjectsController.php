@@ -15,6 +15,7 @@ use yii\data\ActiveDataProvider;
 /**
  * SubjectsController implements the CRUD actions for Subjects model.
  */
+
 class SubjectsController extends Controller
 {
     /**
@@ -37,10 +38,10 @@ class SubjectsController extends Controller
      * Lists all Subjects models.
      * @return mixed
      */
+
     public function actionIndex()
     {  
-        if(Yii::$app->request->isAjax && $_POST['SubjectsSearch']['search'] == '1')
-       {    
+        if(Yii::$app->request->isAjax && $_POST['SubjectsSearch']['search'] == '1'){    
        
             $query = Subjects::find();
             $dataProvider = new ActiveDataProvider([
@@ -50,8 +51,8 @@ class SubjectsController extends Controller
             $filial_id=$_POST['SubjectsSearch']['filial_id'];
             $company_id=$_POST['SubjectsSearch']['company_id'];
 
-            if(isset($filial_id) || isset($company_id) || isset($name))
-            {
+            if(isset($filial_id) || isset($company_id) || isset($name)){
+                
                 $query->joinWith('company');
                 $query->joinWith('filial');
 
@@ -60,14 +61,14 @@ class SubjectsController extends Controller
                       ->andFilterWhere(['like', 'subjects.name', $name]);
                        
                 return $this->renderAjax('tbody', [
-                'dataProvider' => $dataProvider,
-                'searchModel'=>$searchModel,
+                    'dataProvider' => $dataProvider,
+                    'searchModel'=>$searchModel,
                 ]);
             }
             else
                 return $this->renderAjax('tbody', [
-                'dataProvider' => $dataProvider,
-                'searchModel'=>$searchModel,
+                    'dataProvider' => $dataProvider,
+                    'searchModel'=>$searchModel,
                 ]); 
         }
         $searchModel=new SubjectsSearch();
@@ -80,11 +81,13 @@ class SubjectsController extends Controller
                     'dataProvider' => $dataProvider,
                 ]);
     }
+
     /**
      * Displays a single Subjects model.
      * @param integer $id
      * @return mixed
      */
+
     public function actionView($id)
     {   
         $request = Yii::$app->request;
@@ -113,12 +116,14 @@ class SubjectsController extends Controller
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
+
     public function actionCreate()
     {
         $request = Yii::$app->request;
         $model = new Subjects();  
-        $model->company_id=Yii::$app->user->identity->company_id;
-        $model->filial_id=Yii::$app->user->identity->filial_id;
+        $model->company_id = Yii::$app->user->identity->company_id;
+        $model->filial_id = Yii::$app->user->identity->filial_id;
+
         if($request->isAjax){
          Yii::$app->response->format = Response::FORMAT_JSON;
 
@@ -160,6 +165,7 @@ class SubjectsController extends Controller
             }
         }
     }
+
      public function actionColumns()
     {
         $request = Yii::$app->request;
@@ -196,6 +202,7 @@ class SubjectsController extends Controller
      * @param integer $id
      * @return mixed
      */
+
     public function actionUpdate($id)
     {
         $request = Yii::$app->request;
@@ -259,6 +266,7 @@ class SubjectsController extends Controller
      * @param integer $id
      * @return mixed
      */
+
     public function actionDelete($id)
     {
         $request = Yii::$app->request;
@@ -285,6 +293,7 @@ class SubjectsController extends Controller
      * @param integer $id
      * @return mixed
      */
+
     public function actionBulkDelete()
     {        
         $request = Yii::$app->request;
@@ -315,6 +324,7 @@ class SubjectsController extends Controller
      * @return Subjects the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
+    
     protected function findModel($id)
     {
         if (($model = Subjects::findOne($id)) !== null) {

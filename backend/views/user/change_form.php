@@ -1,4 +1,5 @@
 <?php
+
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\date\DatePicker; 
@@ -8,13 +9,9 @@ if (!file_exists('uploads/avatar/'.$model->image) || $model->image == '') {
 } else {
     $path = 'http://' . $_SERVER['SERVER_NAME'].'/uploads/avatar/'.$model->image;
 }
-
 ?>
-
 <div class="users-form">
-
-    <?php $form = ActiveForm::begin([ 'options' => ['method' => 'post', 'enctype' => 'multipart/form-data']]); ?>
-   
+<?php $form = ActiveForm::begin([ 'options' => ['method' => 'post', 'enctype' => 'multipart/form-data']]); ?>
     <div class="row">
         <div class="col s4">
             <div class="col s12">
@@ -38,7 +35,6 @@ if (!file_exists('uploads/avatar/'.$model->image) || $model->image == '') {
                 </div>
                 <div class="col s6">
                     <?= $form->field($model, 'phone')->widget(\yii\widgets\MaskedInput::className(), [ 'mask' => '+\9\9899-999-99-99']) ?>
-                
                 </div>
             </div>
             <div class="row">
@@ -51,7 +47,7 @@ if (!file_exists('uploads/avatar/'.$model->image) || $model->image == '') {
             </div>
             <div class="row">
                 <div class="col s6">
-                        <?= $form->field($model, 'birthday')->widget(DatePicker::className(), [
+                    <?= $form->field($model, 'birthday')->widget(DatePicker::className(), [
                         'language' => 'ru',
                         'size' => 'sm', 
                         'type'=> DatePicker::TYPE_INPUT,
@@ -64,7 +60,7 @@ if (!file_exists('uploads/avatar/'.$model->image) || $model->image == '') {
             </div>
         </div>
     </div>
-    <?php ActiveForm::end(); ?>
+<?php ActiveForm::end(); ?>
 </div>
 <?php 
 $this->registerJs(<<<JS

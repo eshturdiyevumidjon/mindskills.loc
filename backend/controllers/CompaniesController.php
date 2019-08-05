@@ -42,43 +42,38 @@ class CompaniesController extends Controller
     public function actionIndex()
     {    
         
-        if(Yii::$app->request->isAjax && $_POST['CompaniesSearch']['search'] == '1')
-       {    
-       
-            $query = Companies::find();
-            $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-            ]);
-            $name=$_POST['CompaniesSearch']['name'];
-            $tarif_id=$_POST['CompaniesSearch']['tarif_id'];
-            
-            if(isset($name) || isset($tarif_id))
-            {
-                $query->joinWith('tarifs');
-
-                $query->andFilterWhere(['like', 'tarifs.name', $tarif_id])
-                        ->andFilterWhere(['like', 'companies.name', $name]);
-                       
-
-                    return $this->renderAjax('tbody', [
-                    'dataProvider' => $dataProvider,
-                    'searchModel'=>$searchModel,
-                ]);
-            }
-            else
-                    return $this->renderAjax('tbody', [
-                    'dataProvider' => $dataProvider,
-                    'searchModel'=>$searchModel,
-        ]); 
-        }
-        $searchModel=new CompaniesSearch();
+        if(Yii::$app->request->isAjax && $_POST['CompaniesSearch']['search'] == '1'){  
         $query = Companies::find();
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-        return  $this->render('index',[
-            'searchModel'=>$searchModel,
-            'dataProvider' => $dataProvider,
+        $name=$_POST['CompaniesSearch']['name'];
+        $tarif_id=$_POST['CompaniesSearch']['tarif_id'];
+        
+        if(isset($name) || isset($tarif_id)){
+            $query->joinWith('tarifs');
+
+            $query->andFilterWhere(['like', 'tarifs.name', $tarif_id])
+                  ->andFilterWhere(['like', 'companies.name', $name]);
+                   
+            return $this->renderAjax('tbody', [
+                'dataProvider' => $dataProvider,
+                'searchModel'=>$searchModel,
+            ]);
+        }else
+            return $this->renderAjax('tbody', [
+                'dataProvider' => $dataProvider,
+                'searchModel'=>$searchModel,
+        ]); 
+        }
+        $searchModel = new CompaniesSearch();
+        $query = Companies::find();
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+            return  $this->render('index',[
+                'searchModel'=>$searchModel,
+                'dataProvider' => $dataProvider,
         ]);
     }
     /**
@@ -107,6 +102,7 @@ class CompaniesController extends Controller
             ]);
         }
     }
+
      public function actionColumns()
     {
         $request = Yii::$app->request;
@@ -143,6 +139,7 @@ class CompaniesController extends Controller
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
+
   public function actionCreate()
     {
         $request = Yii::$app->request;
@@ -155,17 +152,17 @@ class CompaniesController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($model->load($request->post()) &&$model->save())
             {
-                $filial=new Filials();
-                $filial->filial_name=$model->filial_name;
+                $filial = new Filials();
+                $filial->filial_name = $model->filial_name;
                 $filial->save();
                 Yii::$app->db->createCommand()->update('filials', ['company_id' => $model->id], [ 'id' => $filial->id ])->execute();
 
-                $user=new User();
-                $user->fio=$model->Companies_fio;
-                $user->username=$model->Companiesname;
-                $user->phone=$model->Companies_phone;
-                $user->auth_key=$model->password;
-                $user->type=1;
+                $user = new User();
+                $user->fio = $model->Companies_fio;
+                $user->username = $model->Companiesname;
+                $user->phone = $model->Companies_phone;
+                $user->auth_key = $model->password;
+                $user->type = 1;
                 $user->save();
                 Yii::$app->db->createCommand()->update('user', ['company_id' => $model->id,'filial_id'=>$filial->id ], [ 'id' => $user->id ])->execute();
                 return [

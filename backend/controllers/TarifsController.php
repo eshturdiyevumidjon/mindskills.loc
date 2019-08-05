@@ -37,11 +37,12 @@ class TarifsController extends Controller
      * Lists all Tarifs models.
      * @return mixed
      */
+
     public function actionIndex()
     {    
-       if(Yii::$app->request->isAjax && $_POST['TarifsSearch']['search'] == '1')
-       {    
-       
+
+       if(Yii::$app->request->isAjax && $_POST['TarifsSearch']['search'] == '1'){  
+
             $query = Tarifs::find();
             $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -50,24 +51,24 @@ class TarifsController extends Controller
             $days=$_POST['TarifsSearch']['days'];
             $price=$_POST['TarifsSearch']['price'];
 
-            if(isset($name) || isset($days) || isset($price))
-            {
+            if(isset($name) || isset($days) || isset($price)){
+                
             $query->andFilterWhere(['like', 'tarifs.name', $name])
                   ->andFilterWhere(['like', 'tarifs.days', $days])
                   ->andFilterWhere(['like', 'tarifs.price', $price]);
                        
-                return $this->renderAjax('tbody', [
-                'dataProvider' => $dataProvider,
-                'searchModel'=>$searchModel,
-                ]);
+        return $this->renderAjax('tbody', [
+            'dataProvider' => $dataProvider,
+            'searchModel'=>$searchModel,
+        ]);
             }
             else
-                return $this->renderAjax('tbody', [
-                'dataProvider' => $dataProvider,
-                'searchModel'=>$searchModel,
-                 ]); 
+        return $this->renderAjax('tbody', [
+            'dataProvider' => $dataProvider,
+            'searchModel'=>$searchModel,
+         ]); 
         }
-        $searchModel=new TarifsSearch();
+        $searchModel = new TarifsSearch();
         $query = Tarifs::find();
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -83,6 +84,7 @@ class TarifsController extends Controller
      * @param integer $id
      * @return mixed
      */
+
     public function actionView($id)
     {   
         $request = Yii::$app->request;
@@ -111,6 +113,7 @@ class TarifsController extends Controller
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
+
     public function actionCreate()
     {
         $request = Yii::$app->request;
@@ -155,6 +158,7 @@ class TarifsController extends Controller
         }
        
     }
+
      public function actionColumns()
     {
         $request = Yii::$app->request;
@@ -254,6 +258,7 @@ class TarifsController extends Controller
      * @param integer $id
      * @return mixed
      */
+
     public function actionDelete($id)
     {
         $request = Yii::$app->request;
@@ -280,6 +285,7 @@ class TarifsController extends Controller
      * @param integer $id
      * @return mixed
      */
+
     public function actionBulkDelete()
     {        
         $request = Yii::$app->request;
@@ -310,6 +316,7 @@ class TarifsController extends Controller
      * @return Tarifs the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
+    
     protected function findModel($id)
     {
         if (($model = Tarifs::findOne($id)) !== null) {

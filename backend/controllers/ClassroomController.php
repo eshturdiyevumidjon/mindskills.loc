@@ -38,66 +38,66 @@ class ClassroomController extends Controller
      */
     public function actionIndex()
     {  
-        if(Yii::$app->request->isAjax && $_POST['ClassroomSearch']['search'] == '1')
-       {    
-       
-            $query = Classroom::find();
-            $dataProvider = new ActiveDataProvider([
-                'query' => $query,
-            ]);
-            $name=$_POST['ClassroomSearch']['name'];
-            $filial_id=$_POST['ClassroomSearch']['filial_id'];
-            $company_id=$_POST['ClassroomSearch']['company_id'];
-
-            if(isset($filial_id) || isset($company_id) || isset($name))
-            {
-                $query->joinWith('company');
-                $query->joinWith('filial');
-
-                $query->andFilterWhere(['like', 'companies.name', $company_id])
-                        ->andFilterWhere(['like', 'filials.filial_name', $filial_id])
-                        ->andFilterWhere(['like', 'classroom.name', $name]);
-
-                    return $this->renderAjax('tbody', [
-                    'dataProvider' => $dataProvider,
-                    'searchModel'=>$searchModel,
-                ]);
-            }
-            else
-                    return $this->renderAjax('tbody', [
-                    'dataProvider' => $dataProvider,
-                    'searchModel'=>$searchModel,
-        ]);
-    }
-        $searchModel=new ClassroomSearch();
+        
+        if(Yii::$app->request->isAjax && $_POST['ClassroomSearch']['search'] == '1'){
         $query = Classroom::find();
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-        return  $this->render('index',[
-            'searchModel'=>$searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+        $name = $_POST['ClassroomSearch']['name'];
+        $filial_id = $_POST['ClassroomSearch']['filial_id'];
+        $company_id = $_POST['ClassroomSearch']['company_id'];
+
+        if(isset($filial_id) || isset($company_id) || isset($name)){
+
+        $query->joinWith('company');
+        $query->joinWith('filial');
+        $query->andFilterWhere(['like', 'companies.name', $company_id])
+              ->andFilterWhere(['like', 'filials.filial_name', $filial_id])
+              ->andFilterWhere(['like', 'classroom.name', $name]);
+
+            return $this->renderAjax('tbody', [
+                'dataProvider' => $dataProvider,
+                'searchModel' => $searchModel,
+            ]);
+            }else
+            return $this->renderAjax('tbody', [
+                'dataProvider' => $dataProvider,
+                'searchModel'=> $searchModel,
+            ]);
     }
+        $searchModel = new ClassroomSearch();
+        $query = Classroom::find();
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+            return  $this->render('index',[
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+    }
+
     /**
      * Displays a single Classroom model.
      * @param integer $id
      * @return mixed
      */
+
     public function actionView($id)
     {   
         $request = Yii::$app->request;
+
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "Аудитория",
-                    'content'=>$this->renderAjax('view', [
+                    'title' => "Аудитория",
+                    'content' => $this->renderAjax('view', [
                     'model' => $this->findModel($id),
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
-                                            'data-dismiss'=>"modal"]).
-                               Html::a('Изменить',['update','id'=>$id],['class'=>'btn btn-primary',
-                                            'role'=>'modal-remote'])
+                    'footer' => Html::button('Отмена',['class' => 'btn btn-default pull-left',
+                                            'data-dismiss' => "modal"]).
+                               Html::a('Изменить',['update','id' => $id],['class' => 'btn btn-primary',
+                                            'role' => 'modal-remote'])
                 ];    
         }else{
             return $this->render('view', [
@@ -116,32 +116,34 @@ class ClassroomController extends Controller
     {
         $request = Yii::$app->request;
         $model = new Classroom();
-        $model->company_id=Yii::$app->user->identity->company_id;
-        $model->filial_id=Yii::$app->user->identity->filial_id;
+        $model->company_id = Yii::$app->user->identity->company_id;
+        $model->filial_id = Yii::$app->user->identity->filial_id;
+
         if($request->isAjax){
             /*
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
+
              if($model->load($request->post()) && $model->save()){
                 return [
-                    'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Аудитории",
-                    'content'=>'<span class="text-success">Успешно выполнено</span>',
-                    'footer'=> Html::button('Ок',['class'=>'btn btn-primary pull-left',
-                                            'data-dismiss'=>"modal"]).
-                                Html::a('Создать ещё',['create'],['class'=>'btn btn-info',
-                                            'role'=>'modal-remote'])
+                    'forceReload' => '#crud-datatable-pjax',
+                    'title' => "Аудитории",
+                    'content' => '<span class="text-success">Успешно выполнено</span>',
+                    'footer' => Html::button('Ок',['class' => 'btn btn-primary pull-left',
+                                            'data-dismiss' => "modal"]).
+                                Html::a('Создать ещё',['create'],['class' => 'btn btn-info',
+                                            'role' => 'modal-remote'])
                 ];         
             }else{           
                 return [
-                    'title'=> "Создать",
-                    'content'=>$this->renderAjax('create', [
+                    'title' => "Создать",
+                    'content' => $this->renderAjax('create', [
                     'model' => $model,
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
-                                            'data-dismiss'=>"modal"]).
-                                Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer' => Html::button('Отмена',['class' => 'btn btn-default pull-left',
+                                            'data-dismiss' => "modal"]).
+                                Html::button('Сохранить',['class' => 'btn btn-primary','type' => "submit"])
         
                 ];         
             }
@@ -149,6 +151,7 @@ class ClassroomController extends Controller
             /*
             *   Process for non-ajax request
             */
+
             if ($model->load($request->post()) && $model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             } else {
@@ -169,24 +172,25 @@ class ClassroomController extends Controller
             $post = $request->post();
             Classroom::ColumnsClassroom($post);
             return [
-                'forceReload'=>'#crud-datatable-pjax',
-                'forceClose'=>true,
+                'forceReload' => '#crud-datatable-pjax',
+                'forceClose' => true,
             ];          
         }
         else
         {           
             return [
-                'title'=> "Сортировка с колонок",
-                'size' => 'large',
+                'title'=>"Сортировка с колонок",
+                'size'=>'large',
                 'content'=>$this->renderAjax('columns', [
-                    'session' => $session,
+                    'session'=> $session,
                 ]),
-                'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                'footer' => Html::button('Отмена',['class'=>'btn btn-default pull-left',
                                         'data-dismiss'=>"modal"]).
                            Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
             ];         
         }       
     }
+
     /**
      * Updates an existing Classroom model.
      * For ajax request will return json object
@@ -194,6 +198,7 @@ class ClassroomController extends Controller
      * @param integer $id
      * @return mixed
      */
+
     public function actionUpdate($id)
     {
         $request = Yii::$app->request;
@@ -204,13 +209,14 @@ class ClassroomController extends Controller
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
+
             if($request->isGet){
                 return [
-                    'title'=> "Изменить",
+                    'title'=>"Изменить",
                     'content'=>$this->renderAjax('update', [
-                        'model' => $model,
+                        'model'=>$model,
                     ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
+                    'footer' => Html::button('Отмена',['class'=>'btn btn-default pull-left',
                                             'data-dismiss'=>"modal"]).
                                 Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
                 ];         
@@ -227,7 +233,7 @@ class ClassroomController extends Controller
                                             'role'=>'modal-remote'])
                 ];    
             }else{
-                 return [
+                return [
                     'title'=> "Изменить",
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
@@ -241,6 +247,7 @@ class ClassroomController extends Controller
             /*
             *   Process for non-ajax request
             */
+
             if ($model->load($request->post()) && $model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             } else {
@@ -305,6 +312,7 @@ class ClassroomController extends Controller
             return $this->redirect(['index']);
         }
     }
+    
     /**
      * Finds the Classroom model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
@@ -312,6 +320,7 @@ class ClassroomController extends Controller
      * @return Classroom the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
+
     protected function findModel($id)
     {
         if (($model = Classroom::findOne($id)) !== null) {

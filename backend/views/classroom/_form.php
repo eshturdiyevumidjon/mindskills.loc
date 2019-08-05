@@ -1,4 +1,5 @@
 <?php
+
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -6,7 +7,6 @@ use yii\widgets\ActiveForm;
 /* @var $model backend\models\Classroom */
 /* @var $form yii\widgets\ActiveForm */
 ?>
-
 <div class="classroom-form">
     <?php $form = ActiveForm::begin(); ?>
     <div class="row">

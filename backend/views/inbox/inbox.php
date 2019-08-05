@@ -1,5 +1,5 @@
 <div class="content-frame">                                    
-                    <div class="content-frame-top">                        
+    <div class="content-frame-top">                        
                         <div class="page-title">                    
                             <h2>
                                 <span class="fa fa-inbox"></span> Inbox 
@@ -15,8 +15,8 @@
                                 <span class="fa fa-bars"></span>
                             </button>
                         </div>                        
-                    </div>
-                    <div class="content-frame-left" style="height: 581px;">
+    </div>
+    <div class="content-frame-left" style="height: 581px;">
                         <div class="block">
                             <a href="pages-mailbox-compose.html" class="btn btn-danger btn-block btn-lg">
                                 <span class="fa fa-edit"></span> 
@@ -65,12 +65,11 @@
                                 </a>
                             </div>
                         </div>
-                    </div>
+    </div>
                     <!-- END CONTENT FRAME LEFT -->
                     
                     <!-- START CONTENT FRAME BODY -->
-                    <div class="content-frame-body" style="height: 641px;">
-                        
+    <div class="content-frame-body" style="height: 641px;">
                         <div class="panel panel-default">
                             <div class="panel-heading ui-draggable-handle">
                                 <label class="check mail-checkall">
@@ -277,7 +276,6 @@
                                 </ul>
                             </div>                            
                         </div>
-                        
-                    </div>
+    </div>
                     <!-- END CONTENT FRAME BODY -->
-                </div>
+</div>

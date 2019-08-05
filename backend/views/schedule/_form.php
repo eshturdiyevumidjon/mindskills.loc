@@ -1,4 +1,5 @@
 <?php
+
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\date\DatePicker;
@@ -6,16 +7,14 @@ use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
 use common\models\User;
 use backend\models\Subjects;
+
 /* @var $this yii\web\View */
 /* @var $model backend\models\Schedule */
 /* @var $form yii\widgets\ActiveForm */
 ?>
-
 <div class="schedule-form">
-
     <?php $form = ActiveForm::begin(); ?>
-
-    <div class="row">
+        <div class="row">
         <div class="<?= ($model->isNewRecord)?'input-field col s6':'col s6'?>" >
             <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
         </div>
@@ -25,8 +24,8 @@ use backend\models\Subjects;
                                 'clientOptions' => ['repeat' => 10, 'greedy' => false]
                             ]) ?>
         </div>
-    </div>
-    <div class="row">
+        </div>
+        <div class="row">
         <div class="col s6" >
             <?= $form->field($model, 'subject_id')->dropDownlist(
                       ArrayHelper::map(Subjects::find()->all(),'id','name'),
@@ -39,8 +38,8 @@ use backend\models\Subjects;
                       ['prompt' => 'Выберите...']
                   );?>
         </div>
-    </div>
-    <div class="row">
+        </div>
+        <div class="row">
         <div class="<?= ($model->isNewRecord)?'input-field col s6':'col s6'?>" >
                 <?= $form->field($model, 'begin_date')->widget(DatePicker::className(), [
                         'language' => 'ru',
@@ -63,8 +62,8 @@ use backend\models\Subjects;
                         ]
                     ]) ?>
         </div>
-    </div>
-    <div class="row">
+        </div>
+        <div class="row">
         <div class="<?= ($model->isNewRecord)?'input-field col s6':'col s6'?>" >
                 <?= $form->field($model, 'sum_of_teacher')->widget(\yii\widgets\MaskedInput::className(), [
                         'mask' => '9',
@@ -74,11 +73,11 @@ use backend\models\Subjects;
         <div class="col s6" >  
                 <?=$form->field($model, 'type')->dropDownList($model->getType(), ['prompt' => 'Выберите...','style' => 'margin-top:10px;'])?>
         </div>
-    </div>
-    <?php if (!Yii::$app->request->isAjax){ ?>
+        </div>
+        <?php if (!Yii::$app->request->isAjax){ ?>
         <div class="form-group">
             <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Редактировать', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
         </div>
-    <?php } ?>
+        <?php } ?>
     <?php ActiveForm::end(); ?>
 </div>

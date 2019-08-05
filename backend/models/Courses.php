@@ -1,6 +1,7 @@
 <?php
 
 namespace backend\models;
+
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
@@ -13,6 +14,7 @@ use yii\behaviors\BlameableBehavior;
 use backend\models\Filials;
 use yii\web\ForbiddenHttpException;
 use yii\helpers\ArrayHelper;
+
 /**
  * This is the model class for table "courses".
  *
@@ -72,10 +74,10 @@ class Courses extends \yii\db\ActiveRecord
      */
     public static function find()
     {
-        if(Yii::$app->user->isGuest == false)
-        {
-            if(Yii::$app->user->identity->company->type === 2)
-            {
+        if(Yii::$app->user->isGuest == false){
+
+            if(Yii::$app->user->identity->company->type === 2){
+
                 $companyId = Yii::$app->user->identity->company_id;
             }
             else $companyId = null;
@@ -92,10 +94,10 @@ class Courses extends \yii\db\ActiveRecord
     public static function findOne($condition)
     {
         $model = parent::findOne($condition);
-        if(Yii::$app->user->isGuest == false) 
-        {
-            if(Yii::$app->user->identity->company->type === 2)
-            {
+        if(Yii::$app->user->isGuest == false){
+
+            if(Yii::$app->user->identity->company->type === 2){
+                
                 $companyId = Yii::$app->user->identity->company_id;
                 if($model->company_id != $companyId){
                     throw new ForbiddenHttpException('Доступ запрещен');

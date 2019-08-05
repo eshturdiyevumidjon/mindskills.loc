@@ -40,61 +40,61 @@ class CoursesController extends Controller
      */
     public function actionIndex()
     {    
-         if(Yii::$app->request->isAjax && $_POST['CoursesSearch']['search'] == '1')
-       {    
-        
+
+         if(Yii::$app->request->isAjax && $_POST['CoursesSearch']['search'] == '1'){    
+
             $query = Courses::find();
             $dataProvider = new ActiveDataProvider([
             'query' => $query,
             ]);
-            $name=$_POST['CoursesSearch']['name'];
-            $subject_id=$_POST['CoursesSearch']['subject_id'];
-            $user_id=$_POST['CoursesSearch']['user_id'];
-            $company_id=$_POST['CoursesSearch']['company_id'];
-            $begin_date=($_POST['CoursesSearch']['begin_date'])?\Yii::$app->formatter->asDate($_POST['CoursesSearch']['begin_date'], 'php:Y-m-d'):"";;
-            $end_date=($_POST['CoursesSearch']['end_date'])?\Yii::$app->formatter->asDate($_POST['CoursesSearch']['end_date'], 'php:Y-m-d'):"";;
-            $prosent_for_teacher=$_POST['CoursesSearch']['prosent_for_teacher'];
-            $cost=$_POST['CoursesSearch']['cost'];
-            $filial_id=$_POST['CoursesSearch']['filial_id'];
+            $name = $_POST['CoursesSearch']['name'];
+            $subject_id = $_POST['CoursesSearch']['subject_id'];
+            $user_id = $_POST['CoursesSearch']['user_id'];
+            $company_id = $_POST['CoursesSearch']['company_id'];
+            $begin_date = ($_POST['CoursesSearch']['begin_date'])?\Yii::$app->formatter->asDate($_POST['CoursesSearch']['begin_date'], 'php:Y-m-d'):"";;
+            $end_date = ($_POST['CoursesSearch']['end_date'])?\Yii::$app->formatter->asDate($_POST['CoursesSearch']['end_date'], 'php:Y-m-d'):"";;
+            $prosent_for_teacher = $_POST['CoursesSearch']['prosent_for_teacher'];
+            $cost = $_POST['CoursesSearch']['cost'];
+            $filial_id = $_POST['CoursesSearch']['filial_id'];
            
 
             if(isset($name) || isset($subject_id) || isset($user_id) || isset($company_id)
-                || isset($begin_date) || isset($end_date) || isset($prosent_for_teacher) || isset($cost) ||isset($filial_id) ||isset($user_id))
-            {
+                || isset($begin_date) || isset($end_date) || isset($prosent_for_teacher) || isset($cost) ||isset($filial_id) ||isset($user_id)){
+
                 $query->joinWith('company');                
                 $query->joinWith('subject');
                 $query->joinWith('filial');
                 $query->joinWith('user');
 
                 $query->andFilterWhere(['like', 'courses.name', $name])
-                        ->andFilterWhere(['like', 'subjects.name', $subject_id])
-                        ->andFilterWhere(['like', 'user.fio', $user_id])
-                        ->andFilterWhere(['like', 'courses.begin_date', $begin_date])
-                        ->andFilterWhere(['like', 'courses.end_date', $end_date])
-                        ->andFilterWhere(['like', 'courses.prosent_for_teacher', $prosent_for_teacher])
-                        ->andFilterWhere(['like', 'courses.cost', $cost])
-                        ->andFilterWhere(['like', 'filials.filial_name', $filial_id])
-                        ->andFilterWhere(['like', 'companies.name', $company_id]);
+                      ->andFilterWhere(['like', 'subjects.name', $subject_id])
+                      ->andFilterWhere(['like', 'user.fio', $user_id])
+                      ->andFilterWhere(['like', 'courses.begin_date', $begin_date])
+                      ->andFilterWhere(['like', 'courses.end_date', $end_date])
+                      ->andFilterWhere(['like', 'courses.prosent_for_teacher', $prosent_for_teacher])
+                      ->andFilterWhere(['like', 'courses.cost', $cost])
+                      ->andFilterWhere(['like', 'filials.filial_name', $filial_id])
+                      ->andFilterWhere(['like', 'companies.name', $company_id]);
 
-                    return $this->renderAjax('tbody', [
-                    'dataProvider' => $dataProvider,
-                    'searchModel'=>$searchModel,
+            return $this->renderAjax('tbody', [
+                'dataProvider' => $dataProvider,
+                'searchModel'=>$searchModel,
                 ]);
             }
             else
             return $this->renderAjax('tbody', [
-            'dataProvider' => $dataProvider,
-            'searchModel'=>$searchModel,
+                'dataProvider' => $dataProvider,
+                'searchModel'=>$searchModel,
         ]); 
         }
-        $searchModel=new CoursesSearch();
+        $searchModel = new CoursesSearch();
         $query = Courses::find();
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-        return  $this->render('index',[
-            'searchModel'=>$searchModel,
-            'dataProvider' => $dataProvider,
+            return  $this->render('index',[
+                'searchModel'=>$searchModel,
+                'dataProvider' => $dataProvider,
         ]);
     }
     /**
@@ -163,9 +163,9 @@ class CoursesController extends Controller
     {
         $request = Yii::$app->request;
         $model = new Courses();  
-        $model->company_id=Yii::$app->user->identity->company_id;
-        $model->filial_id=Yii::$app->user->identity->filial_id;
-        $model->user_id=Yii::$app->user->identity->id;
+        $model->company_id = Yii::$app->user->identity->company_id;
+        $model->filial_id = Yii::$app->user->identity->filial_id;
+        $model->user_id = Yii::$app->user->identity->id;
         
         if($request->isAjax){
             /*
@@ -223,8 +223,8 @@ class CoursesController extends Controller
     {
         $request = Yii::$app->request;
         $model = $this->findModel($id);       
-        $model->begin_date=User::getDAte($model->begin_date);
-        $model->end_date=User::getDAte($model->end_date);
+        $model->begin_date = User::getDAte($model->begin_date);
+        $model->end_date = User::getDAte($model->end_date);
         if($request->isAjax){
             /*
             *   Process for ajax request
@@ -284,6 +284,7 @@ class CoursesController extends Controller
      * @param integer $id
      * @return mixed
      */
+
     public function actionDelete($id)
     {
         $request = Yii::$app->request;
@@ -301,8 +302,6 @@ class CoursesController extends Controller
             */
             return $this->redirect(['index']);
         }
-
-
     }
 
      /**
@@ -312,6 +311,7 @@ class CoursesController extends Controller
      * @param integer $id
      * @return mixed
      */
+
     public function actionBulkDelete()
     {        
         $request = Yii::$app->request;
@@ -320,7 +320,6 @@ class CoursesController extends Controller
             $model = $this->findModel($pk);
             $model->delete();
         }
-
         if($request->isAjax){
             /*
             *   Process for ajax request
@@ -333,7 +332,6 @@ class CoursesController extends Controller
             */
             return $this->redirect(['index']);
         }
-       
     }
 
     /**

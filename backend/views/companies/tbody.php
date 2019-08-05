@@ -1,4 +1,5 @@
 <?php
+
 use yii\helpers\Html;
 
 $session = Yii::$app->session;
@@ -22,4 +23,6 @@ $session = Yii::$app->session;
 			            'data-confirm-title' => 'Подтвердите действие',
 			            'data-confirm-message' => 'Вы уверены что хотите удалить этого элемента?'])."
 			</td>
-			</tr>";} ?>  
+			</tr>";
+		}
+ ?>  

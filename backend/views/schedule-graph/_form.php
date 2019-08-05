@@ -1,4 +1,5 @@
 <?php
+
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\date\DatePicker;
@@ -6,15 +7,14 @@ use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
 use backend\models\Schedule;
 use backend\models\Classroom;
+
 /* @var $this yii\web\View */
 /* @var $model backend\models\ScheduleGraph */
 /* @var $form yii\widgets\ActiveForm */
 ?>
-
 <div class="schedule-graph-form">
-
     <?php $form = ActiveForm::begin(); ?>
-    <div class="row">
+        <div class="row">
         <div class="col s6" >
             <?= $form->field($model, 'begin_date')->widget(DatePicker::className(), [
                 'language' => 'ru',
@@ -37,8 +37,8 @@ use backend\models\Classroom;
                 ]
             ]) ?>
         </div>
-    </div>
-    <div class="row">
+        </div>
+        <div class="row">
         <div class="<?= ($model->isNewRecord)?'input-field col s6':'col s6'?>" >
             <?= $form->field($model, 'schedule_id')->widget(Select2::classname(), [
                     'data' =>  ArrayHelper::map(Schedule::find()->all(),'id','name'),
@@ -59,11 +59,11 @@ use backend\models\Classroom;
                     ],
                 ]); ?>
         </div>
-    </div>
-	<?php if (!Yii::$app->request->isAjax){ ?>
+        </div>
+	    <?php if (!Yii::$app->request->isAjax){ ?>
 	  	<div class="form-group">
 	        <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Редактировать', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
 	    </div>
-	<?php } ?>
+	    <?php } ?>
     <?php ActiveForm::end(); ?>
 </div>

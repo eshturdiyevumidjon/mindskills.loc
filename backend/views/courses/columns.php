@@ -1,7 +1,9 @@
 <?php
+
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use backend\models\Courses;
+
 $model=new Courses();
 ?>
 <div class="Coursess-form" style="padding: 20px;">

@@ -39,10 +39,8 @@ class FeadbackController extends Controller
      */
     public function actionIndex()
     {    
-        
-        if(Yii::$app->request->isAjax && $_POST['FeadbackSearch']['search'] == '1')
-       {    
-       
+
+        if(Yii::$app->request->isAjax && $_POST['FeadbackSearch']['search'] == '1'){    
             $query = Feadback::find();
             $dataProvider = new ActiveDataProvider([
                 'query' => $query,
@@ -51,22 +49,21 @@ class FeadbackController extends Controller
             $email=$_POST['FeadbackSearch']['email'];
             $message=$_POST['FeadbackSearch']['message'];
 
-            if(isset($name) || isset($email) || isset($message))
-            {
-
+            if(isset($name) || isset($email) || isset($message)){
+                
                 $query->andFilterWhere(['like', 'feadback.name', $name])
                         ->andFilterWhere(['like', 'feadback.email', $email])
                         ->andFilterWhere(['like', 'feadback.message', $message]);
 
-                    return $this->renderAjax('tbody', [
-                    'dataProvider' => $dataProvider,
-                    'searchModel'=>$searchModel,
+            return $this->renderAjax('tbody', [
+                'dataProvider' => $dataProvider,
+                'searchModel'=>$searchModel,
                 ]);
             }
             else
-                    return $this->renderAjax('tbody', [
-                    'dataProvider' => $dataProvider,
-                    'searchModel'=>$searchModel,
+            return $this->renderAjax('tbody', [
+                'dataProvider' => $dataProvider,
+                'searchModel'=>$searchModel,
         ]); 
         }
         $searchModel=new FeadbackSearch();
@@ -74,10 +71,10 @@ class FeadbackController extends Controller
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-        return  $this->render('index',[
-            'searchModel'=>$searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+            return  $this->render('index',[
+                'searchModel'=>$searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
     }
 
 
@@ -159,6 +156,7 @@ class FeadbackController extends Controller
         }
        
     }
+
     public function actionColumns()
     {
         $request = Yii::$app->request;
@@ -187,6 +185,7 @@ class FeadbackController extends Controller
             ];         
         }       
     }
+
     /**
      * Updates an existing Feadback model.
      * For ajax request will return json object
@@ -194,6 +193,7 @@ class FeadbackController extends Controller
      * @param integer $id
      * @return mixed
      */
+
     public function actionUpdate($id)
     {
         $request = Yii::$app->request;
@@ -257,6 +257,7 @@ class FeadbackController extends Controller
      * @param integer $id
      * @return mixed
      */
+
     public function actionDelete($id)
     {
         $request = Yii::$app->request;
@@ -275,6 +276,7 @@ class FeadbackController extends Controller
             return $this->redirect(['index']);
         }
     }
+
      /**
      * Delete multiple existing Feadback model.
      * For ajax request will return json object
@@ -282,6 +284,7 @@ class FeadbackController extends Controller
      * @param integer $id
      * @return mixed
      */
+
     public function actionBulkDelete()
     {        
         $request = Yii::$app->request;
@@ -311,6 +314,7 @@ class FeadbackController extends Controller
      * @return Feadback the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
+
     protected function findModel($id)
     {
         if (($model = Feadback::findOne($id)) !== null) {

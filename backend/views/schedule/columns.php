@@ -1,12 +1,14 @@
 <?php
+
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use backend\models\Schedule;
+
 $model=new Schedule();
 ?>
 <div class="users-form" style="padding: 20px;">
     <?php $form = ActiveForm::begin(); ?>
-	<div class="row">
+		<div class="row">
 	    <div class="col-md-4">
 	        <label>
 	            <input type="checkbox" name="Schedule[name]" id="1" value="1" <?= ($session['Schedule[name]'] === null || $session['Schedule[name]'] == 1) ? 'checked = ""': '' ?> > 
@@ -25,9 +27,9 @@ $model=new Schedule();
 	        	<label for="3"><?=$model->getAttributeLabel('teacher_id')?></label>
 	        </label>
 	    </div>
-	</div>
-	<hr/>
-	<div class="row">
+		</div>
+		<hr/>
+		<div class="row">
 	    <div class="col-md-4">
 	        <label>
 	            <input type="checkbox" name="Schedule[price]" id="4" value="1" <?= ($session['Schedule[price]'] === null || $session['Schedule[price]'] == 1) ? 'checked = ""': '' ?> > 
@@ -46,9 +48,9 @@ $model=new Schedule();
 	        	<label for="6"><?=$model->getAttributeLabel('end_date')?></label>
 	        </label>
 	    </div>
-	</div>
-	<hr/>
-	<div class="row">
+		</div>
+		<hr/>
+		<div class="row">
 	    <div class="col-md-4">
 	        <label>
 	            <input type="checkbox" name="Schedule[sum_of_teacher]" id="7" value="1" <?= ($session['Schedule[sum_of_teacher]'] === null || $session['Schedule[sum_of_teacher]'] == 1) ? 'checked = ""': '' ?> > 
@@ -67,8 +69,8 @@ $model=new Schedule();
 	        	<label for="9"><?=$model->getAttributeLabel('type')?></label>
 	        </label>
 	    </div>
-	</div>
-	<?php if(Yii::$app->user->identity->company->type == 1) { ?>
+		</div>
+		<?php if(Yii::$app->user->identity->company->type == 1) { ?>
 		<hr/>
 	    <div class="row">
 		    <div class="col-md-4">
@@ -84,9 +86,9 @@ $model=new Schedule();
 		        </label>
 		    </div>
 		</div>
-	<?php }?>
-	<hr/>
-    <div class="row">
+		<?php }?>
+		<hr/>
+    	<div class="row">
         <div class="col-md-12">
         	<form>
 	        <label style="display:inline-block;padding-bottom: 5px;">
@@ -95,7 +97,7 @@ $model=new Schedule();
 	        </label>
 	       
         </div>
-    </div>
+    	</div>
     <?php ActiveForm::end(); ?>
 </div>     
 <?php 

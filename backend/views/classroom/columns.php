@@ -1,7 +1,9 @@
 <?php
+
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use backend\models\Classroom;
+
 $model=new Classroom();
 ?>
 <div class="users-form" style="padding: 20px;">
@@ -22,11 +24,11 @@ $model=new Classroom();
 	    </div>
 	    <div class="col-md-4">
 	        <label>
-	            <input type="checkbox" name="Classroom[filial_id]" id="3" value="1" <?= ($session['Classroom[filial_id]'] === null || $session['Classroom[filial_id]'] == 1) ? 'checked = ""': '' ?> > 
+	            <input type="checkbox" name="Classroom[filial_id]" id="3" value="1" <?= ($session['Classroom[filial_id]'] === null || $session['Classroom[filial_id]'] == 1) ? 'checked = ""': '' ?> >
 	        	<label for="3"><?=$model->getAttributeLabel('filial_id')?></label>
 	        </label>
 	    </div>
-	<?php }?>
+		<?php }?>
 	</div>
 	<hr/>
     <div class="row">

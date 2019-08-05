@@ -6,7 +6,6 @@ use yii\widgets\DetailView;
 /* @var $model backend\models\Classroom */
 ?>
 <div class="classroom-view">
- 
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
@@ -15,5 +14,4 @@ use yii\widgets\DetailView;
             'filial.filial_name',
         ],
     ]) ?>
-
 </div>

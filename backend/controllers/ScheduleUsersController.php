@@ -39,8 +39,7 @@ class ScheduleUsersController extends Controller
      */
     public function actionIndex()
     {    
-        if(Yii::$app->request->isAjax && $_POST['ScheduleUsersSearch']['search'] == '1')
-       {    
+        if(Yii::$app->request->isAjax && $_POST['ScheduleUsersSearch']['search'] == '1'){    
        
             $query = ScheduleUsers::find();
             $dataProvider = new ActiveDataProvider([
@@ -56,8 +55,8 @@ class ScheduleUsersController extends Controller
                 if($_POST['ScheduleUsersSearch']['unsubscribe']=="Да")$unsubscribe=1;     
                 if($_POST['ScheduleUsersSearch']['unsubscribe']=="Нет")$unsubscribe=2;
 
-            if(isset($schedule_id) || isset($pupil_id) || isset($payed) || isset($comment) || isset($unsubscribe))
-            {
+            if(isset($schedule_id) || isset($pupil_id) || isset($payed) || isset($comment) || isset($unsubscribe)){
+                
                 $query->joinWith('schedule');
                 $query->joinWith('pupil');
 
@@ -71,14 +70,14 @@ class ScheduleUsersController extends Controller
                         ->andFilterWhere(['like', 'user.fio', $pupil_id]);
                        
                 return $this->renderAjax('tbody', [
-                'dataProvider' => $dataProvider,
-                'searchModel'=>$searchModel,
+                    'dataProvider' => $dataProvider,
+                    'searchModel'=>$searchModel,
                 ]);
             }
             else
                 return $this->renderAjax('tbody', [
-                'dataProvider' => $dataProvider,
-                'searchModel'=>$searchModel,
+                    'dataProvider' => $dataProvider,
+                    'searchModel'=>$searchModel,
                 ]); 
         }
         $searchModel=new ScheduleUsersSearch();
@@ -268,6 +267,7 @@ class ScheduleUsersController extends Controller
      * @param integer $id
      * @return mixed
      */
+
     public function actionDelete($id)
     {
         $request = Yii::$app->request;
@@ -285,8 +285,6 @@ class ScheduleUsersController extends Controller
             */
             return $this->redirect(['index']);
         }
-
-
     }
 
      /**
@@ -296,6 +294,7 @@ class ScheduleUsersController extends Controller
      * @param integer $id
      * @return mixed
      */
+
     public function actionBulkDelete()
     {        
         $request = Yii::$app->request;
@@ -327,6 +326,7 @@ class ScheduleUsersController extends Controller
      * @return ScheduleUsers the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
+    
     protected function findModel($id)
     {
         if (($model = ScheduleUsers::findOne($id)) !== null) {

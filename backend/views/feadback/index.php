@@ -1,4 +1,5 @@
 <?php
+
 use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\widgets\Pjax;
@@ -9,6 +10,7 @@ use johnitvn\ajaxcrud\BulkButtonWidget;
 use backend\models\Feadback;
 use yii\widgets\ActiveForm;
 use kartik\date\DatePicker; 
+
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\FeadbackSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -61,61 +63,61 @@ $session = Yii::$app->session;
     <div id="row-grouping" class="section">
             <div class="row">
                 <div class="col s11" style="margin:  20px 40px 20px 40px">
-                  <table class="bordered highlight centered" cellspacing="0" width="100%">
-                    <thead>
-                        <tr style="font-size: 14px;">
-                            <th>
-                            </th>
-                            <th>ID</th>
-                            <?php if($session['Feadback[name]'] === null || $session['Feadback[name]'] == 1){ ?>
-                            <th>Наименование</th>
-                            <?php }?>
-                            <?php if($session['Feadback[email]'] === null || $session['Feadback[email]'] == 1){ ?> 
-                            <th>Эмаил</th>
-                            <?php }?>
-                            <?php if($session['Feadback[message]'] === null || $session['Feadback[message]'] == 1){ ?> 
-                            <th>Текст</th>
-                            <?php }?>
-                            <th>Действия</th>                   
-                        </tr>
-                    </thead>
-                        <tr>
-                              <?php $form= ActiveForm::begin(['options' => ['id' => 'searchForm2']])?>
-                            <td></td>
-                            <td>
-                             <?=$form->field($searchModel,'search')->hiddenInput(['class'=>'search','style'=>'padding-bottom:14px;','form'=>'searchForm2','value'=>'1'])->label(false)?>
-                            </td>
-                            <?php if($session['Feadback[name]'] === null || $session['Feadback[name]'] == 1){ ?>
-                            <td>
-                              <?=$form->field($searchModel,'name')->textInput(['class'=>'search',
-                                'style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;','form'=>'searchForm2'])->label(false)?>  
-                            </td>
-                            <?php }?>
-                            <?php if($session['Feadback[email]'] === null || $session['Feadback[email]'] == 1){ ?>
-                            <td>
-                              <?=$form->field($searchModel,'email')->textInput(['class'=>'search','style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;','form'=>'searchForm2'])->label(false)?>
-                            </td>
-                            <?php }?>
-                            <?php if($session['Feadback[message]'] === null || $session['Feadback[message]'] == 1){ ?>
-                            <td>
-                              <?=$form->field($searchModel,'message')->textInput(['class'=>'search','style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;','form'=>'searchForm2'])->label(false)?>
-                            </td>
-                            <?php }?>
-                            <td></td>
-                              <?php ActiveForm::end()?>
-                        </tr>
-                    <tbody id="myTablefeadback">
-                            <?=$this->render('tbody',['dataProvider'=>$dataProvider])?>
-                    </tbody>
-                  </table>
+                    <table class="bordered highlight centered" cellspacing="0" width="100%">
+                        <thead>
+                            <tr style="font-size: 14px;">
+                                <th>
+                                </th>
+                                <th>ID</th>
+                                <?php if($session['Feadback[name]'] === null || $session['Feadback[name]'] == 1){ ?>
+                                <th>Наименование</th>
+                                <?php }?>
+                                <?php if($session['Feadback[email]'] === null || $session['Feadback[email]'] == 1){ ?> 
+                                <th>Эмаил</th>
+                                <?php }?>
+                                <?php if($session['Feadback[message]'] === null || $session['Feadback[message]'] == 1){ ?> 
+                                <th>Текст</th>
+                                <?php }?>
+                                <th>Действия</th>                   
+                            </tr>
+                        </thead>
+                            <tr>
+                                <?php $form= ActiveForm::begin(['options' => ['id' => 'searchForm2']])?>
+                                <td></td>
+                                <td>
+                                 <?=$form->field($searchModel,'search')->hiddenInput(['class'=>'search','style'=>'padding-bottom:14px;','form'=>'searchForm2','value'=>'1'])->label(false)?>
+                                </td>
+                                <?php if($session['Feadback[name]'] === null || $session['Feadback[name]'] == 1){ ?>
+                                <td>
+                                  <?=$form->field($searchModel,'name')->textInput(['class'=>'search',
+                                    'style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:32px !important;','form'=>'searchForm2'])->label(false)?>  
+                                </td>
+                                <?php }?>
+                                <?php if($session['Feadback[email]'] === null || $session['Feadback[email]'] == 1){ ?>
+                                <td>
+                                  <?=$form->field($searchModel,'email')->textInput(['class'=>'search','style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:32px !important;','form'=>'searchForm2'])->label(false)?>
+                                </td>
+                                <?php }?>
+                                <?php if($session['Feadback[message]'] === null || $session['Feadback[message]'] == 1){ ?>
+                                <td>
+                                  <?=$form->field($searchModel,'message')->textInput(['class'=>'search','style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:32px !important;','form'=>'searchForm2'])->label(false)?>
+                                </td>
+                                <?php }?>
+                                <td></td>
+                                <?php ActiveForm::end()?>
+                            </tr>
+                        <tbody id="myTablefeadback">
+                                <?=$this->render('tbody',['dataProvider'=>$dataProvider])?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+    </div>
+</div>
+<?php Pjax::end()?>
                 </div>
             </div>
         </div>
-  </div>
-        <?php Pjax::end()?>
-              </div>
-          </div>
-       </div>
     </div>
 </div>
 <?php Modal::begin([
@@ -129,6 +131,7 @@ $(document).ready(function(){
   $("#showSearchfeadback").click(function(){
   $("#searchfeadback").slideToggle("slow");
   });
+
 $("#searchfeadback").on("keyup", function() {
     var value = $(this).val().toLowerCase();
     $("#myTablefeadback tr").filter(function() {

@@ -2,6 +2,7 @@
 
 use yii\widgets\DetailView;
 use backend\models\Feadback;
+
 /* @var $this yii\web\View */
 /* @var $model backend\models\Feadback */
 ?>

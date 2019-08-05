@@ -10,6 +10,7 @@ use backend\models\Classroom;
 /**
  * ClassroomSearch represents the model behind the search form about `backend\models\Classroom`.
  */
+
 class ClassroomSearch extends Classroom
 {
     /**
@@ -26,6 +27,7 @@ class ClassroomSearch extends Classroom
     /**
      * @inheritdoc
      */
+    
     public function scenarios()
     {
         // bypass scenarios() implementation in the parent class

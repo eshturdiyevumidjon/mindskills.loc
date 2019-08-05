@@ -1,4 +1,5 @@
 <?php
+
 use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\bootstrap\Modal;
@@ -109,8 +110,8 @@ $models=$dataProvider->getModels();
                             </li>
                         </ul>
                     </div>
-              </div>
-              <div class="col s9 m9 l9">
+                </div>
+            <div class="col s9 m9 l9">
                     <div class="row">
                           <div class="card-panel"> 
                                  <?php 
@@ -190,8 +191,8 @@ $models=$dataProvider->getModels();
                               } ?>
                     </div>
                     </div>
-                </div>
-             </div>
+            </div>
+            </div>
         </div>    
     </div>
 </div>

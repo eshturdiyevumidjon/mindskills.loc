@@ -19,6 +19,7 @@ use backend\base\AppActiveQuery;
  */
 class Companies extends \yii\db\ActiveRecord
 {
+    
     public $filial_name;
     public $Companies_fio;
     public $Companies_phone;
@@ -67,8 +68,8 @@ class Companies extends \yii\db\ActiveRecord
     }
     public function beforeSave($insert) 
     { 
-       if ($this->isNewRecord) 
-       { 
+       if ($this->isNewRecord){ 
+        
            $this->type=2; 
        } 
        return parent::beforeSave($insert); 

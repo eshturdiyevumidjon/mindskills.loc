@@ -42,6 +42,7 @@ class Classroom extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
+    
     public function attributeLabels()
     {
         return [

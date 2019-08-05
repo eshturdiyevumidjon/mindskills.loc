@@ -1,4 +1,5 @@
 <?php
+
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\date\DatePicker;
@@ -9,7 +10,6 @@ use yii\helpers\ArrayHelper;
 /* @var $model backend\models\Courses */
 /* @var $form yii\widgets\ActiveForm */
 ?>
-
 <div class="courses-form">
     <?php $form = ActiveForm::begin(); ?>
     <div class="row">
@@ -17,7 +17,6 @@ use yii\helpers\ArrayHelper;
             <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
         </div>
     </div>
-
     <div class="row">
         <div class="col s12">
             <?=$form->field($model, 'subject_id')->dropDownList(Arrayhelper::map(Subjects::find()->all(),'id','name'), ['prompt' => 'Выберите'])?>

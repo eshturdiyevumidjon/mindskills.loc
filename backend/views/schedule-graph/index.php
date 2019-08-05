@@ -1,4 +1,5 @@
 <?php
+
 use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\widgets\Pjax;
@@ -9,6 +10,7 @@ use johnitvn\ajaxcrud\BulkButtonWidget;
 use backend\models\ScheduleGraph;
 use kartik\date\DatePicker; 
 use yii\widgets\ActiveForm;
+
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\ScheduleGraphSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -18,7 +20,6 @@ $this->params['breadcrumbs'][] = $this->title;
 $models = $dataProvider->getModels();
 $session = Yii::$app->session;
 CrudAsset::register($this);
-
 ?>
 <style type="text/css">
   .search{
@@ -27,134 +28,133 @@ CrudAsset::register($this);
 </style>
 <div class="ScheduleGraph-index">
     <div id="ajaxCrudDatatable">
-
-<div class="row">
-  <div class="col s12 m12">
-    <div class="card">
-        <nav class=" purple">
-          <div class="nav-wrapper ">
-            <a href="#!" class="brand-logo">
-              <p style="font-size: 22px;margin-left: 20px;">
-                <i class="material-icons">view_list</i>
-                <?=Html::encode($this->title)?>
-              </p>
-            </a>
-            <ul class="right hide-on-med-and-down">
-              <li>
-                <?=Html::a('Сортировка', ['columns'],['role' => 'modal-remote','title' => 'Сортировка с колонок'])?>
-              </li>
-              <li>
-                <?= Html::a('<i class="material-icons">add</i>', ['create'],['title' => 'Создать','role' => 'modal-remote'])?>
-              </li>
-              <li>
-                <?=Html::a('<i class="material-icons">refresh</i>',[''],['title' => 'Обновить'])?>
-              </li>
-              <li>
-                <input type="search" name="search" style="display: none;" id="searchschedulegraph"/>
-              </li>
-              <li>
-                <a href="#" id="showSearchschedulegraph" title='Поиск'>
-                  <i class="material-icons">search</i>
-                </a>
-              </li>
-            </ul>
-          </div>
-        </nav>
+        <div class="row">
+            <div class="col s12 m12">
+                <div class="card">
+                    <nav class=" purple">
+                        <div class="nav-wrapper ">
+                            <a href="#!" class="brand-logo">
+                              <p style="font-size: 22px;margin-left: 20px;">
+                                <i class="material-icons">view_list</i>
+                                <?=Html::encode($this->title)?>
+                              </p>
+                            </a>
+                            <ul class="right hide-on-med-and-down">
+                              <li>
+                                <?=Html::a('Сортировка', ['columns'],['role' => 'modal-remote','title' => 'Сортировка с колонок'])?>
+                              </li>
+                              <li>
+                                <?= Html::a('<i class="material-icons">add</i>', ['create'],['title' => 'Создать','role' => 'modal-remote'])?>
+                              </li>
+                              <li>
+                                <?=Html::a('<i class="material-icons">refresh</i>',[''],['title' => 'Обновить'])?>
+                              </li>
+                              <li>
+                                <input type="search" name="search" style="display: none;" id="searchschedulegraph"/>
+                              </li>
+                              <li>
+                                <a href="#" id="showSearchschedulegraph" title='Поиск'>
+                                  <i class="material-icons">search</i>
+                                </a>
+                              </li>
+                            </ul>
+                        </div>
+                    </nav>
 <?php Pjax::begin(['enablePushState' => false,'id' => 'crud-datatable-pjax'])?>
 <div class="section" >
     <div id="row-grouping" class="section">
-            <div class="row">
-                <div class="col s11" style="margin:  20px 40px 20px 40px">
-                  <table class="bordered highlight centered" cellspacing="0" width="100%">
-                    <thead>
-                        <tr style="font-size: 14px;">
-                            <th>
-                            </th>
-                            <th>ID</th>
-                            <?php if($session['ScheduleGraph[schedule_id]'] === null || $session['ScheduleGraph[schedule_id]'] == 1){ ?>
-                            <th>Расписание</th>
-                            <?php }?>
-                            <?php if($session['ScheduleGraph[classroom_id]'] === null || $session['ScheduleGraph[classroom_id]'] == 1){ ?> 
-                            <th>Аудитория</th>
-                            <?php }?>
-                            <?php if($session['ScheduleGraph[begin_date]'] === null || $session['ScheduleGraph[begin_date]'] == 1){ ?>
-                            <th>Дата начало занятий</th>
-                            <?php }?>
-                            <?php if($session['ScheduleGraph[end_date]'] === null || $session['ScheduleGraph[end_date]'] == 1){ ?>
-                            <th>Дата окончание занятий</th>
-                            <?php }?>
-                            <th>Действия</th>                   
-                        </tr>
-                    </thead>
-                        <tr>
-                              <?php $form= ActiveForm::begin(['options' => ['id' => 'searchForm2']])?>
-                            <td></td>
-                            <td>
-                             <?=$form->field($searchModel,'search')->hiddenInput(['class'=>'search','style'=>'padding-bottom:14px;','form'=>'searchForm2','value'=>'1'])->label(false)?>
-                            </td>
-                              <?php if($session['ScheduleGraph[schedule_id]'] === null || $session['ScheduleGraph[schedule_id]'] == 1){ ?>
-                            <td>
-                              <?=$form->field($searchModel,'schedule_id')->textInput(['class'=>'search',
-                                'style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;','form'=>'searchForm2'])->label(false)?>  
-                            </td>
-                              <?php }?>
-                              <?php if($session['ScheduleGraph[classroom_id]'] === null || $session['ScheduleGraph[classroom_id]'] == 1){ ?>       
-                            <td>
-                              <?=$form->field($searchModel,'classroom_id')->textInput(['class'=>'search','style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;','form'=>'searchForm2'])->label(false)?>
-                            </td>
-                              <?php }?>
-                              <?php if($session['ScheduleGraph[begin_date]'] === null || $session['ScheduleGraph[begin_date]'] == 1){ ?>
-                            <td>
-                              <?=$form->field($searchModel,'begin_date')->widget(DatePicker::className(), [
-                                    'language' => 'ru',
-                                    'size' => 'sm', 
-                                    'type'=> DatePicker::TYPE_INPUT,
-                                    'pluginOptions' => [
-                                    'todayHighlight' => true,
-                                    'format'=>'dd.mm.yyyy',
-                                    ],
-                                    'options'=>[
-                                      'id'=>'begin_date',
-                                      'form'=>'searchForm2',
-                                      'style'=>'padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;'
-                                    ]
-                                ])->label(false) ?>
-                            </td>
-                              <?php }?>
-                              <?php if($session['ScheduleGraph[end_date]'] === null || $session['ScheduleGraph[end_date]'] == 1){ ?>
-                            <td>
-                                <?=$form->field($searchModel,'end_date')->widget(DatePicker::className(), [
-                                      'language' => 'ru',
-                                      'size' => 'sm', 
-                                      'type'=> DatePicker::TYPE_INPUT,
-                                      'pluginOptions' => [
-                                      'todayHighlight' => true,
-                                      'format'=>'dd.mm.yyyy',
-                                      ],
-                                      'options'=>[
-                                        'id'=>'end_date',
-                                        'form'=>'searchForm2',
-                                        'style'=>'padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;text-align:center !important;'
-                                      ]
-                                  ])->label(false) ?>
-                            </td>
-                              <?php }?>
-                            <td></td>
-                                <?php ActiveForm::end()?>
-                        </tr>
-                    <tbody id="myTableschedulegraph">
-                            <?=$this->render('tbody',['dataProvider'=>$dataProvider])?>
-                    </tbody>
-                  </table>
+        <div class="row">
+            <div class="col s11" style="margin:  20px 40px 20px 40px">
+                <table class="bordered highlight centered" cellspacing="0" width="100%">
+                  <thead>
+                    <tr style="font-size: 14px;">
+                        <th>
+                        </th>
+                        <th>ID</th>
+                        <?php if($session['ScheduleGraph[schedule_id]'] === null || $session['ScheduleGraph[schedule_id]'] == 1){ ?>
+                        <th>Расписание</th>
+                        <?php }?>
+                        <?php if($session['ScheduleGraph[classroom_id]'] === null || $session['ScheduleGraph[classroom_id]'] == 1){ ?> 
+                        <th>Аудитория</th>
+                        <?php }?>
+                        <?php if($session['ScheduleGraph[begin_date]'] === null || $session['ScheduleGraph[begin_date]'] == 1){ ?>
+                        <th>Дата начало занятий</th>
+                        <?php }?>
+                        <?php if($session['ScheduleGraph[end_date]'] === null || $session['ScheduleGraph[end_date]'] == 1){ ?>
+                        <th>Дата окончание занятий</th>
+                        <?php }?>
+                        <th>Действия</th>                   
+                    </tr>
+                  </thead>
+                    <tr>
+                        <?php $form= ActiveForm::begin(['options' => ['id' => 'searchForm2']])?>
+                        <td></td>
+                        <td>
+                         <?=$form->field($searchModel,'search')->hiddenInput(['class'=>'search','style'=>'padding-bottom:14px;','form'=>'searchForm2','value'=>'1'])->label(false)?>
+                        </td>
+                          <?php if($session['ScheduleGraph[schedule_id]'] === null || $session['ScheduleGraph[schedule_id]'] == 1){ ?>
+                        <td>
+                          <?=$form->field($searchModel,'schedule_id')->textInput(['class'=>'search',
+                            'style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:32px !important;','form'=>'searchForm2'])->label(false)?>  
+                        </td>
+                          <?php }?>
+                          <?php if($session['ScheduleGraph[classroom_id]'] === null || $session['ScheduleGraph[classroom_id]'] == 1){ ?>       
+                        <td>
+                          <?=$form->field($searchModel,'classroom_id')->textInput(['class'=>'search','style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:32px !important;','form'=>'searchForm2'])->label(false)?>
+                        </td>
+                          <?php }?>
+                          <?php if($session['ScheduleGraph[begin_date]'] === null || $session['ScheduleGraph[begin_date]'] == 1){ ?>
+                        <td>
+                          <?=$form->field($searchModel,'begin_date')->widget(DatePicker::className(), [
+                                'language' => 'ru',
+                                'size' => 'sm', 
+                                'type'=> DatePicker::TYPE_INPUT,
+                                'pluginOptions' => [
+                                'todayHighlight' => true,
+                                'format'=>'dd.mm.yyyy',
+                                ],
+                                'options'=>[
+                                  'id'=>'begin_date',
+                                  'form'=>'searchForm2',
+                                  'style'=>'padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:32px !important;'
+                                ]
+                            ])->label(false) ?>
+                        </td>
+                          <?php }?>
+                          <?php if($session['ScheduleGraph[end_date]'] === null || $session['ScheduleGraph[end_date]'] == 1){ ?>
+                        <td>
+                            <?=$form->field($searchModel,'end_date')->widget(DatePicker::className(), [
+                                  'language' => 'ru',
+                                  'size' => 'sm', 
+                                  'type'=> DatePicker::TYPE_INPUT,
+                                  'pluginOptions' => [
+                                  'todayHighlight' => true,
+                                  'format'=>'dd.mm.yyyy',
+                                  ],
+                                  'options'=>[
+                                    'id'=>'end_date',
+                                    'form'=>'searchForm2',
+                                    'style'=>'padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:32px !important;text-align:center !important;'
+                                  ]
+                              ])->label(false) ?>
+                        </td>
+                          <?php }?>
+                        <td></td>
+                        <?php ActiveForm::end()?>
+                    </tr>
+                  <tbody id="myTableschedulegraph">
+                    <?=$this->render('tbody',['dataProvider'=>$dataProvider])?>
+                  </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<?php Pjax::end()?>
                 </div>
             </div>
         </div>
-  </div>
-        <?php Pjax::end()?>
     </div>
-  </div>
-</div>
-</div>
 </div>
 <?php Modal::begin([
     "id"=>"ajaxCrudModal",

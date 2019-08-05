@@ -1,11 +1,11 @@
 <?php
+
 use yii\helpers\Html;
 
 $class = "list-group-item";
 $class1 = "list-group-item";
 $class2 = "list-group-item";
 $class3 = "list-group-item";
-
 
 if($turn == 1) $class .= " active";
 if($turn == 2) $class1 .= " active";

@@ -1,12 +1,14 @@
 <?php
+
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use backend\models\Tarifs;
+
 $model=new Tarifs();
 ?>
 <div class="users-form" style="padding: 20px;">
     <?php $form = ActiveForm::begin(); ?>
-	<div class="row">
+		<div class="row">
 	    <div class="col-md-4">
 	        <label>
 	            <input type="checkbox" name="Tarifs[name]" id="1" value="1" <?= ($session['Tarifs[name]'] === null || $session['Tarifs[name]'] == 1) ? 'checked = ""': '' ?> > 
@@ -26,9 +28,9 @@ $model=new Tarifs();
 	        	<label for="3"><?=$model->getAttributeLabel('price')?></label>
 	        </label>
 	    </div>
-	</div>
-	<hr/>
-    <div class="row">
+		</div>
+		<hr/>
+    	<div class="row">
         <div class="col-md-12">
         	<form>
 	        <label style="display:inline-block;padding-bottom: 5px;">
@@ -36,7 +38,7 @@ $model=new Tarifs();
 	        	<label for="markAll" style="color : red;">Выделить все</label>
 	        </label>
         </div>
-    </div>
+    	</div>
     <?php ActiveForm::end(); ?>
 </div>     
 <?php 

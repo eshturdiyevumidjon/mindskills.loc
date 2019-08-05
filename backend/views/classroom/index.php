@@ -1,4 +1,5 @@
 <?php
+
 use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\widgets\Pjax;
@@ -26,9 +27,9 @@ CrudAsset::register($this);
 <div class="Classroom-index">
     <div id="ajaxCrudDatatable">
         <div class="row">
-           <div class="col s12 m12">
-              <div class="card">
-                  <nav class=" purple">
+            <div class="col s12 m12">
+                <div class="card">
+                    <nav class=" purple">
                       <div class="nav-wrapper ">
                           <a href="#!" class="brand-logo">
                               <p style="font-size: 22px;margin-left: 20px;">
@@ -54,15 +55,15 @@ CrudAsset::register($this);
                             </li>
                           </ul>
                       </div>
-                  </nav>
+                    </nav>
 <?php Pjax::begin(['enablePushState' => false,'id'=>'crud-datatable-pjax'])?>
 <div class="section" >
     <div id="row-grouping" class="section">
-            <div class="row">
+          <div class="row">
                 <div class="col s11" style="margin:  20px 40px 20px 40px">
-                  <table class="bordered highlight centered" cellspacing="0" id="myTablesubjects" width="100%">
-                    <thead>
-                        <tr style="font-size: 14px;">
+                    <table class="bordered highlight centered" cellspacing="0" id="myTablesubjects" width="100%">
+                        <thead>
+                            <tr style="font-size: 14px;">
                             <th>
                             </th>
                             <th>ID</th>
@@ -80,44 +81,44 @@ CrudAsset::register($this);
                             <?php }?>
                             <?php }?>
                             <th>Действия</th>                   
-                        </tr>
-                    </thead>
-                        <tr>
-                              <?php $form= ActiveForm::begin(['options' => ['id' => 'searchForm2']])?>
+                            </tr>
+                        </thead>
+                            <tr>
+                            <?php $form= ActiveForm::begin(['options' => ['id' => 'searchForm2']])?>
                             <td></td>
                             <td>
-                              <?=$form->field($searchModel,'search')->hiddenInput(['class'=>'search','style'=>'padding-bottom:14px;','form'=>'searchForm2','value'=>'1'])->label(false)?>
+                            <?=$form->field($searchModel,'search')->hiddenInput(['class'=>'search','style'=>'padding-bottom:14px;','form'=>'searchForm2','value'=>'1'])->label(false)?>
                             </td>
-                              <?php if($session['Classroom[name]'] === null || $session['Classroom[name]'] == 1){ ?>
+                            <?php if($session['Classroom[name]'] === null || $session['Classroom[name]'] == 1){ ?>
                             <td>
-                              <?=$form->field($searchModel,'name')->textInput(['class'=>'search',
-                                'style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;','form'=>'searchForm2'])->label(false)?>  
+                            <?=$form->field($searchModel,'name')->textInput(['class'=>'search',
+                                'style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:32px !important;','form'=>'searchForm2'])->label(false)?>  
                             </td>
-                              <?php }?>     
-                              <?php if(Yii::$app->user->identity->company->type == 1){ ?>
-                              <?php if($session['Classroom[company_id]'] === null || $session['Classroom[company_id]'] == 1){ ?>
+                            <?php }?>     
+                            <?php if(Yii::$app->user->identity->company->type == 1){ ?>
+                            <?php if($session['Classroom[company_id]'] === null || $session['Classroom[company_id]'] == 1){ ?>
                             <td>
-                              <?=$form->field($searchModel,'company_id')->textInput(['class'=>'search','style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;','form'=>'searchForm2'])->label(false)?>
+                            <?=$form->field($searchModel,'company_id')->textInput(['class'=>'search','style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:32px !important;','form'=>'searchForm2'])->label(false)?>
                             </td>
-                              <?php }?> 
-                              <?php if($session['Classroom[filial_id]'] === null || $session['Classroom[filial_id]'] == 1){ ?> 
+                            <?php }?> 
+                            <?php if($session['Classroom[filial_id]'] === null || $session['Classroom[filial_id]'] == 1){ ?> 
                             <td>
-                              <?=$form->field($searchModel,'filial_id')->textInput(['class'=>'search','style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:38px !important;','form'=>'searchForm2'])->label(false)?>
+                            <?=$form->field($searchModel,'filial_id')->textInput(['class'=>'search','style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:32px !important;','form'=>'searchForm2'])->label(false)?>
                             </td> 
-                              <?php }?>
-                              <?php }?>
+                            <?php }?>
+                            <?php }?>
                             <td></td>
                               <?php ActiveForm::end()?>
-                        </tr>
+                            </tr>
                         <tbody id="myTableclassroom">
-                              <?=$this->render('tbody',['dataProvider'=>$dataProvider])?>
+                          <?=$this->render('tbody',['dataProvider'=>$dataProvider])?>
                         </tbody>
-                  </table>
+                    </table>
                 </div>
-            </div>
-        </div>
-  </div>
-        <?php Pjax::end()?>
+          </div>
+    </div>
+</div>
+<?php Pjax::end()?>
                 </div>
             </div>
         </div>
@@ -134,12 +135,14 @@ $(document).ready(function(){
   $("#showSearchclassroom").click(function(){
     $("#searchclassroom").slideToggle("slow");
   });
+
 $("#searchclassroom").on("keyup", function() {
-    var value = $(this).val().toLowerCase();
+  var value = $(this).val().toLowerCase();
   $("#myTableclassroom tr").filter(function() {
-  $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
     });
   });
+
 $("[class='search']").blur(function(){
     $.post("/classroom/index", $('#searchForm2').serialize() ,function(data){
         document.getElementById('myTableclassroom').innerHTML = data;

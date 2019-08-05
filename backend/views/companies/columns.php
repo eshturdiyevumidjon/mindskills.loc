@@ -1,12 +1,14 @@
 <?php
+
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use backend\models\Companies;
+
 $model=new Companies();
 ?>
 <div class="Companiess-form" style="padding: 20px;">
     <?php $form = ActiveForm::begin(); ?>
-	<div class="row">
+		<div class="row">
 	    <div class="col-md-6">
 	        <label>
 	            <input type="checkbox" name="Companies[name]" id="1" value="1" <?= ($session['Companies[name]'] === null || $session['Companies[name]'] == 1) ? 'checked = ""': '' ?> > 
@@ -19,9 +21,9 @@ $model=new Companies();
 	        	<label for="6"><?=$model->getAttributeLabel('tarif_id')?></label>
 	        </label>
 	    </div>
-	</div>
-	<hr/>
-    <div class="row">
+		</div>
+		<hr/>
+    	<div class="row">
         <div class="col-md-12">
         	<form>
 	        <label style="display:inline-block;padding-bottom: 5px;">
@@ -29,7 +31,7 @@ $model=new Companies();
 	        	<label for="markAll" style="color : red;">Выделить все</label>
 	        </label>
         </div>
-    </div>
+    	</div>
     <?php ActiveForm::end(); ?>
 </div>     
 <?php 

@@ -37,10 +37,10 @@ class ScheduleController extends Controller
      * Lists all Schedule models.
      * @return mixed
      */
+
     public function actionIndex()
     {    
-        if(Yii::$app->request->isAjax && $_POST['ScheduleSearch']['search'] == '1')
-       {    
+        if(Yii::$app->request->isAjax && $_POST['ScheduleSearch']['search'] == '1'){    
        
             $query = Schedule::find();
             $dataProvider = new ActiveDataProvider([
@@ -60,13 +60,12 @@ class ScheduleController extends Controller
                 if($_POST['ScheduleSearch']['status']=="Создано")$status=0;     
                 if($_POST['ScheduleSearch']['status']=="Завершено")$status=10;
 
-           
             if($_POST['ScheduleSearch']['type']) 
                 if($_POST['ScheduleSearch']['type']=="Регулярные занятия")$type=1;     
                 if($_POST['ScheduleSearch']['type']=="Единичное занятие")$type=2;
 
-            if(isset($name) || isset($company_id) || isset($filial_id) || isset($subject_id) || isset($teacher_id) || isset($price) || isset($sum_of_teacher) || isset($begin_date) || isset($end_date) || isset($status) || isset($type))
-            {
+            if(isset($name) || isset($company_id) || isset($filial_id) || isset($subject_id) || isset($teacher_id) || isset($price) || isset($sum_of_teacher) || isset($begin_date) || isset($end_date) || isset($status) || isset($type)){
+
                 $query->joinWith('company');
                 $query->joinWith('filial');
                 $query->joinWith('subject');
@@ -87,16 +86,16 @@ class ScheduleController extends Controller
                         ->andFilterWhere(['like', 'schedule.end_date', $end_date])
                         ->andFilterWhere(['like', 'schedule.name', $name]);
                        
-                    return $this->renderAjax('tbody', [
-                    'dataProvider' => $dataProvider,
-                    'searchModel'=>$searchModel,
-                ]);
+        return $this->renderAjax('tbody', [
+            'dataProvider' => $dataProvider,
+            'searchModel'=>$searchModel,
+            ]);
             }
             else
-                    return $this->renderAjax('tbody', [
-                    'dataProvider' => $dataProvider,
-                    'searchModel'=>$searchModel,
-                ]); 
+        return $this->renderAjax('tbody', [
+            'dataProvider' => $dataProvider,
+            'searchModel'=>$searchModel,
+            ]); 
         }
         $searchModel=new ScheduleSearch();
         $query = Schedule::find();
@@ -114,6 +113,7 @@ class ScheduleController extends Controller
      * @param integer $id
      * @return mixed
      */
+
     public function actionView($id)
     {   
         $request = Yii::$app->request;
@@ -142,12 +142,14 @@ class ScheduleController extends Controller
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
+
     public function actionCreate()
     {
         $request = Yii::$app->request;
         $model = new Schedule();  
-         $model->company_id=Yii::$app->user->identity->company_id;
-        $model->filial_id=Yii::$app->user->identity->filial_id;
+         $model->company_id = Yii::$app->user->identity->company_id;
+        $model->filial_id = Yii::$app->user->identity->filial_id;
+        
         if($request->isAjax){
             /*
             *   Process for ajax request
@@ -187,6 +189,7 @@ class ScheduleController extends Controller
             }
         }
     }
+
      public function actionColumns()
     {
         $request = Yii::$app->request;
@@ -223,6 +226,7 @@ class ScheduleController extends Controller
      * @param integer $id
      * @return mixed
      */
+
     public function actionUpdate($id)
     {
         $request = Yii::$app->request;
@@ -286,6 +290,7 @@ class ScheduleController extends Controller
      * @param integer $id
      * @return mixed
      */
+
     public function actionDelete($id)
     {
         $request = Yii::$app->request;
@@ -303,8 +308,6 @@ class ScheduleController extends Controller
             */
             return $this->redirect(['index']);
         }
-
-
     }
 
      /**
@@ -314,6 +317,7 @@ class ScheduleController extends Controller
      * @param integer $id
      * @return mixed
      */
+
     public function actionBulkDelete()
     {        
         $request = Yii::$app->request;
@@ -343,6 +347,7 @@ class ScheduleController extends Controller
      * @return Schedule the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
+    
     protected function findModel($id)
     {
         if (($model = Schedule::findOne($id)) !== null) {

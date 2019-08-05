@@ -6,7 +6,6 @@ use backend\models\ScheduleGraph;
 /* @var $model backend\models\ScheduleGraph */
 ?>
 <div class="schedule-graph-view">
- 
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [

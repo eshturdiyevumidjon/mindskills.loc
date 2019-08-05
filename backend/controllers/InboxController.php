@@ -49,18 +49,19 @@ class InboxController extends Controller
      * Lists all Inbox models.
      * @return mixed
      */
+
     public function actionIndex($date_cr = null)
     {    
+
         $userId = Yii::$app->user->identity->id;
 
-        if($date_cr !== null)
-        {
+        if($date_cr !== null){
             $query = Inbox::find()
                 ->where(['to' => $userId, 'deleted' => 0])
                 ->andFilterWhere(['between', 'date_cr', $date_cr . ' 00:00:00', $date_cr . ' 23:59:59' ]);
-        }
-        else $query = Inbox::find()->where(['to' => $userId, 'deleted' => 0]);
+        }else 
 
+        $query = Inbox::find()->where(['to' => $userId, 'deleted' => 0]);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => array('pageSize' => 10),
@@ -83,8 +84,8 @@ class InboxController extends Controller
     {    
         $userId = Yii::$app->user->identity->id;
 
-        if($date_cr !== null)
-        {
+        if($date_cr !== null){
+
             $query = Inbox::find()
                     ->where(['starred' => 1, 'deleted' => 0,])
                     ->andWhere(['or',
@@ -122,8 +123,8 @@ class InboxController extends Controller
     {    
         $userId = Yii::$app->user->identity->id;
 
-        if($date_cr !== null)
-        {
+        if($date_cr !== null){
+            
             $query = Inbox::find()
                 ->where(['from' => $userId])->andWhere(['not', ['deleted' => 1]])
                 ->andFilterWhere(['between', 'date_cr', $date_cr . ' 00:00:00', $date_cr . ' 23:59:59' ]);
@@ -335,6 +336,7 @@ class InboxController extends Controller
      * @param integer $id
      * @return mixed
      */
+    
     public function actionUpdate($id)
     {
         $request = Yii::$app->request;

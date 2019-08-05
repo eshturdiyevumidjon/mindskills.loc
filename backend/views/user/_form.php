@@ -1,4 +1,5 @@
 <?php
+
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\date\DatePicker; 
@@ -9,12 +10,11 @@ use backend\models\Filials;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 <div class="user-form">
-
-    <?php $form = ActiveForm::begin(['options' => ['method' => 'post', 'enctype' => 'multipart/form-data']]); ?>
-
+    
+<?php $form = ActiveForm::begin(['options' => ['method' => 'post', 'enctype' => 'multipart/form-data']]); ?>
     <div class="row">
-       <div class="col s4">
-        <div class="row">
+        <div class="col s4">
+            <div class="row">
                 <div class="col s12">
                     <div id="image" style="float: left;">
                      <?= $model->image != null ? '<img style="width:225px;border-radius:10%; " src="http://' . $_SERVER["SERVER_NAME"] . "/uploads/avatar/" . 
@@ -26,8 +26,8 @@ use backend\models\Filials;
                 </div>
             </div>       
         </div>
-       <div class="col s8">
-         <div class="row">
+        <div class="col s8">
+            <div class="row">
                 <div class="<?= ($model->isNewRecord)?'input-field col s6':'col s6'?>" >
                     <?= $form->field($model, 'fio')->textInput(['maxlength' => true]) ?>
                 </div>
@@ -36,9 +36,9 @@ use backend\models\Filials;
                 </div>
             </div>
             <div class="row">
-                    <div class="<?= ($model->isNewRecord)?'input-field col s4':'col s4'?>">
-                         <?= $form->field($model, ($model->isNewRecord)?'auth_key':'new_password')->textInput(['maxlength' => true]) ?>
-                    </div>
+                <div class="<?= ($model->isNewRecord)?'input-field col s4':'col s4'?>">
+                     <?= $form->field($model, ($model->isNewRecord)?'auth_key':'new_password')->textInput(['maxlength' => true]) ?>
+                </div>
                 <div class="<?= ($model->isNewRecord)?'input-field col s4':'col s4'?>" >
                       <?= $form->field($model, 'birthday')->widget(DatePicker::className(), [
                         'language' => 'ru',
@@ -55,26 +55,26 @@ use backend\models\Filials;
                 </div> 
             </div>
             <div class="row">
-                    <div class="col s4" >
-                    <?= $form->field($model, 'balanc')->widget(\yii\widgets\MaskedInput::className(), [
-                                'mask' => '9',
-                                'clientOptions' => ['repeat' => 10, 'greedy' => false]
-                            ]) ?>
-                    </div>
-                    <div class="col s4" >  
-                            <?=$form->field($model, 'status')->dropDownList($model->getStatus(), ['prompt' => 'Выберите...','style'=>'margin-top:12px;'])?>
-                    </div>   
-                    <div class="col s4">
-                        <?=$form->field($model, 'filial_id')->dropDownList($model->getAvailableFilials(), ['prompt' => 'Выберите','style'=>'margin-top:12px;'])?>
-                    </div>                 
+                <div class="col s4" >
+                <?= $form->field($model, 'balanc')->widget(\yii\widgets\MaskedInput::className(), [
+                            'mask' => '9',
+                            'clientOptions' => ['repeat' => 10, 'greedy' => false]
+                        ]) ?>
+                </div>
+                <div class="col s4" >  
+                        <?=$form->field($model, 'status')->dropDownList($model->getStatus(), ['prompt' => 'Выберите...','style'=>'margin-top:12px;'])?>
+                </div>   
+                <div class="col s4">
+                    <?=$form->field($model, 'filial_id')->dropDownList($model->getAvailableFilials(), ['prompt' => 'Выберите','style'=>'margin-top:12px;'])?>
+                </div>                 
             </div>
+        </div>
     </div>
-           </div>
-        	<?php if (!Yii::$app->request->isAjax){ ?>
-    	  	<div class="form-group">
-    	        <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Редактировать', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-    	    </div>
-	       <?php } ?>
+	<?php if (!Yii::$app->request->isAjax){ ?>
+  	    <div class="form-group">
+        <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Редактировать', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+       </div>
+   <?php } ?>
 <?php ActiveForm::end(); ?>
 </div>
 <?php 

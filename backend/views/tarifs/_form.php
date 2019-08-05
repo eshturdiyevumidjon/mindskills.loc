@@ -1,4 +1,5 @@
 <?php
+
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -21,13 +22,11 @@ use yii\widgets\ActiveForm;
             <?= $form->field($model, 'price')->textInput(['maxlength' => true]) ?>
         </div>
     </div>
-  
 	<?php if (!Yii::$app->request->isAjax){ ?>
 	  	<div class="form-group">
 	        <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Редактировать', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
 	    </div>
 	<?php } ?>
-
     <?php ActiveForm::end(); ?>
     
 </div>

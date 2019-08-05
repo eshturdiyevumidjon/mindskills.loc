@@ -2,11 +2,11 @@
 
 use yii\widgets\DetailView;
 use backend\models\Schedule;
+
 /* @var $this yii\web\View */
 /* @var $model backend\models\Schedule */
 ?>
 <div class="schedule-view">
- 
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [

@@ -38,9 +38,9 @@ class ScheduleGraphController extends Controller
      * @return mixed
      */
     public function actionIndex()
-    {    
-        if(Yii::$app->request->isAjax && $_POST['ScheduleGraphSearch']['search'] == '1')
-       {    
+    {  
+
+        if(Yii::$app->request->isAjax && $_POST['ScheduleGraphSearch']['search'] == '1'){    
        
             $query = ScheduleGraph::find();
             $dataProvider = new ActiveDataProvider([
@@ -52,8 +52,8 @@ class ScheduleGraphController extends Controller
             $end_date=($_POST['ScheduleGraphSearch']['end_date'])?\Yii::$app->formatter->asDate($_POST
                 ['ScheduleGraphSearch']['end_date'], 'php:Y-m-d'):"";;
 
-            if(isset($schedule_id) || isset($classroom_id) || isset($begin_date) || isset($end_date))
-            {
+            if(isset($schedule_id) || isset($classroom_id) || isset($begin_date) || isset($end_date)){
+
                 $query->joinWith('schedule');
                 $query->joinWith('classroom');
 
@@ -62,26 +62,26 @@ class ScheduleGraphController extends Controller
                       ->andFilterWhere(['like', 'schedule_graph.begin_date', $begin_date])
                       ->andFilterWhere(['like', 'schedule_graph.end_date', $end_date]);
                        
-                return $this->renderAjax('tbody', [
-                'dataProvider' => $dataProvider,
-                'searchModel'=>$searchModel,
-                ]);
+        return $this->renderAjax('tbody', [
+            'dataProvider' => $dataProvider,
+            'searchModel'=>$searchModel,
+            ]);
             }
             else
-                return $this->renderAjax('tbody', [
-                'dataProvider' => $dataProvider,
-                'searchModel'=>$searchModel,
+        return $this->renderAjax('tbody', [
+            'dataProvider' => $dataProvider,
+            'searchModel'=>$searchModel,
             ]); 
         }
-        $searchModel=new ScheduleGraphSearch();
+        $searchModel = new ScheduleGraphSearch();
         $query = ScheduleGraph::find();
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-                return  $this->render('index',[
-                    'searchModel'=>$searchModel,
-                    'dataProvider' => $dataProvider,
-                ]);
+        return  $this->render('index',[
+            'searchModel'=>$searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
     }
 
     /**
@@ -89,6 +89,7 @@ class ScheduleGraphController extends Controller
      * @param integer $id
      * @return mixed
      */
+
     public function actionView($id)
     {   
         $request = Yii::$app->request;
@@ -117,6 +118,7 @@ class ScheduleGraphController extends Controller
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
+
     public function actionCreate()
     {
         $request = Yii::$app->request;
@@ -161,6 +163,7 @@ class ScheduleGraphController extends Controller
             }
         }
     }
+
     public function actionColumns()
     {
         $request = Yii::$app->request;
@@ -189,6 +192,7 @@ class ScheduleGraphController extends Controller
             ];         
         }       
     }
+
     /**
      * Updates an existing ScheduleGraph model.
      * For ajax request will return json object
@@ -196,6 +200,7 @@ class ScheduleGraphController extends Controller
      * @param integer $id
      * @return mixed
      */
+
     public function actionUpdate($id)
     {
         $request = Yii::$app->request;
@@ -259,6 +264,7 @@ class ScheduleGraphController extends Controller
      * @param integer $id
      * @return mixed
      */
+
     public function actionDelete($id)
     {
         $request = Yii::$app->request;
@@ -285,6 +291,7 @@ class ScheduleGraphController extends Controller
      * @param integer $id
      * @return mixed
      */
+
     public function actionBulkDelete()
     {        
         $request = Yii::$app->request;
@@ -315,6 +322,7 @@ class ScheduleGraphController extends Controller
      * @return ScheduleGraph the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
+    
     protected function findModel($id)
     {
         if (($model = ScheduleGraph::findOne($id)) !== null) {

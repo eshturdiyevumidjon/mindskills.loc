@@ -12,6 +12,7 @@ use yii\web\UploadedFile;
 use \yii\web\Response;
 use yii\helpers\Html;
 use yii\data\ActiveDataProvider;
+
 /**
  * UserController implements the CRUD actions for User model.
  */
@@ -37,14 +38,15 @@ class UserController extends Controller
      * Lists all User models.
      * @return mixed
      */
+
     public function actionIndex()
     {    
         return "";
     }
     public function actionTeacher()
     {    
-        if(Yii::$app->request->isAjax && $_POST['UserSearch']['search'] == '1')
-       {    
+        if(Yii::$app->request->isAjax && $_POST['UserSearch']['search'] == '1'){ 
+
             $query = User::find();
             $dataProvider = new ActiveDataProvider([
                 'query' => $query,
@@ -62,8 +64,8 @@ class UserController extends Controller
                 if($_POST['UserSearch']['status']=="Не активен")$status=10;
            
             if(isset($birthday) || isset($status) || isset($filial_id) || isset($company_id)
-                || isset($fio) || isset($username) ||isset($phone) || isset($balanc))
-            {
+                || isset($fio) || isset($username) ||isset($phone) || isset($balanc)){
+
                 $query->andFilterWhere([
                         'user.type' => 2,
                         'user.balanc' => $balanc,
@@ -80,20 +82,19 @@ class UserController extends Controller
                       ->andFilterWhere(['like', 'user.status', $status])
                       ->andFilterWhere(['like', 'user.phone', $phone]);
                        
-                 return $this->renderAjax('tbody', [
-                'type'=>2,
-                'dataProvider' => $dataProvider,
-                'searchModel'=>$searchModel,
-                ]);
-            }
-            else
-                return $this->renderAjax('tbody', [
-                'type'=>2,
-                'dataProvider' => $dataProvider,
-                'searchModel'=>$searchModel,
-                ]); 
+        return $this->renderAjax('tbody', [
+            'type'=>2,
+            'dataProvider' => $dataProvider,
+            'searchModel'=>$searchModel,
+        ]);
+            }else
+        return $this->renderAjax('tbody', [
+            'type'=>2,
+            'dataProvider' => $dataProvider,
+            'searchModel'=>$searchModel,
+        ]); 
         }
-        $searchModel=new UserSearch();
+        $searchModel = new UserSearch();
         $query = User::find()->where(['type'=>2]);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -107,27 +108,26 @@ class UserController extends Controller
     public function actionAdmin()
     {    
        
-        if(Yii::$app->request->isAjax && $_POST['UserSearch']['search'] == '1')
-       {    
+        if(Yii::$app->request->isAjax && $_POST['UserSearch']['search'] == '1'){    
+
             $query = User::find();
             $dataProvider = new ActiveDataProvider([
                 'query' => $query,
             ]);
-            $birthday=($_POST['UserSearch']['birthday'])?\Yii::$app->formatter->asDate($_POST['UserSearch']['birthday'], 'php:Y-m-d'):"";
-            $filial_id=$_POST['UserSearch']['filial_id'];
-            $company_id=$_POST['UserSearch']['company_id'];
-            $fio=$_POST['UserSearch']['fio'];
-            $username=$_POST['UserSearch']['username'];
-            $phone=$_POST['UserSearch']['phone'];
-            $balanc=$_POST['UserSearch']['balanc'];
+            $birthday = ($_POST['UserSearch']['birthday'])?\Yii::$app->formatter->asDate($_POST['UserSearch']['birthday'], 'php:Y-m-d'):"";
+            $filial_id = $_POST['UserSearch']['filial_id'];
+            $company_id = $_POST['UserSearch']['company_id'];
+            $fio = $_POST['UserSearch']['fio'];
+            $username = $_POST['UserSearch']['username'];
+            $phone = $_POST['UserSearch']['phone'];
+            $balanc = $_POST['UserSearch']['balanc'];
 
             if($_POST['UserSearch']['status']) 
-                if($_POST['UserSearch']['status']=="Активен")$status=0;     
-                if($_POST['UserSearch']['status']=="Не активен")$status=10;
+                if($_POST['UserSearch']['status'] == "Активен")$status = 0;     
+                if($_POST['UserSearch']['status'] == "Не активен")$status = 10;
            
             if(isset($birthday) || isset($status) || isset($filial_id) || isset($company_id)
-                || isset($fio) || isset($username) ||isset($phone) || isset($balanc))
-            {
+                || isset($fio) || isset($username) ||isset($phone) || isset($balanc)){
                 
                 $query->andFilterWhere([
                     'user.type' => 1,
@@ -145,56 +145,54 @@ class UserController extends Controller
                         ->andFilterWhere(['like', 'user.status', $status])
                         ->andFilterWhere(['like', 'user.phone', $phone]);
                        
-                    return $this->renderAjax('tbody', [
+                return $this->renderAjax('tbody', [
                     'type'=>1,
                     'dataProvider' => $dataProvider,
                     'searchModel'=>$_POST['UserSearch'],
                     'post'=>$_POST,
-                ]);
-            }
-            else
-                    return $this->renderAjax('tbody', [
+            ]);
+            }else
+                return $this->renderAjax('tbody', [
                     'type'=>1,
                     'dataProvider' => $dataProvider,
                     'post'=>$_POST,
                     'searchModel'=>$_POST['UserSearch'],
-                ]); 
+            ]); 
         }
         $searchModel=new UserSearch();
         $query = User::find()->where(['type'=>1]);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-                    return  $this->render('index',[
-                        'type' => 1,
-                        'searchModel'=>$searchModel,
-                        'dataProvider' => $dataProvider,
-                ]);
+                return  $this->render('index',[
+                    'type' => 1,
+                    'searchModel'=>$searchModel,
+                    'dataProvider' => $dataProvider,
+            ]);
     }
    
     public function actionPupil()
     {    
-        if(Yii::$app->request->isAjax && $_POST['UserSearch']['search'] == '1')
-       {    
+        if(Yii::$app->request->isAjax && $_POST['UserSearch']['search'] == '1'){  
+
             $query = User::find();
             $dataProvider = new ActiveDataProvider([
                 'query' => $query,
             ]);
-            $birthday=($_POST['UserSearch']['birthday'])?\Yii::$app->formatter->asDate($_POST['UserSearch']['birthday'], 'php:Y-m-d'):"";
-            $filial_id=$_POST['UserSearch']['filial_id'];
-            $company_id=$_POST['UserSearch']['company_id'];
-            $fio=$_POST['UserSearch']['fio'];
-            $username=$_POST['UserSearch']['username'];
-            $phone=$_POST['UserSearch']['phone'];
-            $balanc=$_POST['UserSearch']['balanc'];
+            $birthday = ($_POST['UserSearch']['birthday'])?\Yii::$app->formatter->asDate($_POST['UserSearch']['birthday'], 'php:Y-m-d'):"";
+            $filial_id = $_POST['UserSearch']['filial_id'];
+            $company_id = $_POST['UserSearch']['company_id'];
+            $fio = $_POST['UserSearch']['fio'];
+            $username = $_POST['UserSearch']['username'];
+            $phone = $_POST['UserSearch']['phone'];
+            $balanc = $_POST['UserSearch']['balanc'];
            
             if($_POST['UserSearch']['status']) 
-                if($_POST['UserSearch']['status']=="Активен")$status=0;     
-                if($_POST['UserSearch']['status']=="Не активен")$status=10;
+                if($_POST['UserSearch']['status'] == "Активен")$status = 0;     
+                if($_POST['UserSearch']['status'] == "Не активен")$status = 10;
 
             if(isset($birthday) || isset($status) || isset($filial_id) || isset($company_id)
-                || isset($fio) || isset($username) ||isset($phone) || isset($balanc))
-            {
+                || isset($fio) || isset($username) ||isset($phone) || isset($balanc)){
                 
                 $query->andFilterWhere([
                     'user.type' => 3,
@@ -212,42 +210,40 @@ class UserController extends Controller
                             ->andFilterWhere(['like', 'user.status', $status])
                             ->andFilterWhere(['like', 'user.phone', $phone]);
                        
-                     return $this->renderAjax('tbody', [
-                    'type'=>3,
-                    'dataProvider' => $dataProvider,
-                    'searchModel'=>$searchModel,
-
-                ]);
-            }
-            else
-                    return $this->renderAjax('tbody', [
-                    'type'=>3,
-                    'dataProvider' => $dataProvider,
-                    'searchModel'=>$searchModel,
-        ]); 
+             return $this->renderAjax('tbody', [
+                'type'=>3,
+                'dataProvider' => $dataProvider,
+                'searchModel'=>$searchModel,
+            ]);
+            }else
+            return $this->renderAjax('tbody', [
+                'type'=>3,
+                'dataProvider' => $dataProvider,
+                'searchModel'=>$searchModel,
+            ]); 
         }
         $searchModel=new UserSearch();
         $query = User::find()->where(['type'=>3]);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-                    return  $this->render('index',[
-                        'type' => 3,
-                        'searchModel'=>$searchModel,
-                        'dataProvider' => $dataProvider,
-                    ]);
+            return  $this->render('index',[
+                'type' => 3,
+                'searchModel'=>$searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
     }
+
     public function actionChange($id)
     {
         $request = Yii::$app->request;
         $model = $this->findModel($id);       
-        if ($model->birthday!=null) {
-          $model->birthday=\Yii::$app->formatter->asDate($model->birthday, 'php:d.m.Y');
+        if ($model->birthday != null) {
+          $model->birthday = \Yii::$app->formatter->asDate($model->birthday, 'php:d.m.Y');
         }
         else{
-            $model->birthday="";
+            $model->birthday = "";
         }
-        
         if($request->isAjax){
             /*
             *   Process for ajax request
@@ -256,8 +252,8 @@ class UserController extends Controller
             if($model->load($request->post()) && $model->save()){
                 
                 $model->photoOfUser = UploadedFile::getInstance($model,'photoOfUser');
-                if(!empty($model->photoOfUser))
-                {
+                if(!empty($model->photoOfUser)){
+
                     if($model->image!=""&&$model->image!=null)
                     {
                         unlink("uploads/avatar/" . $model->image);
@@ -265,7 +261,6 @@ class UserController extends Controller
                     $model->photoOfUser->saveAs('uploads/avatar/' . $model->id.'.'.$model->photoOfUser->extension);
                     Yii::$app->db->createCommand()->update('user', ['image' => $model->id.'.'.$model->photoOfUser->extension], [ 'id' => $model->id ])->execute();
                 }
-                
                 return [
                     'forceReload'=>'#profile-pjax',
                     'forceClose'=>true
@@ -287,11 +282,13 @@ class UserController extends Controller
             echo "ddd";
         }
     }
+
     /**
      * Displays a single User model.
      * @param integer $id
      * @return mixed
      */
+
     public function actionView($id)
     {   
         $request = Yii::$app->request;
@@ -313,17 +310,20 @@ class UserController extends Controller
             ]);
         }
     }
+
     public function actionProfile()
     {
         $user=$this->findModel(Yii::$app->user->identity->id);
         return $this->render('profile',['user'=>$user]);
     }
+
     /**
      * Creates a new User model.
      * For ajax request will return json object
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
+
     public function actionCreate($type)
     {
         $request = Yii::$app->request;
@@ -336,8 +336,8 @@ class UserController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($model->load($request->post()) && $model->save()){
                 $model->photoOfUser = UploadedFile::getInstance($model,'photoOfUser');
-                if(!empty($model->photoOfUser))
-                {
+                if(!empty($model->photoOfUser)){
+
                     $model->photoOfUser->saveAs('uploads/avatar/' . $model->id.'.'.$model->photoOfUser->extension);
                     Yii::$app->db->createCommand()->update('user', ['image' => $model->id.'.'.$model->photoOfUser->extension], [ 'id' => $model->id ])->execute();
                 }
@@ -378,7 +378,6 @@ class UserController extends Controller
                 ]);
             }
         }
-       
     }
   
     public function actionColumns()
@@ -395,8 +394,7 @@ class UserController extends Controller
                 'forceReload'=>'#crud-datatable-pjax',
                 'forceClose'=>true,
             ];          
-        }
-        else
+        }else
         {           
             return [
                 'title'=> "Сортировка с колонок",
@@ -418,6 +416,7 @@ class UserController extends Controller
      * @param integer $id
      * @return mixed
      */
+
     public function actionUpdate($id)
     {
         $request = Yii::$app->request;
@@ -436,8 +435,8 @@ class UserController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
            if($model->load($request->post()) && $model->save()){
                 $model->photoOfUser = UploadedFile::getInstance($model,'photoOfUser');
-                if(!empty($model->photoOfUser))
-                {
+                if(!empty($model->photoOfUser)){
+
                     if($model->image!=""&&$model->image!=null)
                     {
                         unlink("uploads/avatar/" . $model->image);
@@ -488,11 +487,12 @@ class UserController extends Controller
      * @param integer $id
      * @return mixed
      */
+
     public function actionDelete($id)
     {
         $request = Yii::$app->request;
-        if ($id != 1)
-            {
+        if ($id != 1){
+
                 $model=$this->findModel($id);
                  if($model->image!=""&&$model->image!=null)
                 {
@@ -521,22 +521,22 @@ class UserController extends Controller
      * @param integer $id
      * @return mixed
      */
+
     public function actionBulkDelete()
     {        
         $request = Yii::$app->request;
         $pks = explode(',', $request->post( 'pks' )); // Array or selected records primary keys
         foreach ( $pks as $pk ) {
-            if ($pk != 1)
-                {
+            if ($pk != 1){
+                
                     $model = $this->findModel($pk);
-                    if($model->image!=""&&$model->image!=null)
+                    if($model->image != ""&&$model->image != null)
                     {
                         unlink("uploads/avatar/" . $model->image);
                     }
                     $model->delete();
                 }
         }
-
         if($request->isAjax){
             /*
             *   Process for ajax request
@@ -558,6 +558,7 @@ class UserController extends Controller
      * @return User the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
+    
     protected function findModel($id)
     {
         if (($model = User::findOne($id)) !== null) {

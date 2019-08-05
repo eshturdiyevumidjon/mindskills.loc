@@ -6,9 +6,7 @@ use yii\helpers\Html;
 /* @var $model backend\models\Companies */
 ?>
 <div class="companies-update">
-
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>
-
 </div>

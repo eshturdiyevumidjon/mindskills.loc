@@ -73,6 +73,6 @@ class UserSearch extends User
             ->andFilterWhere(['like', 'phone', $this->phone])
             ->andFilterWhere(['like', 'image', $this->image]);
 
-        return $dataProvider;
+            return $dataProvider;
     }
 }
