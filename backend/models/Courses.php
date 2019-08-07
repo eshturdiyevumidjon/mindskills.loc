@@ -149,7 +149,8 @@ class Courses extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Subjects::className(), ['id' => 'subject_id']);
     }
-     public function beforeSave($insert)
+
+    public function beforeSave($insert)
     {
         if($this->begin_date != null)
             $this->begin_date = \Yii::$app->formatter->asDate($this->begin_date, 'php:Y-m-d');
@@ -157,10 +158,12 @@ class Courses extends \yii\db\ActiveRecord
             $this->end_date = \Yii::$app->formatter->asDate($this->end_date, 'php:Y-m-d');
         return parent::beforeSave($insert);
     }
+
     public static function getDate($date=null)
     {
         return ($date!=null)?\Yii::$app->formatter->asDate($date, 'php:d.m.Y'):null;
     }
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -168,26 +171,24 @@ class Courses extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
+    
     public function ColumnsCourses($post)
     {
         $session = Yii::$app->session;
-
         $session['Courses[name]'] = 0;
         $session['Courses[subject_id]'] =0;
         $session['Courses[user_id]'] = 0;
         $session['Courses[begin_date]'] = 0;
-
         $session['Courses[end_date]'] = 0;
         $session['Courses[cost]'] = 0;
         $session['Courses[prosent_for_teacher]'] = 0;
-        $session['Courses[company_id]'] =0;
+        $session['Courses[company_id]'] = 0;
         $session['Courses[filial_id]'] = 0;
             
         if( isset($post['Courses']['name']) ) $session['Courses[name]'] = 1;
         if( isset($post['Courses']['subject_id']) ) $session['Courses[subject_id]'] = 1;
         if( isset($post['Courses']['user_id']) ) $session['Courses[user_id]'] = 1;
         if( isset($post['Courses']['begin_date']) ) $session['Courses[begin_date]'] = 1;
-
         if( isset($post['Courses']['end_date']) ) $session['Courses[end_date]'] = 1;
         if( isset($post['Courses']['cost']) ) $session['Courses[cost]'] = 1;
         if( isset($post['Courses']['prosent_for_teacher']) ) $session['Courses[prosent_for_teacher]'] = 1;

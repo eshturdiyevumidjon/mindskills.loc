@@ -21,10 +21,10 @@ class SiteController extends Controller
             
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout'],
+                'only' => ['logout','error','index'],
                 'rules' => [
                     [
-                        'actions' => ['logout'],
+                        'actions' => ['logout','error','index'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -38,7 +38,19 @@ class SiteController extends Controller
             ],
         ];
     }
+    public function actionAvtorizatsiya()
+    {
+      if(isset(Yii::$app->user->identity->id))
+      {
+        return $this->render('error');
+      }        
+       else
+        {
+            Yii::$app->user->logout();
+            $this->redirect(['login']);
+        }
 
+    }
     /**
      * {@inheritdoc}
      */
@@ -120,10 +132,6 @@ class SiteController extends Controller
                 'model' => $model,
             ]);
         }
-    }
-    public function actionLock()
-    {
-        
     }
     /**
      * Logout action.

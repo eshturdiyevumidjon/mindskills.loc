@@ -67,7 +67,6 @@ class Feadback extends \yii\db\ActiveRecord
     public function ColumnsFeadback($post)
     {
         $session = Yii::$app->session;
-
         $session['Feadback[name]'] = 0;
         $session['Feadback[email]'] = 0;
         $session['Feadback[message]'] = 0;

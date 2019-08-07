@@ -177,34 +177,27 @@ class Schedule extends \yii\db\ActiveRecord
     public function ColumnsSchedule($post)
     {
         $session = Yii::$app->session;
-
         $session['Schedule[name]'] = 0;
         $session['Schedule[company_id]'] = 0;
         $session['Schedule[filial_id]'] = 0;
-
         $session['Schedule[subject_id]'] = 0;
         $session['Schedule[teacher_id]'] = 0;
         $session['Schedule[price]'] = 0;
-
         $session['Schedule[sum_of_teacher]'] = 0;
         $session['Schedule[begin_date]'] = 0;
         $session['Schedule[end_date]'] = 0;
-
         $session['Schedule[status]'] = 0;
         $session['Schedule[type]'] = 0;
             
         if( isset($post['Schedule']['name']) ) $session['Schedule[name]'] = 1;
         if( isset($post['Schedule']['company_id']) ) $session['Schedule[company_id]'] = 1;
         if( isset($post['Schedule']['filial_id']) ) $session['Schedule[filial_id]'] = 1;
-
         if( isset($post['Schedule']['subject_id']) ) $session['Schedule[subject_id]'] = 1;
         if( isset($post['Schedule']['teacher_id']) ) $session['Schedule[teacher_id]'] = 1;
         if( isset($post['Schedule']['price']) ) $session['Schedule[price]'] = 1;
-
         if( isset($post['Schedule']['sum_of_teacher']) ) $session['Schedule[sum_of_teacher]'] = 1;
         if( isset($post['Schedule']['begin_date']) ) $session['Schedule[begin_date]'] = 1;
         if( isset($post['Schedule']['end_date']) ) $session['Schedule[end_date]'] = 1;
-
         if( isset($post['Schedule']['status']) ) $session['Schedule[status]'] = 1;
         if( isset($post['Schedule']['type']) ) $session['Schedule[type]'] = 1;
     }

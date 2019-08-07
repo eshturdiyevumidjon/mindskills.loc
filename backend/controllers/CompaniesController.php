@@ -25,6 +25,15 @@ class CompaniesController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -41,40 +50,28 @@ class CompaniesController extends Controller
      */
     public function actionIndex()
     {    
-        
-        if(Yii::$app->request->isAjax && $_POST['CompaniesSearch']['search'] == '1'){  
-        $query = Companies::find();
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-        ]);
-        $name=$_POST['CompaniesSearch']['name'];
-        $tarif_id=$_POST['CompaniesSearch']['tarif_id'];
-        
-        if(isset($name) || isset($tarif_id)){
-            $query->joinWith('tarifs');
+        if(Yii::$app->request->isAjax && $_POST['CompaniesSearch']['search'] == '1'){ 
+           
+            $searchModel = new CompaniesSearch();            
+            $searchModel->attributes = $_POST['CompaniesSearch'];
+            $dataProvider = $searchModel->filter($_POST);
 
-            $query->andFilterWhere(['like', 'tarifs.name', $tarif_id])
-                  ->andFilterWhere(['like', 'companies.name', $name]);
-                   
             return $this->renderAjax('tbody', [
                 'dataProvider' => $dataProvider,
-                'searchModel'=>$searchModel,
-            ]);
-        }else
-            return $this->renderAjax('tbody', [
-                'dataProvider' => $dataProvider,
-                'searchModel'=>$searchModel,
-        ]); 
+                'post'=>$_POST,
+                'searchModel'=>$searchModel
+            ]); 
         }
-        $searchModel = new CompaniesSearch();
+        
         $query = Companies::find();
+        $searchModel = new CompaniesSearch();
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
             return  $this->render('index',[
                 'searchModel'=>$searchModel,
                 'dataProvider' => $dataProvider,
-        ]);
+            ]);
     }
     /**
      * Displays a single Companies model.
@@ -102,7 +99,6 @@ class CompaniesController extends Controller
             ]);
         }
     }
-
      public function actionColumns()
     {
         $request = Yii::$app->request;
@@ -171,12 +167,7 @@ class CompaniesController extends Controller
                     'content'=>'<span class="text-success">Успешно выполнено</span>',
                     'footer'=> Html::button('Ок',['class'=>'btn btn-primary pull-left','data-dismiss'=>"modal"]).
                             Html::a('Создать ещё',['create'],['class'=>'btn btn-info','role'=>'modal-remote'])
-                ];
-                // return [
-                //     'forceReload'=>'#crud-datatable-pjax',
-                //     'forceClose'=>true
-        
-                // ];         
+                ];      
             }else{           
                 return [
                     'title'=> "Создать",

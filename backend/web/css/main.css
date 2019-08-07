@@ -41,3 +41,7 @@ a:link{
 .hover-sms li:hover {
 	background-color:rgba(0,0,0, 0.03);
 }
+.search{
+  text-align: center;
+}
+

@@ -68,4 +68,36 @@ class ScheduleUsersSearch extends ScheduleUsers
 
         return $dataProvider;
     }
+    public function filter($post)
+    {
+        $query = ScheduleUsers::find();
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+        $schedule_id=$_POST['ScheduleUsersSearch']['schedule_id'];
+        $pupil_id=$_POST['ScheduleUsersSearch']['pupil_id'];
+        $payed=$_POST['ScheduleUsersSearch']['payed'];
+        $comment=$_POST['ScheduleUsersSearch']['comment'];
+        $unsubscribe=$_POST['ScheduleUsersSearch']['unsubscribe'];
+
+        if($_POST['ScheduleUsersSearch']['unsubscribe']) 
+            if($_POST['ScheduleUsersSearch']['unsubscribe']=="Да")$unsubscribe=1;     
+            if($_POST['ScheduleUsersSearch']['unsubscribe']=="Нет")$unsubscribe=2;
+
+        if(isset($schedule_id) || isset($pupil_id) || isset($payed) || isset($comment) || isset($unsubscribe)){
+            
+            $query->joinWith('schedule');
+            $query->joinWith('pupil');
+
+            $query->andFilterWhere([
+                'schedule_users.payed' => $payed,
+                'schedule_users.comment' => $comment,
+                'schedule_users.unsubscribe' => $unsubscribe,
+            ]);
+
+            $query->andFilterWhere(['like', 'schedule.name', $schedule_id])
+                    ->andFilterWhere(['like', 'user.fio', $pupil_id]);
+        }
+         return $dataProvider;
+    }
 }

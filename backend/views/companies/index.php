@@ -16,99 +16,39 @@ use yii\widgets\ActiveForm;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 $this->title = 'Компания';
 $this->params['breadcrumbs'][] = $this->title;
+
 $models = $dataProvider->getModels();
 $session = Yii::$app->session;
 CrudAsset::register($this);
-
 ?>
-<style type="text/css">
-  .search{
-    text-align: center;
-  }
-</style>
 <div class="companies-index">
-    <div id="ajaxCrudDatatable">
-        <div class="row">
-            <div class="col s12 m12">
-                <div class="card">
-                    <nav class=" purple">
-                      <div class="nav-wrapper ">
-                            <a href="#!" class="brand-logo">
-                                <p style="font-size: 22px;margin-left: 20px;">
-                                <i class="material-icons">view_list</i>
-                                <?=Html::encode($this->title)?>
-                                </p>
-                            </a>
-                        <ul class="right hide-on-med-and-down">
-                            <li>
-                                <?=Html::a('Сортировка', ['columns'],['role' => 'modal-remote','title' => 'Сортировка с колонок'])?>
-                            </li>
-                            <li><?= Html::a('<i class="material-icons">add</i>', ['create'],['title' => 'Создать','role' => 'modal-remote'])?>
-                            </li>
-                            <li><?=Html::a('<i class="material-icons">refresh</i>',[''],
-                                        ['title' => 'Обновить'])?>
-                            </li>
-                            <li>
-                                <input type="search" name="search" style="display: none;" id="searchcompany">
-                            </li>
-                            <li>
-                                <a href="#" id="showSearchcompany" title='Поиск'>
-                                <i class="material-icons">search</i>
-                                </a>
-                            </li>
-                        </ul>
-                      </div>
-                    </nav>
-<?php Pjax::begin(['enablePushState' => false,'id' => 'crud-datatable-pjax'])?>
-<div class="section">
-    <div id="row-grouping" class="section">
-        <div class="row">
-            <div class="col s11" style="margin:  20px 40px 20px 40px">
-                <table class="bordered highlight centered" cellspacing="0" width="100%">
-                    <thead>
-                        <tr style="font-size: 14px;">
-                            <th>ID</th>
-                            <?php if($session['Companies[name]'] === null || $session['Companies[name]'] == 1){ ?>
-                            <th>Наименование</th>
-                            <?php }?>
-                            <?php if($session['Companies[tarif_id]'] === null || $session['Companies[tarif_id]'] == 1){ ?>
-                            <th>Тариф</th>
-                            <?php }?>
-                            <th>Действия</th>
-                        </tr>
-                    </thead>
-                        <tr>
-                            <?php $form= ActiveForm::begin(['options' => ['id' => 'searchForm2']])?>
-                            <td>
-                                <?=$form->field($searchModel,'search')->hiddenInput(['class'=>'search','style'=>'padding-bottom:14px;','form'=>'searchForm2','value'=>'1'])->label(false)?>
-                            </td>
-                                <?php if($session['Companies[name]'] === null || $session['Companies[name]'] == 1){ ?>
-                            <td>
-                                <?=$form->field($searchModel,'name')->textInput(['class'=>'search',
-                                'style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:32px !important;','form'=>'searchForm2'])->label(false)?>  
-                            </td>
-                                <?php }?>
-                                <?php if($session['Companies[tarif_id]'] === null || $session['Companies[tarif_id]'] == 1){ ?>                            
-                            <td>
-                                <?=$form->field($searchModel,'tarif_id')->textInput(['class'=>'search','style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:32px !important;','form'=>'searchForm2'])->label(false)?>
-                            </td>
-                                <?php }?>
-                            <td></td>
-                            <?php ActiveForm::end()?>
-                        </tr>
-                    <tbody id="myTablecompanies">
-                      <?=$this->render('tbody',['dataProvider'=>$dataProvider])?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-<?php Pjax::end()?>
+  <div id="ajaxCrudDatatable">
+      <div class="row">
+        <div class="col s12 m12">
+          <div class="card">
+            <?=$this->render('header')?>
+            <?php Pjax::begin(['enablePushState' => false,'id' => 'crud-datatable-pjax'])?>
+              <div class="section">
+                <div id="row-grouping" class="section">
+                  <div class="row">
+                    <div class="col s11" style="margin:  20px 40px 20px 40px">
+                      <table class="bordered highlight centered" cellspacing="0" width="100%">
+                        <thead>
+                          <?=$this->render('search',['searchModel'=>$searchModel])?> 
+                        </thead>
+                        <tbody id="myTablecompanies">
+                          <?=$this->render('tbody',['dataProvider'=>$dataProvider])?>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
                 </div>
-            </div>
+              </div>
+            <?php Pjax::end()?>
+          </div>
         </div>
-    </div>
+      </div>
+  </div>
 </div>
 <?php Modal::begin([
     "id"=>"ajaxCrudModal",
@@ -118,35 +58,5 @@ CrudAsset::register($this);
     ],
 ])?>
 <?php Modal::end(); ?>
-<?php
-$this->registerJs(<<<JS
-$(document).ready(function(){
-  $("#showSearchcompany").click(function(){
-  $("#searchcompany").slideToggle("slow");
-  });
-
-$("#searchcompany").on("keyup", function() {
-    var value = $(this).val().toLowerCase();
-  $("#myTablecompanies tr").filter(function() {
-  $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-    });
-  });
-
-  $("[class='search']").blur(function(){
-    $.post("/companies/index", $('#searchForm2').serialize() ,function(data){
-        document.getElementById('myTablecompanies').innerHTML = data;
-    });
-  });
+<?=$this->render('js.php')?>  
   
-});
-
-$(document).on('pjax:complete', function() {
-    $("[class='search']").blur(function( event ){
-        $.post("/companies/index", $('#searchForm2').serialize() ,function(data){
-        document.getElementById('myTablecompanies').innerHTML = data;
-        });
-      });
-});
-JS
-);
-?>  

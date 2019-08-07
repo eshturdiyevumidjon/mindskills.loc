@@ -64,7 +64,25 @@ class ClassroomSearch extends Classroom
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name]);
-
         return $dataProvider;
+    }
+    public function filter($post)
+    {
+       $query = Classroom::find();
+       $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+        $name = $_POST['ClassroomSearch']['name'];
+        $filial_id = $_POST['ClassroomSearch']['filial_id'];
+        $company_id = $_POST['ClassroomSearch']['company_id'];
+       
+        if(isset($filial_id) || isset($company_id) || isset($name)){
+        $query->joinWith('company');
+        $query->joinWith('filial');
+        $query->andFilterWhere(['like', 'companies.name', $company_id])
+              ->andFilterWhere(['like', 'filials.filial_name', $filial_id])
+              ->andFilterWhere(['like', 'classroom.name', $name]);
+        } 
+         return $dataProvider;
     }
 }

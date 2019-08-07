@@ -7,7 +7,7 @@ use yii\helpers\Html;
 
 ?>
 <div class="classroom-create">
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
+  <?= $this->render('_form', [
+    'model' => $model,
+  ]) ?>
 </div>

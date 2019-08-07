@@ -23,6 +23,15 @@ class ScheduleUsersController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -39,58 +48,30 @@ class ScheduleUsersController extends Controller
      */
     public function actionIndex()
     {    
-        if(Yii::$app->request->isAjax && $_POST['ScheduleUsersSearch']['search'] == '1'){    
-       
-            $query = ScheduleUsers::find();
-            $dataProvider = new ActiveDataProvider([
-                'query' => $query,
-            ]);
-            $schedule_id=$_POST['ScheduleUsersSearch']['schedule_id'];
-            $pupil_id=$_POST['ScheduleUsersSearch']['pupil_id'];
-            $payed=$_POST['ScheduleUsersSearch']['payed'];
-            $comment=$_POST['ScheduleUsersSearch']['comment'];
-            $unsubscribe=$_POST['ScheduleUsersSearch']['unsubscribe'];
+        if(Yii::$app->request->isAjax && $_POST['ScheduleUsersSearch']['search'] == '1'){ 
+           
+            $searchModel = new ScheduleUsersSearch();            
+            $searchModel->attributes = $_POST['ScheduleUsersSearch'];
+            $dataProvider = $searchModel->filter($_POST);
 
-            if($_POST['ScheduleUsersSearch']['unsubscribe']) 
-                if($_POST['ScheduleUsersSearch']['unsubscribe']=="Да")$unsubscribe=1;     
-                if($_POST['ScheduleUsersSearch']['unsubscribe']=="Нет")$unsubscribe=2;
-
-            if(isset($schedule_id) || isset($pupil_id) || isset($payed) || isset($comment) || isset($unsubscribe)){
-                
-                $query->joinWith('schedule');
-                $query->joinWith('pupil');
-
-                $query->andFilterWhere([
-                    'schedule_users.payed' => $payed,
-                    'schedule_users.comment' => $comment,
-                    'schedule_users.unsubscribe' => $unsubscribe,
-                ]);
-
-                $query->andFilterWhere(['like', 'schedule.name', $schedule_id])
-                        ->andFilterWhere(['like', 'user.fio', $pupil_id]);
-                       
-                return $this->renderAjax('tbody', [
-                    'dataProvider' => $dataProvider,
-                    'searchModel'=>$searchModel,
-                ]);
-            }
-            else
-                return $this->renderAjax('tbody', [
-                    'dataProvider' => $dataProvider,
-                    'searchModel'=>$searchModel,
-                ]); 
+            return $this->renderAjax('tbody', [
+                'dataProvider' => $dataProvider,
+                'post' => $_POST,
+                'searchModel' => $searchModel
+            ]); 
         }
-        $searchModel=new ScheduleUsersSearch();
+
         $query = ScheduleUsers::find();
+        $searchModel = new ScheduleUsersSearch();
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-                return  $this->render('index',[
-                    'searchModel'=>$searchModel,
-                    'dataProvider' => $dataProvider,
-                ]);
+        
+            return  $this->render('index',[
+                'searchModel'=>$searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
     }
-
     /**
      * Displays a single ScheduleUsers model.
      * @param integer $id
@@ -128,7 +109,6 @@ class ScheduleUsersController extends Controller
     {
         $request = Yii::$app->request;
         $model = new ScheduleUsers();  
-
         if($request->isAjax){
             /*
             *   Process for ajax request
@@ -214,17 +194,7 @@ class ScheduleUsersController extends Controller
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            if($request->isGet){
-                return [
-                    'title'=> "Изменить",
-                    'content'=>$this->renderAjax('update', [
-                        'model' => $model,
-                    ]),
-                   'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
-                    'data-dismiss'=>"modal"]).
-                                Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
-                ];         
-            }else if($model->load($request->post()) && $model->save()){
+           if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "Посещаемости",

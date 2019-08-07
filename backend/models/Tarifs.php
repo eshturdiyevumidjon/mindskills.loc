@@ -51,8 +51,7 @@ class Tarifs extends \yii\db\ActiveRecord
     public function ColumnsTarifs($post)
     {
         $session = Yii::$app->session;
-
-        $session['Tarifs[name]'] =0;
+        $session['Tarifs[name]'] = 0;
         $session['Tarifs[days]'] = 0;
         $session['Tarifs[price]'] = 0;
             

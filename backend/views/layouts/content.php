@@ -6,13 +6,11 @@ use yii\helpers\Url;
 use common\widgets\Alert;
 
 ?>  
- 
- 
-      <section id="content">
-          <!--start container-->
-          <div class="container">
-              <?= Alert::widget() ?>
-              <?= $content ?> 
-          </div>
-          <!--end container-->
-        </section>
+<section id="content">
+  <!--start container-->
+  	<div class="container">
+      	<?= Alert::widget() ?>
+      	<?= $content ?> 
+  	</div>
+  <!--end container-->
+</section>

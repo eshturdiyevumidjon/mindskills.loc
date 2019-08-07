@@ -33,12 +33,12 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="row">
     <div class="col s12">
         <div class="card" style="width: 28%;margin-top: 2%;margin-left:36%; ;">
-                <div class="input-field col s12 center">
-                    <p class="center register-form-text">
-                      <h5><?= Html::encode($this->title) ?></h5>
-                    </p>
-                    <img src="/images/logo/login-logo.png" alt="" class="circle responsive-img valign profile-image-login" style="width: 100px;">
-                </div>
+            <div class="input-field col s12 center">
+                <p class="center register-form-text">
+                  <h5><?= Html::encode($this->title) ?></h5>
+                </p>
+                <img src="/images/logo/login-logo.png" alt="" class="circle responsive-img valign profile-image-login" style="width: 100px;">
+            </div>
             <div class="row">
             <p>
             <?php $form = ActiveForm::begin([
@@ -66,11 +66,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="input-field col s8" style="margin: 0px 5% 0px 8%;">
                     <?= $form->field($model, 'password', $fieldOptions5)->passwordInput(['placeholder' => $model->getAttributeLabel('Парол')])?>
                 </div><br>
-            <div class="row margin">
-                <div class="input-field col s9" style="margin: 5% 5% 0px 10%;">
-                    <?= Html::submitButton('Регистрация', ['class' => 'btn waves-effect waves-light col s12','style'=>'margin-left:10px !important;']) ?>
-                </div>
-            </div><br>
+                <div class="row margin">
+                    <div class="input-field col s9" style="margin: 5% 5% 0px 10%;">
+                        <?= Html::submitButton('Зарегистрироваться', ['class' => 'btn waves-effect waves-light col s12','style'=>'margin-left:10px !important;']) ?>
+                    </div>
+                </div><br>
             <?php ActiveForm::end(); ?>
             </p>
             </div>

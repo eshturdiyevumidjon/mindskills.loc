@@ -66,4 +66,22 @@ class TarifsSearch extends Tarifs
 
         return $dataProvider;
     }
+    public function filter($post)
+    {
+        $query = Tarifs::find();
+        $dataProvider = new ActiveDataProvider([
+        'query' => $query,
+        ]);
+        $name=$_POST['TarifsSearch']['name'];
+        $days=$_POST['TarifsSearch']['days'];
+        $price=$_POST['TarifsSearch']['price'];
+
+        if(isset($name) || isset($days) || isset($price)){
+            
+        $query->andFilterWhere(['like', 'tarifs.name', $name])
+              ->andFilterWhere(['like', 'tarifs.days', $days])
+              ->andFilterWhere(['like', 'tarifs.price', $price]);
+        } 
+         return $dataProvider;
+    }
 }

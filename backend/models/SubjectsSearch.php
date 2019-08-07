@@ -46,7 +46,6 @@ class SubjectsSearch extends Subjects
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-
         $this->load($params);
 
         if (!$this->validate()) {
@@ -54,15 +53,31 @@ class SubjectsSearch extends Subjects
             // $query->where('0=1');
             return $dataProvider;
         }
-
         $query->andFilterWhere([
             'id' => $this->id,
             'company_id' => $this->company_id,
             'filial_id' => $this->filial_id,
         ]);
-
         $query->andFilterWhere(['like', 'name', $this->name]);
-
         return $dataProvider;
+    }
+    public function filter($post)
+    {
+        $query = Subjects::find();
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+        $name=$_POST['SubjectsSearch']['name'];
+        $filial_id=$_POST['SubjectsSearch']['filial_id'];
+        $company_id=$_POST['SubjectsSearch']['company_id'];
+
+        if(isset($filial_id) || isset($company_id) || isset($name)){
+        $query->joinWith('company');
+        $query->joinWith('filial');
+        $query->andFilterWhere(['like', 'companies.name', $company_id])
+              ->andFilterWhere(['like', 'filials.filial_name', $filial_id])
+              ->andFilterWhere(['like', 'subjects.name', $name]);
+        }        
+         return $dataProvider;
     }
 }

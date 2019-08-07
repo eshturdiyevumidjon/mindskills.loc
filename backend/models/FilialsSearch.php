@@ -74,4 +74,44 @@ class FilialsSearch extends Filials
 
         return $dataProvider;
     }
+    public function filter($post)
+    {
+        $query = Filials::find();
+        $dataProvider = new ActiveDataProvider([
+        'query' => $query,
+        ]);
+        $filial_name=$_POST['FilialsSearch']['filial_name'];
+        $region_id=$_POST['FilialsSearch']['region_id'];
+        $district_id=$_POST['FilialsSearch']['district_id'];
+        $company_id=$_POST['FilialsSearch']['company_id'];
+        $surname=$_POST['FilialsSearch']['surname'];
+        $name=$_POST['FilialsSearch']['name'];
+        $middle_name=$_POST['FilialsSearch']['middle_name'];
+        $phone=$_POST['FilialsSearch']['phone'];
+        $address=$_POST['FilialsSearch']['address'];
+        $email=$_POST['FilialsSearch']['email'];
+        $site=$_POST['FilialsSearch']['site'];
+
+        if(isset($filial_name) || isset($region_id) || isset($district_id) || isset($company_id)
+            || isset($surname) || isset($name) || isset($middle_name) || isset($phone) ||isset($address) || isset($email) || isset($site)){
+        $query->joinWith('company');                
+        $query->joinWith('region');
+        $query->joinWith('district');
+
+        $query->andFilterWhere(['like', 'districts.name', $district_id])
+              ->andFilterWhere(['like', 'filials.filial_name', $filial_name])
+              ->andFilterWhere(['like', 'regions.name', $region_id])
+              ->andFilterWhere(['like', 'districts.name', $district_id])
+              ->andFilterWhere(['or',
+                                ['like','filials.surname',$admin],
+                                ['like','filials.name',$admin],
+                                ['like','filials.middlename',$admin],])
+              ->andFilterWhere(['like', 'filials.phone', $phone])
+              ->andFilterWhere(['like', 'filials.address', $address])
+              ->andFilterWhere(['like', 'filials.email', $email])
+              ->andFilterWhere(['like', 'filials.site', $site])
+              ->andFilterWhere(['like', 'companies.name', $company_id]);
+        } 
+         return $dataProvider;
+    }
 }

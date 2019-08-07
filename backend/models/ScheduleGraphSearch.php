@@ -46,15 +46,12 @@ class ScheduleGraphSearch extends ScheduleGraph
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-
         $this->load($params);
-
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
             return $dataProvider;
         }
-
         $query->andFilterWhere([
             'id' => $this->id,
             'schedule_id' => $this->schedule_id,
@@ -62,7 +59,30 @@ class ScheduleGraphSearch extends ScheduleGraph
             'begin_date' => $this->begin_date,
             'end_date' => $this->end_date,
         ]);
-
         return $dataProvider;
+    }
+    public function filter($post)
+    {
+        $query = ScheduleGraph::find();
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+        $schedule_id=$_POST['ScheduleGraphSearch']['schedule_id'];
+        $classroom_id=$_POST['ScheduleGraphSearch']['classroom_id'];
+        $begin_date=($_POST['ScheduleGraphSearch']['begin_date'])?\Yii::$app->formatter->asDate($_POST['ScheduleGraphSearch']['begin_date'], 'php:Y-m-d'):"";;
+        $end_date=($_POST['ScheduleGraphSearch']['end_date'])?\Yii::$app->formatter->asDate($_POST
+            ['ScheduleGraphSearch']['end_date'], 'php:Y-m-d'):"";;
+
+        if(isset($schedule_id) || isset($classroom_id) || isset($begin_date) || isset($end_date)){
+
+            $query->joinWith('schedule');
+            $query->joinWith('classroom');
+
+            $query->andFilterWhere(['like', 'schedule.name', $schedule_id])
+                  ->andFilterWhere(['like', 'classroom.name', $classroom_id])
+                  ->andFilterWhere(['like', 'schedule_graph.begin_date', $begin_date])
+                  ->andFilterWhere(['like', 'schedule_graph.end_date', $end_date]);
+            } 
+         return $dataProvider;
     }
 }

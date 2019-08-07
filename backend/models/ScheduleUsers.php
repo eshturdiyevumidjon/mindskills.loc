@@ -97,7 +97,6 @@ class ScheduleUsers extends \yii\db\ActiveRecord
     public function ColumnsScheduleUsers($post)
     {
         $session = Yii::$app->session;
-
         $session['ScheduleUsers[schedule_id]'] = 0;
         $session['ScheduleUsers[pupil_id]'] = 0;
         $session['ScheduleUsers[payed]'] = 0;

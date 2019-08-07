@@ -22,6 +22,15 @@ class ClassroomController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -38,45 +47,30 @@ class ClassroomController extends Controller
      */
     public function actionIndex()
     {  
-        
-        if(Yii::$app->request->isAjax && $_POST['ClassroomSearch']['search'] == '1'){
+        if(Yii::$app->request->isAjax && $_POST['ClassroomSearch']['search'] == '1'){ 
+            
+            $searchModel = new ClassroomSearch();            
+            $searchModel->attributes = $_POST['ClassroomSearch'];
+            $dataProvider = $searchModel->filter($_POST);
+
+            return $this->renderAjax('tbody', [
+                'dataProvider' => $dataProvider,
+                'post' => $_POST,
+                'searchModel' => $searchModel
+            ]); 
+        }
+
         $query = Classroom::find();
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-        ]);
-        $name = $_POST['ClassroomSearch']['name'];
-        $filial_id = $_POST['ClassroomSearch']['filial_id'];
-        $company_id = $_POST['ClassroomSearch']['company_id'];
-
-        if(isset($filial_id) || isset($company_id) || isset($name)){
-
-        $query->joinWith('company');
-        $query->joinWith('filial');
-        $query->andFilterWhere(['like', 'companies.name', $company_id])
-              ->andFilterWhere(['like', 'filials.filial_name', $filial_id])
-              ->andFilterWhere(['like', 'classroom.name', $name]);
-
-            return $this->renderAjax('tbody', [
-                'dataProvider' => $dataProvider,
-                'searchModel' => $searchModel,
-            ]);
-            }else
-            return $this->renderAjax('tbody', [
-                'dataProvider' => $dataProvider,
-                'searchModel'=> $searchModel,
-            ]);
-    }
         $searchModel = new ClassroomSearch();
-        $query = Classroom::find();
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+        
             return  $this->render('index',[
-                'searchModel' => $searchModel,
+                'searchModel'=>$searchModel,
                 'dataProvider' => $dataProvider,
             ]);
     }
-
     /**
      * Displays a single Classroom model.
      * @param integer $id
@@ -86,7 +80,6 @@ class ClassroomController extends Controller
     public function actionView($id)
     {   
         $request = Yii::$app->request;
-
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
@@ -140,7 +133,7 @@ class ClassroomController extends Controller
                     'title' => "Создать",
                     'content' => $this->renderAjax('create', [
                     'model' => $model,
-                    ]),
+                ]),
                     'footer' => Html::button('Отмена',['class' => 'btn btn-default pull-left',
                                             'data-dismiss' => "modal"]).
                                 Html::button('Сохранить',['class' => 'btn btn-primary','type' => "submit"])

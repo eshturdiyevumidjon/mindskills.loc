@@ -19,13 +19,11 @@ use backend\base\AppActiveQuery;
  */
 class Companies extends \yii\db\ActiveRecord
 {
-    
     public $filial_name;
     public $Companies_fio;
     public $Companies_phone;
     public $Companiesname;
     public $password;
-
     public $search;
 
     /**
@@ -96,7 +94,6 @@ class Companies extends \yii\db\ActiveRecord
     public function ColumnsCompanies($post)
     {
     $session = Yii::$app->session;
-
     $session['Companies[name]'] = 0;
     $session['Companies[tarif_id]'] =0;
         

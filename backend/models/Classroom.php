@@ -67,7 +67,6 @@ class Classroom extends \yii\db\ActiveRecord
     public function ColumnsClassroom($post)
     {
         $session = Yii::$app->session;
-
         $session['Classroom[name]'] = 0;
         $session['Classroom[company_id]'] = 0;
         $session['Classroom[filial_id]'] = 0;

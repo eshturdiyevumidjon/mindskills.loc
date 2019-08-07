@@ -23,6 +23,15 @@ class ScheduleGraphController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -39,49 +48,29 @@ class ScheduleGraphController extends Controller
      */
     public function actionIndex()
     {  
-
-        if(Yii::$app->request->isAjax && $_POST['ScheduleGraphSearch']['search'] == '1'){    
-       
-            $query = ScheduleGraph::find();
-            $dataProvider = new ActiveDataProvider([
-                'query' => $query,
-            ]);
-            $schedule_id=$_POST['ScheduleGraphSearch']['schedule_id'];
-            $classroom_id=$_POST['ScheduleGraphSearch']['classroom_id'];
-            $begin_date=($_POST['ScheduleGraphSearch']['begin_date'])?\Yii::$app->formatter->asDate($_POST['ScheduleGraphSearch']['begin_date'], 'php:Y-m-d'):"";;
-            $end_date=($_POST['ScheduleGraphSearch']['end_date'])?\Yii::$app->formatter->asDate($_POST
-                ['ScheduleGraphSearch']['end_date'], 'php:Y-m-d'):"";;
-
-            if(isset($schedule_id) || isset($classroom_id) || isset($begin_date) || isset($end_date)){
-
-                $query->joinWith('schedule');
-                $query->joinWith('classroom');
-
-                $query->andFilterWhere(['like', 'schedule.name', $schedule_id])
-                      ->andFilterWhere(['like', 'classroom.name', $classroom_id])
-                      ->andFilterWhere(['like', 'schedule_graph.begin_date', $begin_date])
-                      ->andFilterWhere(['like', 'schedule_graph.end_date', $end_date]);
-                       
-        return $this->renderAjax('tbody', [
-            'dataProvider' => $dataProvider,
-            'searchModel'=>$searchModel,
-            ]);
-            }
-            else
-        return $this->renderAjax('tbody', [
-            'dataProvider' => $dataProvider,
-            'searchModel'=>$searchModel,
+        if(Yii::$app->request->isAjax && $_POST['ScheduleGraphSearch']['search'] == '1'){ 
+          
+            $searchModel = new ScheduleGraphSearch();            
+            $searchModel->attributes = $_POST['ScheduleGraphSearch'];
+            $dataProvider = $searchModel->filter($_POST);
+        
+            return $this->renderAjax('tbody', [
+                'dataProvider' => $dataProvider,
+                'post' => $_POST,
+                'searchModel' => $searchModel
             ]); 
         }
-        $searchModel = new ScheduleGraphSearch();
+
         $query = ScheduleGraph::find();
+        $searchModel = new ScheduleGraphSearch();
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-        return  $this->render('index',[
-            'searchModel'=>$searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+        
+            return  $this->render('index',[
+                'searchModel'=>$searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
     }
 
     /**
@@ -211,17 +200,7 @@ class ScheduleGraphController extends Controller
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            if($request->isGet){
-                return [
-                    'title'=> "Изменить",
-                    'content'=>$this->renderAjax('update', [
-                        'model' => $model,
-                    ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
-                        'data-dismiss'=>"modal"]).
-                                Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
-                ];         
-            }else if($model->load($request->post()) && $model->save()){
+            if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "График занятийи",

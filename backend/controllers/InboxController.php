@@ -52,7 +52,6 @@ class InboxController extends Controller
 
     public function actionIndex($date_cr = null)
     {    
-
         $userId = Yii::$app->user->identity->id;
 
         if($date_cr !== null){

@@ -26,6 +26,15 @@ class FilialsController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -42,65 +51,30 @@ class FilialsController extends Controller
      */
     public function actionIndex()
     {    
-        
-        if(Yii::$app->request->isAjax && $_POST['FilialsSearch']['search'] == '1'){    
-       
-            $query = Filials::find();
-            $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-            ]);
-            $filial_name=$_POST['FilialsSearch']['filial_name'];
-            $region_id=$_POST['FilialsSearch']['region_id'];
-            $district_id=$_POST['FilialsSearch']['district_id'];
-            $company_id=$_POST['FilialsSearch']['company_id'];
-            $surname=$_POST['FilialsSearch']['surname'];
-            $name=$_POST['FilialsSearch']['name'];
-            $middle_name=$_POST['FilialsSearch']['middle_name'];
-            $phone=$_POST['FilialsSearch']['phone'];
-            $address=$_POST['FilialsSearch']['address'];
-            $email=$_POST['FilialsSearch']['email'];
-            $site=$_POST['FilialsSearch']['site'];
+        if(Yii::$app->request->isAjax && $_POST['FilialsSearch']['search'] == '1'){ 
+           
+            $searchModel = new FilialsSearch();            
+            $searchModel->attributes = $_POST['FilialsSearch'];
+            $dataProvider = $searchModel->filter($_POST);
 
-            if(isset($filial_name) || isset($region_id) || isset($district_id) || isset($company_id)
-                || isset($surname) || isset($name) || isset($middle_name) || isset($phone) ||isset($address) || isset($email) || isset($site)){
-            $query->joinWith('company');                
-            $query->joinWith('region');
-            $query->joinWith('district');
-
-            $query->andFilterWhere(['like', 'districts.name', $district_id])
-                  ->andFilterWhere(['like', 'regions.name', $region_id])
-                  ->andFilterWhere(['like', 'districts.name', $district_id])
-                  ->orFilterWhere(['like', 'filials.surname', $admin])
-                  ->orFilterWhere(['like', 'filials.name', $admin])
-                  ->orFilterWhere(['like', 'filials.middlename', $admin])
-                  ->andFilterWhere(['like', 'filials.phone', $phone])
-                  ->andFilterWhere(['like', 'filials.address', $address])
-                  ->andFilterWhere(['like', 'filials.email', $email])
-                  ->andFilterWhere(['like', 'filials.site', $site])
-                  ->andFilterWhere(['like', 'companies.name', $company_id]);
-
-        return $this->renderAjax('tbody', [
-            'dataProvider' => $dataProvider,
-            'searchModel'=>$searchModel,
-        ]);
-            }
-            else
-        return $this->renderAjax('tbody', [
-            'dataProvider' => $dataProvider,
-            'searchModel'=>$searchModel,
-        ]); 
+            return $this->renderAjax('tbody', [
+                'dataProvider' => $dataProvider,
+                'post' => $_POST,
+                'searchModel' => $searchModel
+            ]); 
         }
-        $searchModel=new FilialsSearch();
+
         $query = Filials::find();
+        $searchModel = new FilialsSearch();
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-        return  $this->render('index',[
-            'searchModel'=>$searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
 
+            return  $this->render('index',[
+                'searchModel'=>$searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+    }
 
     /**
      * Displays a single Filials model.
@@ -193,12 +167,7 @@ class FilialsController extends Controller
                         'data-dismiss'=>"modal"]).
                             Html::a('Создать ещё',['create'],['class'=>'btn btn-info',
                                 'role'=>'modal-remote'])
-                ];
-                // return [
-                //     'forceReload'=>'#crud-datatable-pjax',
-                //     'forceClose'=>true
-        
-                // ];         
+                ];         
             }else{           
                 return [
                     'title'=> "Создать",
@@ -246,7 +215,7 @@ class FilialsController extends Controller
             if($model->load($request->post()) && $model->save()){
                 $model->image = UploadedFile::getInstance($model,'image');
                 if(!empty($model->image)){
-                    if($model->logo!=""&&$model->logo!=null)
+                    if($model->logo!=""&&$model->logo!=null&&file_exists('uploads/filial_logos/' . $model->logo))
                     {
                         unlink("uploads/filial_logos/" . $model->logo);
                     }
@@ -303,8 +272,10 @@ class FilialsController extends Controller
         $request = Yii::$app->request;
         if($id!=1){
             
+            \common\models\User::deleteAll('filial_id='.$id);
+
             $model=$this->findModel($id);
-            if($model->logo!=""&&$model->logo!=null)
+            if($model->logo!=""&&$model->logo!=null&&file_exists('uploads/filial_logos/' . $model->logo))
             {
                 unlink("uploads/filial_logos/" . $model->logo);
             }
@@ -349,7 +320,7 @@ class FilialsController extends Controller
         foreach ( $pks as $pk ) {
             if($pk!=1){
                 $model = $this->findModel($pk);
-                if($model->logo!=""&&$model->logo!=null){
+                if($model->logo!=""&&$model->logo!=null&&file_exists('uploads/filial_logos/' . $model->logo)){
                     unlink("uploads/filial_logos/" . $model->logo);
                 }
                 $model->delete();

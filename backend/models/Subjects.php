@@ -61,15 +61,12 @@ class Subjects extends \yii\db\ActiveRecord
     public static function find()
     {
         if(Yii::$app->user->isGuest == false){
-
             if(Yii::$app->user->identity->company->type === 2) {
-
                 $companyId = Yii::$app->user->identity->company_id;
             }
             else $companyId = null;
         } 
         else $companyId = null;
-
         return new AppActiveQuery(get_called_class(), [
            'companyId' => $companyId,
         ]);
@@ -132,7 +129,6 @@ class Subjects extends \yii\db\ActiveRecord
     public function ColumnsSubjects($post)
     {
         $session = Yii::$app->session;
-
         $session['Subjects[name]'] = 0;
         $session['Subjects[company_id]'] = 0;
         $session['Subjects[filial_id]'] = 0;

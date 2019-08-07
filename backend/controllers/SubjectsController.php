@@ -24,6 +24,15 @@ class SubjectsController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -41,45 +50,29 @@ class SubjectsController extends Controller
 
     public function actionIndex()
     {  
-        if(Yii::$app->request->isAjax && $_POST['SubjectsSearch']['search'] == '1'){    
-       
-            $query = Subjects::find();
-            $dataProvider = new ActiveDataProvider([
-                'query' => $query,
-            ]);
-            $name=$_POST['SubjectsSearch']['name'];
-            $filial_id=$_POST['SubjectsSearch']['filial_id'];
-            $company_id=$_POST['SubjectsSearch']['company_id'];
+        if(Yii::$app->request->isAjax && $_POST['SubjectsSearch']['search'] == '1'){ 
+           
+            $searchModel = new SubjectsSearch();            
+            $searchModel->attributes = $_POST['SubjectsSearch'];
+            $dataProvider = $searchModel->filter($_POST);
 
-            if(isset($filial_id) || isset($company_id) || isset($name)){
-                
-                $query->joinWith('company');
-                $query->joinWith('filial');
-
-                $query->andFilterWhere(['like', 'companies.name', $company_id])
-                      ->andFilterWhere(['like', 'filials.filial_name', $filial_id])
-                      ->andFilterWhere(['like', 'subjects.name', $name]);
-                       
-                return $this->renderAjax('tbody', [
-                    'dataProvider' => $dataProvider,
-                    'searchModel'=>$searchModel,
-                ]);
-            }
-            else
-                return $this->renderAjax('tbody', [
-                    'dataProvider' => $dataProvider,
-                    'searchModel'=>$searchModel,
-                ]); 
+            return $this->renderAjax('tbody', [
+                'dataProvider' => $dataProvider,
+                'post' => $_POST,
+                'searchModel' => $searchModel
+            ]); 
         }
-        $searchModel=new SubjectsSearch();
+
         $query = Subjects::find();
+        $searchModel = new SubjectsSearch();
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-                return  $this->render('index',[
-                    'searchModel'=>$searchModel,
-                    'dataProvider' => $dataProvider,
-                ]);
+        
+            return  $this->render('index',[
+                'searchModel'=>$searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
     }
 
     /**
@@ -136,11 +129,7 @@ class SubjectsController extends Controller
                         'data-dismiss'=>"modal"]).
                             Html::a('Создать ещё',['create'],['class'=>'btn btn-info',
                                 'role'=>'modal-remote'])
-                ];
-                // return [
-                //     'forceReload'=>'#crud-datatable-pjax',
-                //     'forceClose'=>true
-                // ];         
+                ];        
             }else{           
                 return [
                     'title'=> "Создать",

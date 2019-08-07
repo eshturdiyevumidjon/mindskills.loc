@@ -66,4 +66,21 @@ class FeadbackSearch extends Feadback
 
         return $dataProvider;
     }
+    public function filter($post)
+    {
+        $query = Feadback::find();
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+        $name=$_POST['FeadbackSearch']['name'];
+        $email=$_POST['FeadbackSearch']['email'];
+        $message=$_POST['FeadbackSearch']['message'];
+
+        if(isset($name) || isset($email) || isset($message)){
+        $query->andFilterWhere(['like', 'feadback.name', $name])
+                ->andFilterWhere(['like', 'feadback.email', $email])
+                ->andFilterWhere(['like', 'feadback.message', $message]);
+        }
+        return $dataProvider;
+    }
 }

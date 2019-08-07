@@ -79,7 +79,6 @@ class ScheduleGraph extends \yii\db\ActiveRecord
             $this->begin_date = \Yii::$app->formatter->asDate($this->begin_date, 'php:Y-m-d');
         if($this->end_date != null)
             $this->end_date = \Yii::$app->formatter->asDate($this->end_date, 'php:Y-m-d');
-       
         return parent::beforeSave($insert);
     }
     public static function getDate($date=null)
@@ -89,19 +88,14 @@ class ScheduleGraph extends \yii\db\ActiveRecord
     public function ColumnsScheduleGraph($post)
     {
         $session = Yii::$app->session;
-
         $session['ScheduleGraph[schedule_id]'] = 0;
         $session['ScheduleGraph[classroom_id]'] = 0;
         $session['ScheduleGraph[begin_date]'] = 0;
         $session['ScheduleGraph[end_date]'] = 0;
             
-        if( isset($post['ScheduleGraph']['schedule_id']) ) 
-            $session['ScheduleGraph[schedule_id]'] = 1;
-        if( isset($post['ScheduleGraph']['classroom_id']) ) 
-            $session['ScheduleGraph[classroom_id]'] = 1;
-        if( isset($post['ScheduleGraph']['begin_date']) ) 
-            $session['ScheduleGraph[begin_date]'] = 1;
-        if( isset($post['ScheduleGraph']['end_date']) ) 
-            $session['ScheduleGraph[end_date]'] = 1;
+        if( isset($post['ScheduleGraph']['schedule_id']))$session['ScheduleGraph[schedule_id]'] = 1;
+        if( isset($post['ScheduleGraph']['classroom_id']))$session['ScheduleGraph[classroom_id]'] = 1;
+        if( isset($post['ScheduleGraph']['begin_date']))$session['ScheduleGraph[begin_date]'] = 1;
+        if( isset($post['ScheduleGraph']['end_date']))$session['ScheduleGraph[end_date]'] = 1;
     }
 }

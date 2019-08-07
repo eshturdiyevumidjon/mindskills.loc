@@ -23,6 +23,15 @@ class FeadbackController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -39,38 +48,26 @@ class FeadbackController extends Controller
      */
     public function actionIndex()
     {    
+        if(Yii::$app->request->isAjax && $_POST['FeadbackSearch']['search'] == '1'){ 
+        
+            $searchModel = new FeadbackSearch();            
+            $searchModel->attributes = $_POST['FeadbackSearch'];
+            $dataProvider = $searchModel->filter($_POST);
 
-        if(Yii::$app->request->isAjax && $_POST['FeadbackSearch']['search'] == '1'){    
-            $query = Feadback::find();
-            $dataProvider = new ActiveDataProvider([
-                'query' => $query,
+            return $this->renderAjax('tbody', [
+                'dataProvider' => $dataProvider,
+                'post' => $_POST,
+                'searchModel' => $searchModel
             ]);
-            $name=$_POST['FeadbackSearch']['name'];
-            $email=$_POST['FeadbackSearch']['email'];
-            $message=$_POST['FeadbackSearch']['message'];
 
-            if(isset($name) || isset($email) || isset($message)){
-                
-                $query->andFilterWhere(['like', 'feadback.name', $name])
-                        ->andFilterWhere(['like', 'feadback.email', $email])
-                        ->andFilterWhere(['like', 'feadback.message', $message]);
-
-            return $this->renderAjax('tbody', [
-                'dataProvider' => $dataProvider,
-                'searchModel'=>$searchModel,
-                ]);
-            }
-            else
-            return $this->renderAjax('tbody', [
-                'dataProvider' => $dataProvider,
-                'searchModel'=>$searchModel,
-        ]); 
         }
-        $searchModel=new FeadbackSearch();
+
         $query = Feadback::find();
+        $searchModel = new FeadbackSearch();
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+        
             return  $this->render('index',[
                 'searchModel'=>$searchModel,
                 'dataProvider' => $dataProvider,

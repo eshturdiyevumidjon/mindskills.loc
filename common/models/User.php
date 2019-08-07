@@ -173,6 +173,8 @@ class User extends ActiveRecord implements IdentityInterface
         ];
     }
 
+   
+
     /**
      * @return \yii\db\ActiveQuery
      */

@@ -23,6 +23,15 @@ class TarifsController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -40,43 +49,29 @@ class TarifsController extends Controller
 
     public function actionIndex()
     {    
+       if(Yii::$app->request->isAjax && $_POST['TarifsSearch']['search'] == '1'){ 
+          
+            $searchModel = new TarifsSearch();            
+            $searchModel->attributes = $_POST['TarifsSearch'];
+            $dataProvider = $searchModel->filter($_POST);
 
-       if(Yii::$app->request->isAjax && $_POST['TarifsSearch']['search'] == '1'){  
-
-            $query = Tarifs::find();
-            $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-            ]);
-            $name=$_POST['TarifsSearch']['name'];
-            $days=$_POST['TarifsSearch']['days'];
-            $price=$_POST['TarifsSearch']['price'];
-
-            if(isset($name) || isset($days) || isset($price)){
-                
-            $query->andFilterWhere(['like', 'tarifs.name', $name])
-                  ->andFilterWhere(['like', 'tarifs.days', $days])
-                  ->andFilterWhere(['like', 'tarifs.price', $price]);
-                       
-        return $this->renderAjax('tbody', [
-            'dataProvider' => $dataProvider,
-            'searchModel'=>$searchModel,
-        ]);
-            }
-            else
-        return $this->renderAjax('tbody', [
-            'dataProvider' => $dataProvider,
-            'searchModel'=>$searchModel,
-         ]); 
+            return $this->renderAjax('tbody', [
+                'dataProvider' => $dataProvider,
+                'post' => $_POST,
+                'searchModel' => $searchModel
+            ]); 
         }
-        $searchModel = new TarifsSearch();
+
         $query = Tarifs::find();
+        $searchModel = new TarifsSearch();
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-        return  $this->render('index',[
-            'searchModel'=>$searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+        
+            return  $this->render('index',[
+                'searchModel'=>$searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
     }
 
     /**
@@ -205,17 +200,7 @@ class TarifsController extends Controller
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            if($request->isGet){
-                return [
-                    'title'=> "Изменить",
-                    'content'=>$this->renderAjax('update', [
-                        'model' => $model,
-                    ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
-                        'data-dismiss'=>"modal"]).
-                    Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
-                ];         
-            }else if($model->load($request->post()) && $model->save()){
+           if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "Тарифы",

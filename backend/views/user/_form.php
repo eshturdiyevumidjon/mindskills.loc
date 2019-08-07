@@ -18,7 +18,7 @@ use backend\models\Filials;
                 <div class="col s12">
                     <div id="image" style="float: left;">
                      <?= $model->image != null ? '<img style="width:225px;border-radius:10%; " src="http://' . $_SERVER["SERVER_NAME"] . "/uploads/avatar/" . 
-                         $model->image .' ">' : '<img style="width:225px;border-radius:10%; "  class="img-circle" src="http://' . $_SERVER["SERVER_NAME"].'/uploads/no-user.jpg">' ?>
+                         $model->image .' ">' : '<img style="width:225px;border-radius:10%; "   src="http://' . $_SERVER["SERVER_NAME"].'/uploads/no-user.jpg">' ?>
                     </div>
                 </div>
                 <div class="col s12">
@@ -88,7 +88,7 @@ $(document).ready(function(){
             var reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onload = function(e){
-                var template = '<img style="width:225px; max-height:225px;"class="img-circle" src="'+e.target.result+'"> ';
+                var template = '<img style="width:225px; max-height:225px;border-radius:10%;" src="'+e.target.result+'"> ';
                 $('#image').html('');
                 $('#image').append(template);
             };

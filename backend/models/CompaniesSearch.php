@@ -54,7 +54,6 @@ class CompaniesSearch extends Companies
             // $query->where('0=1');
             return $dataProvider;
         }
-
         $query->andFilterWhere([
             'id' => $this->id,
             'type' => $this->type,
@@ -63,5 +62,21 @@ class CompaniesSearch extends Companies
         $query->andFilterWhere(['like', 'name', $this->name]);
 
         return $dataProvider;
+    }
+    public function filter($post)
+    {
+      $query = Companies::find();
+      $searchModel = new CompaniesSearch();
+      $dataProvider = new ActiveDataProvider([
+          'query' => $query,]);
+      $name=$_POST['CompaniesSearch']['name'];
+      $tarif_id=$_POST['CompaniesSearch']['tarif_id']; 
+
+      if(isset($name) || isset($tarif_id)){
+          $query->joinWith('tarifs');
+          $query->andFilterWhere(['like', 'tarifs.name', $tarif_id])
+                ->andFilterWhere(['like', 'companies.name', $name]); 
+      }
+       return $dataProvider;
     }
 }
