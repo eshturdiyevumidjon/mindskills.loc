@@ -1,4 +1,6 @@
 <?php
+use yii\filters\AccessControl;
+
 $params = array_merge(
     require __DIR__ . '/../../common/config/params.php',
     require __DIR__ . '/../../common/config/params-local.php',
@@ -70,6 +72,35 @@ return [
             'rules' => [
             ],
         ],
+        'authmanager' => [
+            'class' => 'yii\rbacDbManager',
+        ],
+        'as access' => [
+        'class' => AccessControl::className(),
+        'allowActions' => [
+            '*'
+//            'site/*',
+//            'admin/*',
+        ]
+    ],
+    'as beforeRequest' => [
+        'class' => 'yii\filters\AccessControl',
+        'rules' => [
+            [
+                'allow' => true,
+                'actions' => ['login'],
+            ],
+            [
+                'allow' => false,
+                'roles' => ['@'],
+                'actions' => ['login'],
+            ],
+            [
+                'allow' => true,
+                'roles' => ['@'],
+            ],
+        ],
+    ],
     ],
     'params' => $params,
 ];

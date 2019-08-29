@@ -23,7 +23,8 @@
         "kartik-v/yii2-widget-datepicker": "@dev",
         "johnitvn/yii2-ajaxcrud": "*",
         "kartik-v/yii2-widget-datetimepicker": "*",
-        "trntv/yii2-datetime-widget": "*"
+        "trntv/yii2-datetime-widget": "*",
+        "kartik-v/yii2-widget-timepicker": "*"
 
     },
     "require-dev": {

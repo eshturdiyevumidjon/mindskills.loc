@@ -11,8 +11,8 @@ $model=new Schedule();
 		<div class="row">
 		    <div class="col-md-4">
 		        <label>
-		            <input type="checkbox" name="Schedule[name]" id="1" value="1" <?= ($session['Schedule[name]'] === null || $session['Schedule[name]'] == 1) ? 'checked = ""': '' ?> > 
-		        	<label for="1"><?=$model->getAttributeLabel('name')?></label>
+		            <input type="checkbox" name="Schedule[course_id]" id="1" value="1" <?= ($session['Schedule[course_id]'] === null || $session['Schedule[course_id]'] == 1) ? 'checked = ""': '' ?> > 
+		        	<label for="1"><?=$model->getAttributeLabel('course_id')?></label>
 		        </label>
 		    </div>
 		    <div class="col-md-4">

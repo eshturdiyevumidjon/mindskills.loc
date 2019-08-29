@@ -18,8 +18,8 @@ class ScheduleSearch extends Schedule
     public function rules()
     {
         return [
-            [['id', 'company_id', 'filial_id', 'subject_id', 'teacher_id', 'status', 'type'], 'integer'],
-            [['name', 'begin_date', 'end_date'], 'safe'],
+            [['course_id','id', 'company_id', 'filial_id', 'subject_id', 'teacher_id', 'status'], 'integer'],
+            [['begin_date', 'end_date'], 'safe'],
             [['price', 'sum_of_teacher'], 'number'],
         ];
     }
@@ -55,6 +55,7 @@ class ScheduleSearch extends Schedule
         }
         $query->andFilterWhere([
             'id' => $this->id,
+            'course_id' => $this->course_id, 
             'company_id' => $this->company_id,
             'filial_id' => $this->filial_id,
             'subject_id' => $this->subject_id,
@@ -66,7 +67,6 @@ class ScheduleSearch extends Schedule
             'status' => $this->status,
             'type' => $this->type,
         ]);
-        $query->andFilterWhere(['like', 'name', $this->name]);
             return $dataProvider;
     }
     public function filter($post)
@@ -75,7 +75,7 @@ class ScheduleSearch extends Schedule
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-        $name=$_POST['ScheduleSearch']['name'];
+        $course_id=$_POST['ScheduleSearch']['course_id'];
         $company_id=$_POST['ScheduleSearch']['company_id'];
         $filial_id=$_POST['ScheduleSearch']['filial_id'];
         $subject_id=$_POST['ScheduleSearch']['subject_id'];
@@ -93,12 +93,13 @@ class ScheduleSearch extends Schedule
             if($_POST['ScheduleSearch']['type']=="Регулярные занятия")$type=1;     
             if($_POST['ScheduleSearch']['type']=="Единичное занятие")$type=2;
 
-        if(isset($name) || isset($company_id) || isset($filial_id) || isset($subject_id) || isset($teacher_id) || isset($price) || isset($sum_of_teacher) || isset($begin_date) || isset($end_date) || isset($status) || isset($type)){
+        if(isset($course_id) || isset($company_id) || isset($filial_id) || isset($subject_id) || isset($teacher_id) || isset($price) || isset($sum_of_teacher) || isset($begin_date) || isset($end_date) || isset($status) || isset($type)){
 
         $query->joinWith('company');
         $query->joinWith('filial');
         $query->joinWith('subject');
         $query->joinWith('teacher');
+        $query->joinWith('courses');
         $query->andFilterWhere([
                 'schedule.price' => $price,
                 'schedule.sum_of_teacher' => $sum_of_teacher,
@@ -111,7 +112,7 @@ class ScheduleSearch extends Schedule
               ->andFilterWhere(['like', 'user.fio', $teacher_id])
               ->andFilterWhere(['like', 'schedule.begin_date', $begin_date])
               ->andFilterWhere(['like', 'schedule.end_date', $end_date])
-              ->andFilterWhere(['like', 'schedule.name', $name]);
+              ->andFilterWhere(['like', 'courses.name', $course_id]);
         }
          return $dataProvider;
     }

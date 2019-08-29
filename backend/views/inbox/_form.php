@@ -14,7 +14,7 @@ use backend\models\Inbox;
             </div>
         </div>
         <div class="row">
-            <div class="col s12" class="no-search-box">
+            <div class="col s12">
                 <?=$form->field($model, 'to')->widget(Select2::classname(), [
                 'data' => $model->getUsersList(),
                 // 'size' => Select2::SMALL,

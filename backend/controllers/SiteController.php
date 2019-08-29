@@ -21,10 +21,10 @@ class SiteController extends Controller
             
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout','error','index'],
+                'only' => ['logout','index'],
                 'rules' => [
                     [
-                        'actions' => ['logout','error','index'],
+                        'actions' => ['logout','index'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -52,34 +52,6 @@ class SiteController extends Controller
 
     }
     /**
-     * {@inheritdoc}
-     */
-
-    public function actions()
-    {
-           return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'only' => ['logout'],
-                'rules' => [
-                    [
-                        'actions' => ['logout'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-            'error' => [
-                'class' => 'yii\web\ErrorAction',
-            ],
-            'captcha' => [
-                'class' => 'yii\captcha\CaptchaAction',
-                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
-            ],
-        ];
-    }
-
-    /**
      * Displays homepage.
      *
      * @return string
@@ -88,6 +60,7 @@ class SiteController extends Controller
     public function actionIndex()
     {
          if (Yii::$app->user->isGuest) {
+
             return $this->redirect(['/site/login']);
         }
             return $this->render('index');
@@ -98,9 +71,9 @@ class SiteController extends Controller
       
         if($model->load(Yii::$app->request->post()) && $model->register()){
             
-                $modelForm=new LoginForm();
-                $modelForm->username=$model->Companiesname;
-                $modelForm->password=$model->password;
+                $modelForm = new LoginForm();
+                $modelForm->username = $model->Companiesname;
+                $modelForm->password = $model->password;
                 $modelForm->login();
 
             return $this->redirect(['/site/index']);
@@ -123,15 +96,14 @@ class SiteController extends Controller
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
+
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             return $this->goBack();
-        } else {
-            $model->password = '';
-            return $this->render('login', [
-                'model' => $model,
-            ]);
         }
+        return $this->render('login', [
+            'model' => $model,
+        ]);
     }
     /**
      * Logout action.

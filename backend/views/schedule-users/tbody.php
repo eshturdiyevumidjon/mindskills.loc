@@ -8,7 +8,7 @@ $session = Yii::$app->session;
       <td><input type='checkbox' name='check".$value->id."'></td>     
       <td>".$value->id."</td>";
       if($session['ScheduleUsers[schedule_id]'] === null || $session['ScheduleUsers[schedule_id]'] == 1)
-      echo "<td>".$value->schedule->name."</td>";
+      echo "<td>".$value->schedule->courses->name."</td>";
       if($session['ScheduleUsers[pupil_id]'] === null || $session['ScheduleUsers[pupil_id]'] == 1)
       echo "<td>".$value->pupil->fio."</td>";
       if($session['ScheduleUsers[payed]'] === null || $session['ScheduleUsers[payed]'] == 1)

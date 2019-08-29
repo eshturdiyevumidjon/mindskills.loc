@@ -45,10 +45,10 @@ class Schedule extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['company_id', 'filial_id', 'subject_id', 'teacher_id', 'status', 'type'], 'integer'],
+            [['course_id','company_id', 'filial_id', 'subject_id', 'teacher_id', 'status'], 'integer'],
             [['price', 'sum_of_teacher'], 'number'],
+            [['price', 'sum_of_teacher'], 'required'],
             [['begin_date', 'end_date','search'], 'safe'],
-            [['name'], 'string', 'max' => 255],
             [['company_id'], 'exist', 'skipOnError' => true, 
             'targetClass' => Companies::className(),
              'targetAttribute' => ['company_id' => 'id']],
@@ -58,6 +58,8 @@ class Schedule extends \yii\db\ActiveRecord
             'targetClass' => Subjects::className(), 'targetAttribute' =>['subject_id'=>'id']],
             [['teacher_id'], 'exist', 'skipOnError' => true, 
             'targetClass' => User::className(), 'targetAttribute' => ['teacher_id' => 'id']],
+            [['course_id'], 'exist', 'skipOnError' => true, 
+            'targetClass' => Courses::className(), 'targetAttribute' => ['course_id' => 'id']],
         ];
     }
     /**
@@ -67,7 +69,7 @@ class Schedule extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Название курса',
+            'course_id' => 'Название курса',
             'company_id' => 'Компания',
             'filial_id' => 'Филиал',
             'subject_id' => 'Предмет',
@@ -77,7 +79,6 @@ class Schedule extends \yii\db\ActiveRecord
             'begin_date' => 'Начало курса',
             'end_date' => 'Конец курса',
             'status' => 'Статус',
-            'type' => 'Тип занятия',
         ];
     }
 
@@ -112,6 +113,10 @@ class Schedule extends \yii\db\ActiveRecord
     public function getTeacher()
     {
         return $this->hasOne(User::className(), ['id' => 'teacher_id']);
+    }
+    public function getCourses()
+    {
+        return $this->hasOne(Courses::className(), ['id' => 'course_id']);
     }
      public function beforeSave($insert)
     {
@@ -177,7 +182,7 @@ class Schedule extends \yii\db\ActiveRecord
     public function ColumnsSchedule($post)
     {
         $session = Yii::$app->session;
-        $session['Schedule[name]'] = 0;
+        $session['Schedule[course_id]'] = 0;
         $session['Schedule[company_id]'] = 0;
         $session['Schedule[filial_id]'] = 0;
         $session['Schedule[subject_id]'] = 0;
@@ -189,7 +194,7 @@ class Schedule extends \yii\db\ActiveRecord
         $session['Schedule[status]'] = 0;
         $session['Schedule[type]'] = 0;
             
-        if( isset($post['Schedule']['name']) ) $session['Schedule[name]'] = 1;
+        if( isset($post['Schedule']['course_id']) ) $session['Schedule[course_id]'] = 1;
         if( isset($post['Schedule']['company_id']) ) $session['Schedule[company_id]'] = 1;
         if( isset($post['Schedule']['filial_id']) ) $session['Schedule[filial_id]'] = 1;
         if( isset($post['Schedule']['subject_id']) ) $session['Schedule[subject_id]'] = 1;

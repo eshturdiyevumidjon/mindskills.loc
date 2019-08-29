@@ -7,8 +7,8 @@ $session = Yii::$app->session;
 foreach ($dataProvider->getModels() as $value) {
 			echo "<tr><td><input type='checkbox' name='check".$value->id."'></td>     
       <td>".$value->id."</td>";
-      if($session['Schedule[name]'] === null || $session['Schedule[name]'] == 1)
-      echo "<td>".$value->name."</td>";
+      if($session['Schedule[course_id]'] === null || $session['Schedule[course_id]'] == 1)
+      echo "<td>".$value->courses->name."</td>";
       if(Yii::$app->user->identity->company->type == 1){
       if($session['Schedule[company_id]'] === null || $session['Schedule[company_id]'] == 1)
       echo "<td>".$value->company->name."</td>";}
@@ -29,8 +29,6 @@ foreach ($dataProvider->getModels() as $value) {
       echo "<td>".Schedule::getDate($value->end_date)."</td>";
       if($session['Schedule[status]'] === null || $session['Schedule[status]'] == 1)
       echo "<td>".$value->getStatusDescription()."</td>";
-      if($session['Schedule[type]'] === null || $session['Schedule[type]'] == 1)
-      echo "<td>".$value->getTypeDescription()."</td>";
       echo 
       "<td class='align-center' style='width: 100px;'>".
       Html::a('<i class="material-icons view-u">visibility</i>', ['view','id' => $value->id],['role' => 'modal-remote',

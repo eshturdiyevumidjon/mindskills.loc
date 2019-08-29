@@ -147,7 +147,6 @@ class User extends ActiveRecord implements IdentityInterface
             [['company_id'], 'exist', 'skipOnError' => true, 'targetClass' => Companies::className(), 'targetAttribute' => ['company_id' => 'id']],
             [['filial_id'], 'exist', 'skipOnError' => true, 'targetClass' => Filials::className(), 'targetAttribute' => ['filial_id' => 'id']],
             [['photoOfUser'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg',],
-            [['username'], 'unique'],
         ];
     }
     public function attributeLabels()
@@ -173,8 +172,6 @@ class User extends ActiveRecord implements IdentityInterface
         ];
     }
 
-   
-
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -198,6 +195,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return $this->hasMany(Inbox::className(), ['to' => 'id']);
     }
+    
     /**
      * @return \yii\db\ActiveQuery
      */

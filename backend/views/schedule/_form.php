@@ -7,6 +7,7 @@ use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
 use common\models\User;
 use backend\models\Subjects;
+use backend\models\Courses;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\Schedule */
@@ -15,18 +16,15 @@ use backend\models\Subjects;
 <div class="schedule-form">
     <?php $form = ActiveForm::begin(); ?>
         <div class="row">
-            <div class="<?= ($model->isNewRecord)?'input-field col s6':'col s6'?>" >
-                <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
-            </div>
-            <div class="<?= ($model->isNewRecord)?'input-field col s6':'col s6'?>" >
-                <?= $form->field($model, 'price')->widget(\yii\widgets\MaskedInput::className(), [
-                                    'mask' => '9',
-                                    'clientOptions' => ['repeat' => 10, 'greedy' => false]
-                                ]) ?>
+            <div class="col s12">
+                <?= $form->field($model, 'course_id')->dropDownlist(
+                          ArrayHelper::map(Courses::find()->all(),'id','name'),
+                          ['prompt' => 'Выберите...']);
+                ?>
             </div>
         </div>
         <div class="row">
-            <div class="col s6" >
+            <div class="col s6">
                 <?= $form->field($model, 'subject_id')->dropDownlist(
                           ArrayHelper::map(Subjects::find()->all(),'id','name'),
                           ['prompt' => 'Выберите...']);
@@ -70,8 +68,11 @@ use backend\models\Subjects;
                         'clientOptions' => ['repeat' => 10, 'greedy' => false]
                 ]) ?>
             </div>
-            <div class="col s6" >  
-                <?=$form->field($model, 'type')->dropDownList($model->getType(), ['prompt' => 'Выберите...','style' => 'margin-top:10px;'])?>
+            <div class="<?= ($model->isNewRecord)?'input-field col s6':'col s6'?>" >
+                <?= $form->field($model, 'price')->widget(\yii\widgets\MaskedInput::className(), [
+                                    'mask' => '9',
+                                    'clientOptions' => ['repeat' => 10, 'greedy' => false]
+                                ]) ?>
             </div>
         </div>
         <?php if (!Yii::$app->request->isAjax){ ?>

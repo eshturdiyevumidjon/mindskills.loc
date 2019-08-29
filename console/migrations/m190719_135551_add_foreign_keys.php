@@ -38,6 +38,9 @@ class m190719_135551_add_foreign_keys extends Migration
 
      $this->createIndex('idx-schedule_users-pupil_id', 'schedule_users', 'pupil_id', false);
      $this->addForeignKey('fk-schedule_users-pupil_id', 'schedule_users', 'pupil_id', 'user', 'id','CASCADE');
+
+     $this->createIndex('idx-schedule-course_id', 'schedule', 'course_id', false);
+     $this->addForeignKey('fk-schedule-course_id', 'schedule', 'course_id', 'courses', 'id','CASCADE');
     }
 
     public function safeDown()
@@ -70,6 +73,9 @@ class m190719_135551_add_foreign_keys extends Migration
      $this->dropIndex('idx-schedule_users-schedule_id','schedule_users');
 
      $this->dropForeignKey('fk-schedule_users-pupil_id','schedule_users');
-     $this->dropIndex('idx-schedule_users-pupil_id','schedule_users'); 
+     $this->dropIndex('idx-schedule_users-pupil_id','schedule_users');
+
+     $this->dropForeignKey('fk-schedule-course_id','schedule');
+     $this->dropIndex('idx-schedule-course_id','schedule'); 
     }
 }

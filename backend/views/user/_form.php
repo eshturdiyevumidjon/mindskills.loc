@@ -37,7 +37,10 @@ use backend\models\Filials;
             </div>
             <div class="row">
                 <div class="<?= ($model->isNewRecord)?'input-field col s4':'col s4'?>">
-                     <?= $form->field($model, ($model->isNewRecord)?'auth_key':'new_password')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($model, 'balanc')->widget(\yii\widgets\MaskedInput::className(), [
+                            'mask' => '9',
+                            'clientOptions' => ['repeat' => 10, 'greedy' => false]
+                        ]) ?>
                 </div>
                 <div class="<?= ($model->isNewRecord)?'input-field col s4':'col s4'?>" >
                       <?= $form->field($model, 'birthday')->widget(DatePicker::className(), [
@@ -55,17 +58,14 @@ use backend\models\Filials;
                 </div> 
             </div>
             <div class="row">
-                <div class="col s4" >
-                <?= $form->field($model, 'balanc')->widget(\yii\widgets\MaskedInput::className(), [
-                            'mask' => '9',
-                            'clientOptions' => ['repeat' => 10, 'greedy' => false]
-                        ]) ?>
+                <div class="<?= ($model->isNewRecord)?'input-field col s4':'col s4'?>">
+                     <?= $form->field($model, ($model->isNewRecord)?'auth_key':'new_password')->textInput(['maxlength' => true,'style'=>'margin-top:15px;']) ?>
                 </div>
                 <div class="col s4" >  
-                        <?=$form->field($model, 'status')->dropDownList($model->getStatus(), ['prompt' => 'Выберите...','style'=>'margin-top:12px;'])?>
+                        <?=$form->field($model, 'status')->dropDownList($model->getStatus(), ['prompt' => 'Выберите...','style'=>'margin-top:10px;'])?>
                 </div>   
                 <div class="col s4">
-                    <?=$form->field($model, 'filial_id')->dropDownList($model->getAvailableFilials(), ['prompt' => 'Выберите','style'=>'margin-top:12px;'])?>
+                    <?=$form->field($model, 'filial_id')->dropDownList($model->getAvailableFilials(), ['prompt' => 'Выберите','style'=>'margin-top:10px;'])?>
                 </div>                 
             </div>
         </div>

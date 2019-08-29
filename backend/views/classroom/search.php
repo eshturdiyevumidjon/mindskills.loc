@@ -10,11 +10,13 @@ $session = Yii::$app->session;
 	<?php if($session['Classroom[name]'] === null || $session['Classroom[name]'] == 1){ ?>
 		<th>Наименование</th>
 	<?php }?>
+	<?php if(Yii::$app->user->identity->company->type == 1){ ?>
 	<?php if($session['Classroom[company_id]'] === null || $session['Classroom[company_id]'] == 1){ ?> 
 		<th>Компания</th>
 	<?php }?>
 	<?php if($session['Classroom[filial_id]'] === null || $session['Classroom[filial_id]'] == 1){ ?> 
 		<th>Филиал</th>
+	<?php }?>
 	<?php }?>
 		<th>Действия</th>                   
 </tr>
@@ -30,6 +32,7 @@ $session = Yii::$app->session;
 			    'style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:32px !important;','form'=>'searchForm2'])->label(false)?>  
 			</td>
 		<?php }?>
+		<?php if(Yii::$app->user->identity->company->type == 1){ ?>
 		<?php if($session['Classroom[company_id]'] === null || $session['Classroom[company_id]'] == 1){ ?>
 			<td>
 			  	<?=$form->field($searchModel,'company_id')->textInput(['class'=>'search','style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:32px !important;','form'=>'searchForm2'])->label(false)?>
@@ -39,6 +42,7 @@ $session = Yii::$app->session;
 			<td>
 			  	<?=$form->field($searchModel,'filial_id')->textInput(['class'=>'search','style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:32px !important;','form'=>'searchForm2'])->label(false)?>
 			</td>
+		<?php }?>
 		<?php }?>
 			<td></td>
 	<?php ActiveForm::end()?>

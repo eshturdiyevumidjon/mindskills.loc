@@ -7,7 +7,7 @@ $session = Yii::$app->session;
 foreach ($dataProvider->getModels() as $value) {
       echo "<tr><td>".$value->id."</td>";
       if($session['Courses[name]'] === null || $session['Courses[name]'] == 1)
-      echo "<td class='name'>".$value->name."</td>";
+      echo "<td class='name'><a href='/courses/course?id={$value->id}' style='color:purple' data-pjax='0'>".$value->name."</a></td>";
       if($session['Courses[subject_id]'] === null || $session['Courses[subject_id]'] == 1)
       echo "<td>".$value->subject->name."</td>";
       if($session['Courses[user_id]'] === null || $session['Courses[user_id]'] == 1)

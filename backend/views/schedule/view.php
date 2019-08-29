@@ -10,7 +10,7 @@ use backend\models\Schedule;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'name',
+            'courses.name',
             'company.name',
             'filial.filial_name',
             'subject.name',
@@ -35,12 +35,6 @@ use backend\models\Schedule;
                 'attribute' => 'status',
                 'value' => function($data){
                     return $data->getStatusDescription();
-                }
-            ],
-            [
-                'attribute' => 'type',
-                'value' => function($data){
-                    return $data->getTypeDescription();
                 }
             ],
         ],

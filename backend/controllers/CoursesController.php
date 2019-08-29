@@ -12,7 +12,9 @@ use \yii\web\Response;
 use yii\helpers\Html;
 use common\models\User;
 use yii\data\ActiveDataProvider;
-
+use backend\models\Schedule;
+use backend\models\ScheduleGraph;
+use backend\models\ScheduleUsers;
 /**
  * CoursesController implements the CRUD actions for Courses model.
  */
@@ -54,8 +56,9 @@ class CoursesController extends Controller
             $searchModel = new CoursesSearch();            
             $searchModel->attributes = $_POST['CoursesSearch'];
             $dataProvider = $searchModel->filter($_POST);
-
+            $model = $this->findModel($id);
             return $this->renderAjax('tbody', [
+                'model' => $model,
                 'dataProvider' => $dataProvider,
                 'post' => $_POST,
                 'searchModel' => $searchModel
@@ -73,7 +76,15 @@ class CoursesController extends Controller
             'dataProvider' => $dataProvider,
             ]);
     }
-    /**
+    public function actionCourse($id)
+    { 
+        $model = $this->findModel($id);
+        $schedule = Schedule::find()->where(['course_id' => $id])->one();
+        $scheduleGraph = ScheduleGraph::find()->where(['schedule_id' => $schedule->id])->all();           
+        $ScheduleUsers = ScheduleUsers::find()->where(['schedule_id' => $schedule->id])->all();           
+        return  $this->render('course',['course' => $model,'schedule' => $schedule,'scheduleGraph' => $scheduleGraph,'ScheduleUsers' => $ScheduleUsers]);
+    }
+        /**
      * Displays a single Courses model.
      * @param integer $id
      * @return mixed
@@ -206,7 +217,7 @@ class CoursesController extends Controller
                 return [
                     'title'=> "Изменить",
                     'content'=>$this->renderAjax('update', [
-                        'model' => $model,
+                    'model' => $model,
                     ]),
                     'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
                         'data-dismiss'=>"modal"]).Html::button('Сохранить',['class'=>'btn btn-primary',
@@ -215,7 +226,7 @@ class CoursesController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Курсы #".$id,
+                    'title'=> "Курсы ".$id,
                     'content'=>$this->renderAjax('view', [
                     'model' => $model,
                     ]),

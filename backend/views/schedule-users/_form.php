@@ -5,6 +5,7 @@ use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use common\models\User;
 use backend\models\Schedule;
+use backend\models\Courses;
 /* @var $this yii\web\View */
 /* @var $model backend\models\ScheduleUsers */
 /* @var $form yii\widgets\ActiveForm */
@@ -27,7 +28,7 @@ use backend\models\Schedule;
         <div class="row">
             <div class="col s6" >
                 <?= $form->field($model, 'schedule_id')->dropDownlist(
-                          ArrayHelper::map(Schedule::find()->all(),'id','name'),
+                          ArrayHelper::map(Courses::find()->all(),'id','name'),
                           ['prompt'=>'Выберите...']
                       );?>
             </div>

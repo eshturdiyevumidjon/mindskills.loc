@@ -13,7 +13,7 @@ return [
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'name',
+        'attribute'=>'course_id',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',

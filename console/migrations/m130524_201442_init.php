@@ -34,7 +34,7 @@ class m130524_201442_init extends Migration
             'password_hash' => Yii::$app->security->generatePasswordHash('admin'),
             'type' => 1,
             'image'=>'',
-            'status' => 0,
+            'status' => 10,
             'phone'=>'+998977777778',
             'birthday'=>'1995-05-25',
             'created_at' => time(),

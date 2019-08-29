@@ -105,10 +105,11 @@ class ScheduleUsersController extends Controller
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($schedule_id = null)
     {
         $request = Yii::$app->request;
-        $model = new ScheduleUsers();  
+        $model = new ScheduleUsers(); 
+        $model->schedule_id = $schedule_id;
         if($request->isAjax){
             /*
             *   Process for ajax request

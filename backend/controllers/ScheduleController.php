@@ -113,7 +113,7 @@ class ScheduleController extends Controller
     {
         $request = Yii::$app->request;
         $model = new Schedule();  
-         $model->company_id = Yii::$app->user->identity->company_id;
+        $model->company_id = Yii::$app->user->identity->company_id;
         $model->filial_id = Yii::$app->user->identity->filial_id;
         
         if($request->isAjax){

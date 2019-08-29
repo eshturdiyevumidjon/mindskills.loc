@@ -14,7 +14,7 @@ class m190719_134353_create_schedule_table extends Migration
     {
         $this->createTable('{{%schedule}}', [
             'id' => $this->primaryKey(),
-            'name' => $this->string(255)->comment('Название курса'),
+            'course_id' => $this->integer()->comment('Название курса'),
             'company_id' => $this->integer()->comment('Компания'),
             'filial_id' => $this->integer()->comment('Филиал'),
             'subject_id' => $this->integer()->comment('Предмет'),
@@ -24,7 +24,6 @@ class m190719_134353_create_schedule_table extends Migration
             'begin_date' => $this->date()->comment('Начало курса'),
             'end_date' => $this->date()->comment('Конец курса'),
             'status' => $this->integer()->comment('Статус'),
-            'type' => $this->integer()->comment('Тип занятия'),
         ]);
     }
 

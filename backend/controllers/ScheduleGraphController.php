@@ -108,10 +108,11 @@ class ScheduleGraphController extends Controller
      * @return mixed
      */
 
-    public function actionCreate()
+    public function actionCreate($id = null)
     {
         $request = Yii::$app->request;
-        $model = new ScheduleGraph();  
+        $model = new ScheduleGraph();
+        $model->schedule_id = $id; 
 
         if($request->isAjax){
             /*
@@ -119,18 +120,33 @@ class ScheduleGraphController extends Controller
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($model->load($request->post()) && $model->save()){
+
+                $str = "";
+                if(['ScheduleGraph']['day_of_the_week'] == null){
+                    $model->day_of_the_week = $str;
+                }
+                else{
+                    foreach ($request->post()['ScheduleGraph']['day_of_the_week'] as $value){
+                    $str.=$value.",";
+                }
+
+                $model->day_of_the_week = $str;
+                }
+                
+                $model->save();
                 return [
+                    'forceClose'=>true,
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "График занятийи",
-                    'content'=>'<span class="text-success">Успешно выполнено</span>',
-                    'footer'=> Html::button('Ок',['class'=>'btn btn-primary pull-left',
-                        'data-dismiss'=>"modal"]).
-                            Html::a('Создать ещё',['create'],['class'=>'btn btn-info',
-                                'role'=>'modal-remote'])
+                    // 'title'=> "График занятийи",
+                    // 'content'=>'<span class="text-success">Успешно выполнено</span>',
+                    // 'footer'=> Html::button('Ок',['class'=>'btn btn-primary pull-left',
+                    //     'data-dismiss'=>"modal"]).
+                    //         Html::a('Создать ещё',['create'],['class'=>'btn btn-info',
+                    //             'role'=>'modal-remote'])
                 ];         
             }else{           
                 return [
-                    'title'=> "Создать",
+                    'title'=>"Добавить занятия" ,
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -201,16 +217,16 @@ class ScheduleGraphController extends Controller
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($model->load($request->post()) && $model->save()){
-                return [
-                    'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "График занятийи",
-                    'content'=>$this->renderAjax('view', [
-                        'model' => $model,
-                    ]),
-                    'footer'=> Html::button('Отмена',['class'=>'btn btn-default pull-left',
-                        'data-dismiss'=>"modal"]).
-                            Html::a('Изменить',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
-                ];    
+
+                $str = "";
+                foreach ($request->post()['ScheduleGraph']['day_of_the_week'] as $value){
+                    $str.=$value.",";
+                }
+
+                $model->day_of_the_week = $str;
+                $model->save();
+
+                return ['forceClose'=>true,'forceReload'=>'#crud-datatable-pjax'];
             }else{
                  return [
                     'title'=> "Изменить",

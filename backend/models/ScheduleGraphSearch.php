@@ -18,11 +18,10 @@ class ScheduleGraphSearch extends ScheduleGraph
     public function rules()
     {
         return [
-            [['id', 'schedule_id', 'classroom_id'], 'integer'],
-            [['begin_date', 'end_date'], 'safe'],
+            [['id', 'schedule_id', 'classroom_id','period','type'], 'integer'],
+            [['begin_date', 'end_date','class_date','class_start','class_duration','day_of_the_week'], 'safe'],
         ];
     }
-
     /**
      * @inheritdoc
      */
@@ -58,6 +57,12 @@ class ScheduleGraphSearch extends ScheduleGraph
             'classroom_id' => $this->classroom_id,
             'begin_date' => $this->begin_date,
             'end_date' => $this->end_date,
+            'type' => $this->integer(),
+            'day_of_the_week' => $this->string(),
+            'period' => $this->integer(),
+            'class_date' => $this->date(),
+            'class_start' => $this->time(),
+            'class_duration' => $this->time(),
         ]);
         return $dataProvider;
     }

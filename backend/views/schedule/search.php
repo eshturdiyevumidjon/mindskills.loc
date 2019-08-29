@@ -7,7 +7,7 @@ $session = Yii::$app->session;
 <tr style="font-size: 14px;">
     <th></th>
     <th>ID</th>
-    <?php if($session['Schedule[name]'] === null || $session['Schedule[name]'] == 1){ ?>
+    <?php if($session['Schedule[course_id]'] === null || $session['Schedule[course_id]'] == 1){ ?>
         <th>Наименование</th>
     <?php }?>
     <?php if(Yii::$app->user->identity->company->type == 1){ ?>
@@ -41,9 +41,6 @@ $session = Yii::$app->session;
     <?php if($session['Schedule[status]'] === null || $session['Schedule[status]'] == 1){ ?>
         <th>Статус</th>
     <?php }?>
-    <?php if($session['Schedule[type]'] === null || $session['Schedule[type]'] == 1){ ?>
-        <th>Тип занятия</th>
-    <?php }?>
         <th>Действия</th>                   
 </tr>
 <tr>
@@ -52,9 +49,9 @@ $session = Yii::$app->session;
         <td>
             <?=$form->field($searchModel,'search')->hiddenInput(['class'=>'search','style'=>'padding-bottom:14px;','form'=>'searchForm2','value'=>'1'])->label(false)?>
         </td>
-        <?php if($session['Schedule[name]'] === null || $session['Schedule[name]'] == 1){ ?>
+        <?php if($session['Schedule[course_id]'] === null || $session['Schedule[course_id]'] == 1){ ?>
         <td>
-            <?=$form->field($searchModel,'name')->textInput(['class'=>'search',
+            <?=$form->field($searchModel,'course_id')->textInput(['class'=>'search',
                 'style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:32px !important;','form'=>'searchForm2'])->label(false)?>  
         </td>
         <?php }?>
@@ -135,12 +132,6 @@ $session = Yii::$app->session;
             <?=$form->field($searchModel,'status')->textInput(['class'=>'search',
                 'style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:32px !important;','form'=>'searchForm2'])->label(false)?>  
         </td>
-        <?php }?>
-        <?php if($session['Schedule[type]'] === null || $session['Schedule[type]'] == 1){ ?>
-        <td>
-            <?=$form->field($searchModel,'type')->textInput(['class'=>'search',
-                'style'=>'width:100%;padding-bottom:0px;border:1px solid gray !important;border-radius: 0.5em;border: solid 1px #cecece;height:32px !important;','form'=>'searchForm2'])->label(false)?>                    
-        </td> 
         <?php }?>
         <td></td>
     <?php ActiveForm::end()?>

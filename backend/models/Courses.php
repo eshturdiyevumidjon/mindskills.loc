@@ -114,7 +114,7 @@ class Courses extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Наименование',
+            'name' => 'Название курса',
             'subject_id' => 'Предметы',
             'user_id' => 'Пользователи',
             'begin_date' => 'Время начало',
@@ -184,6 +184,7 @@ class Courses extends \yii\db\ActiveRecord
         $session['Courses[prosent_for_teacher]'] = 0;
         $session['Courses[company_id]'] = 0;
         $session['Courses[filial_id]'] = 0;
+        
             
         if( isset($post['Courses']['name']) ) $session['Courses[name]'] = 1;
         if( isset($post['Courses']['subject_id']) ) $session['Courses[subject_id]'] = 1;

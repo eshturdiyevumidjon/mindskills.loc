@@ -9,7 +9,7 @@ use backend\models\ScheduleGraph;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'schedule.name',
+            'schedule.courses.name',
             'classroom.name',
             [
                 'attribute' => 'begin_date',
@@ -25,6 +25,23 @@ use backend\models\ScheduleGraph;
                     return ScheduleGraph::getDate($data->end_date);
                 }
             ],
+            [
+                'attribute' => 'class_date',
+                'value' => function($data)
+                {
+                    return ScheduleGraph::getDate($data->class_date);
+                }
+            ],
+            [
+                'attribute' => 'type',
+                'value' => function($data){
+                    return $data->getTypeDescription();
+                }
+            ],
+            'week',
+            'class_start',
+            'class_duration',
+            'period',
         ],
     ]) ?>
 </div>

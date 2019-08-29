@@ -12,6 +12,7 @@ use yii\web\UploadedFile;
 use \yii\web\Response;
 use yii\helpers\Html;
 use yii\data\ActiveDataProvider;
+use yii\backend\Schedule;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -48,6 +49,15 @@ class UserController extends Controller
      * @return mixed
      */
 
+    public function actionTeacher_course($id)
+    {  
+        $model = User::find()->where(['id' => $id])->one();
+        return  $this->render('teacher_course',['user'=>$model]);
+    }
+    public function actionPupil_course()
+    {    
+        return  $this->render('pupil_course');
+    }
     public function actionIndex()
     {    
         return "";
